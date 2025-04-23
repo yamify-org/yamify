@@ -1,0 +1,145 @@
+.hero-section {
+  width: 100%;
+}
+.hero-section section {
+  max-width: 1312px;
+  width: 100%;
+  margin: 0 auto;
+  height: 750px;
+  display: flex;
+  border: 0.6px dashed var(--Default-Ash, #4c4c4c);
+  position: relative;
+  padding: 100px 60px;
+  justify-content: space-between;
+}
+.hero-section section img.pin {
+  position: absolute;
+  top: -1px;
+  z-index: 10;
+}
+.hero-section section img.pin.top-right {
+  right: -10.5px;
+}
+.hero-section section img.pin.top-left {
+  left: -10.5px;
+}
+.hero-section section .left-content {
+  width: 460px;
+  padding: 70px 20px;
+}
+.hero-section section .left-content h1 {
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 34px;
+  display: flex;
+  align-items: center;
+  color: #f8f8f8;
+  margin-bottom: 30px;
+}
+.hero-section section .left-content p {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #f8f8f8;
+  font-family: "Commissioner", sans-serif;
+  margin-bottom: 70px;
+}
+.hero-section section .left-content .btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 10px;
+  gap: 10px;
+  width: 165px;
+  height: 40px;
+  background: #dd9a38;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  color: #1b1b1b;
+  cursor: pointer;
+}
+.hero-section section .left-content .btn .contain {
+  height: 13px;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  overflow: hidden;
+}
+.hero-section section .left-content .btn .contain.wrapped-link {
+  position: relative;
+  height: 16px;
+  top: -3px;
+}
+.hero-section section .left-content .btn .contain span {
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.hero-section section .left-content .btn .contain span.wrap {
+  display: flex;
+  gap: 10px;
+}
+.hero-section section .left-content .btn .contain:hover {
+  transform: scale(1.08) rotate(1deg);
+}
+.hero-section section .left-content .btn .contain:hover span:first-child {
+  transform: translateY(-105%);
+}
+.hero-section section .left-content .btn .contain:hover .hover-text {
+  transform: translateY(-105%);
+}
+.hero-section section .right-content {
+  width: 500px;
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(11, 50px);
+}
+.hero-section section .right-content .grid-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+.hero-section section .right-content .highlight {
+  border: 1px solid var(--Brand-Green-T, rgba(59, 95, 93, 0.3));
+}
+.hero-section section .right-content .glitch {
+  background: repeating-linear-gradient(45deg, #f87171, #f87171 10px, #facc15 10px, #facc15 20px);
+  animation: glitch 0.8s infinite alternate;
+}
+.hero-section section .right-content .gold {
+  background-color: #f59e0b;
+  box-shadow: 0 0 10px #fbbf24;
+  transform: rotate(5deg);
+}
+@keyframes pulse-highlight {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes glitch {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  25% {
+    transform: translate(2px, -1px);
+  }
+  50% {
+    transform: translate(-1px, 2px);
+  }
+  75% {
+    transform: translate(1px, -1px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}/*# sourceMappingURL=HeroSection.css.map */
