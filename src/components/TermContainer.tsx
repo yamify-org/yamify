@@ -29,7 +29,7 @@ const terms = [
   },
 ];
 
-const useActiveIndex = (length: number) => {
+const useActiveIndex = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const refs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -57,7 +57,7 @@ const useActiveIndex = (length: number) => {
 };
 
 const TermsScroll = () => {
-  const { activeIndex, refs } = useActiveIndex(terms.length);
+  const { activeIndex, refs } = useActiveIndex();
 
   return (
     <div className="terms-container-mb">
