@@ -1,0 +1,200 @@
+@import "_variables.scss";
+
+.join-waitlist-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 9999;
+  overflow: hidden;
+  background: var(--Default-Black, #1b1b1bd3);
+
+  .join-waitlist-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    width: 1000px;
+    height: 700px;
+    padding: 60px 80px;
+    padding-top: 70px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-top: 1px dashed var(--Default-Ash, #4c4c4c);
+    border-left: 1px dashed var(--Default-Ash, #4c4c4c);
+    background: radial-gradient(
+        82.36% 29.65% at 100% 0%,
+        var(--Brand-Gold, rgba(221, 154, 56, 0.1)) 0%,
+        rgba(221, 154, 56, 0) 100%
+      ),
+      var(--Default-Black, #1b1b1b);
+
+    .close {
+      position: absolute;
+      top: 40px;
+      right: 60px;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 100%;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-family: "Commissioner", sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 17px;
+      margin-bottom: 30px;
+    }
+
+    .container {
+      width: 100%;
+      border-bottom: 1px dashed var(--Default-Ash, #4c4c4c);
+      border-left: 1px dashed var(--Default-Ash, #4c4c4c);
+      gap: 5px;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      height: 382px;
+      overflow-y: auto;
+
+      scrollbar-width: thin;
+      scrollbar-color: $ash #1a1a1a;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #1a1a1a;
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: $ash;
+        border-radius: 10px;
+        border: 1px solid #1a1a1a;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: #777;
+      }
+
+      .label {
+        width: 100%;
+        display: flex;
+
+        .left {
+          display: flex;
+          width: 250px;
+          padding: 10px;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-end;
+          gap: 10px;
+          border-right: 1px solid var(--Default-Ash, #4c4c4c);
+
+          label {
+            font-family: "Commissioner", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 100%;
+            direction: rtl;
+          }
+        }
+
+        .right {
+          display: flex;
+          padding: 10px;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 10px;
+          flex: 1 0 0;
+          align-self: stretch;
+          width: 100%;
+
+          input {
+            outline: none;
+            border: none;
+            width: 100%;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 100%;
+
+            &::placeholder {
+              color: var(--Default-Ash, #4c4c4c);
+            }
+          }
+
+          textarea {
+            width: 100%;
+            resize: none;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 100%;
+
+            &::placeholder {
+              color: var(--Default-Ash, #4c4c4c);
+            }
+          }
+
+          .checkbox-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+          }
+
+          .box {
+            display: flex;
+            padding: 10px 15px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            border: 1px solid var(--Default-Ash, #4c4c4c);
+            color: var(--Default-Ash, #4c4c4c);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .contain {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 10px;
+
+      button {
+        display: flex;
+        height: 50px;
+        padding: 0px 30px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: var(--Brand-Gold, #dd9a38);
+        color: var(--Default-Black, #1b1b1b);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 100%;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+.action-card {
+  display: flex;
+  width: 100%;
+  height: 350px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  align-self: stretch;
+  border-bottom: 0.5px dashed var(--Default-Ash, #4c4c4c);
+  border-right: 0.5px dashed var(--Default-Ash, #4c4c4c);
+  border-left: 0.5px dashed var(--Default-Ash, #4c4c4c);
+  -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(20px);
+  background: var(--Default-White-T, rgba(248, 248, 248, 0.02));
+}
+.action-card.rm-border {
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+.action-card .contain {
+  display: flex;
+  gap: 30px;
+}
+.action-card .contain h3 {
+  color: var(--Default-White, #f8f8f8);
+  font-size: 30px;
+  font-weight: 700;
+}
+@media (max-width: 575px) {
+  .action-card {
+    height: 300px;
+  }
+  .action-card.rm-border h3 {
+    width: 120px;
+  }
+  .action-card .contain {
+    gap: 10px;
+    padding: 0 30px;
+  }
+  .action-card .contain h3 {
+    font-size: 18px;
+  }
+}/*# sourceMappingURL=ActionCard.css.map */

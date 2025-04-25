@@ -10,4 +10,5 @@
 body {
   color: #f8f8f8;
   font-family: "PT Mono", monospace;
+  background: var(--Default-Black, #1b1b1b);
 }

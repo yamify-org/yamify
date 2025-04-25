@@ -1,25 +1,4 @@
-// _variables.scss
-
-$base-font-size: 16; // Base font size for rem conversion
-$design-width: 1512; // Width of the Figma design
-$design-height: 982; // Height of the Figma design
-
-// Function to convert px to rem (no scaling, 1:1 Figma match)
-@function px-to-rem($px) {
-  @return calc($px / $base-font-size) + rem;
-}
-
-// Function to convert px to vw (width percentage based on design)
-@function px-to-vw($px) {
-  @return ($px / $design-width) * 100vw;
-}
-
-// Function to convert px to vh (height percentage based on design)
-@function px-to-vh($px) {
-  @return ($px / $design-height) * 100vh;
-}
-
-// Optional: uniform scaling for tiny elements (kept here if you want to use it)
-@function px-to-rem-uniform($px) {
-  @return calc($px / $base-font-size) + rem;
-}
+$brand-green: #3b5f5d;
+$ash: #232323;
+$defualt-black: #1b1b1b;
+$default-white: #f8f8f8;

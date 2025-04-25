@@ -1,0 +1,279 @@
+section.capability-section {
+  width: 100%;
+  border: 0.5px dashed var(--Default-Ash, #4c4c4c);
+  border-top: none;
+}
+section.capability-section .first-container {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  display: flex;
+  z-index: 1;
+  align-items: center;
+  justify-content: space-between;
+}
+section.capability-section .first-container .content {
+  padding: 60px;
+  width: 540px;
+}
+section.capability-section .first-container .content h1 {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 34px;
+  margin-bottom: 25px;
+}
+section.capability-section .first-container .content .wrap {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+section.capability-section .first-container .content .wrap .btn {
+  display: flex;
+  height: 40px;
+  padding: 0px 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: var(--Brand-Gold, #dd9a38);
+  color: var(--Default-Black, #1b1b1b);
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+section.capability-section .first-container .content p {
+  font-family: "Commissioner", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 17px;
+  color: #b8b8b8;
+}
+section.capability-section .first-container .boxes-container {
+  width: 500px;
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(8, 50px);
+}
+section.capability-section .first-container .boxes-container .grid-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+section.capability-section .first-container .boxes-container .highlight {
+  border: 1px solid var(--Brand-Green-T, rgba(59, 95, 93, 0.3));
+  cursor: pointer;
+}
+section.capability-section .first-container .boxes-container .highlight.active::before, section.capability-section .first-container .boxes-container .highlight.active::after {
+  background: var(--Brand-Green, #3b5f5d);
+}
+section.capability-section .first-container .boxes-container .highlight::before, section.capability-section .first-container .boxes-container .highlight::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  background: var(--Brand-Gold, #dd9a38);
+  transform: scaleX(0);
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease 0.8s;
+  z-index: -1;
+  opacity: 0;
+}
+section.capability-section .first-container .boxes-container .highlight::before {
+  left: 0;
+  transform-origin: right;
+}
+section.capability-section .first-container .boxes-container .highlight::after {
+  right: 0;
+  transform-origin: left;
+}
+section.capability-section .first-container .boxes-container .highlight:hover::before, section.capability-section .first-container .boxes-container .highlight:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease;
+}
+section.capability-section .first-container .boxes-container .glitch {
+  background: repeating-linear-gradient(45deg, #f87171, #f87171 10px, #facc15 10px, #facc15 20px);
+  animation: glitch 0.8s infinite alternate;
+}
+section.capability-section .first-container .boxes-container .gold {
+  background-color: #f59e0b;
+  box-shadow: 0 0 10px #fbbf24;
+  transform: rotate(5deg);
+}
+@keyframes pulse-highlight {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes glitch {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  25% {
+    transform: translate(2px, -1px);
+  }
+  50% {
+    transform: translate(-1px, 2px);
+  }
+  75% {
+    transform: translate(1px, -1px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+section.capability-section .second-container {
+  position: relative;
+  background: #1b1b1b;
+  z-index: 2;
+}
+section.capability-section .second-container .capability-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  border-top: 0.5px dashed var(--Default-Ash, #4c4c4c);
+}
+section.capability-section .second-container .capability-container .capability-card {
+  display: flex;
+  height: 200px;
+  padding: 60px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 30px;
+  flex: 1 0 0;
+  border-right: 0.5px dashed var(--Default-Ash, #4c4c4c);
+  border-bottom: 0.5px dashed var(--Default-Ash, #4c4c4c);
+  border-left: none;
+}
+section.capability-section .second-container .capability-container .capability-card:nth-child(even) {
+  background: #232323;
+}
+section.capability-section .second-container .capability-container .capability-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+}
+section.capability-section .second-container .capability-container .capability-card p {
+  font-family: "Commissioner", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+@media (max-width: 575px) {
+  section.capability-section .first-container {
+    display: flex;
+    flex-direction: column;
+  }
+  section.capability-section .first-container .content {
+    padding: 30px;
+    padding-top: 60px;
+    width: 100%;
+    margin-bottom: 40px;
+  }
+  section.capability-section .first-container .content h1 {
+    margin-bottom: 25px;
+    font-size: 20px;
+    line-height: 22px;
+  }
+  section.capability-section .first-container .content .wrap {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+  }
+  section.capability-section .first-container .content .wrap .btn {
+    display: flex;
+    height: 40px;
+    padding: 0px 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: var(--Brand-Gold, #dd9a38);
+    color: var(--Default-Black, #1b1b1b);
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+  }
+  section.capability-section .first-container .content p {
+    font-family: "Commissioner", sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
+    color: #b8b8b8;
+  }
+  section.capability-section .first-container .boxes-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(10, 41px);
+    grid-template-rows: repeat(8, 41px);
+    overflow: hidden;
+    height: 123px;
+  }
+  section.capability-section .first-container .boxes-container .grid-box {
+    width: 41px;
+    height: 41px;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  section.capability-section .second-container {
+    position: relative;
+    background: #1b1b1b;
+    z-index: 2;
+  }
+  section.capability-section .second-container .capability-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+    border-top: 0.5px dashed var(--Default-Ash, #4c4c4c);
+  }
+  section.capability-section .second-container .capability-container .capability-card {
+    display: flex;
+    height: 200px;
+    padding: 50px 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 30px;
+    flex: 1 0 0;
+    border-right: 0.5px dashed var(--Default-Ash, #4c4c4c);
+    border-bottom: 0.5px dashed var(--Default-Ash, #4c4c4c);
+    border-left: none;
+  }
+  section.capability-section .second-container .capability-container .capability-card:nth-child(even) {
+    background: #232323;
+  }
+  section.capability-section .second-container .capability-container .capability-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  section.capability-section .second-container .capability-container .capability-card p {
+    font-family: "Commissioner", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1102px) {
+  section.capability-section .first-container .boxes-container {
+    transform: scale(0.8) translateX(-10px);
+  }
+}/*# sourceMappingURL=CapabilitySection.css.map */

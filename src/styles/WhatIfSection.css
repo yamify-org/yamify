@@ -1,0 +1,58 @@
+section.what-if-section {
+  width: 100%;
+}
+section.what-if-section .content {
+  display: flex;
+  padding: 120px 60px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  border: 0.5px dashed var(--Default-Ash, #4c4c4c);
+  background: radial-gradient(30.6% 44.87% at 100% 0%, var(--Brand-Gold, rgba(221, 154, 56, 0.1)) 0%, rgba(221, 154, 56, 0) 100%), radial-gradient(28.38% 27.56% at 0% 100%, var(--Brand-Green, rgba(59, 95, 93, 0.1)) 0%, rgba(59, 95, 93, 0) 100%), var(--Default-Black, #1b1b1b);
+  position: relative;
+}
+section.what-if-section .content img.pin {
+  position: absolute;
+  bottom: -10.5px;
+  z-index: 1;
+}
+section.what-if-section .content img.pin.top-right {
+  right: -10.5px;
+}
+section.what-if-section .content img.pin.top-left {
+  left: -10.5px;
+}
+section.what-if-section .content h2 {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27px;
+}
+section.what-if-section .content p {
+  font-family: "Commissioner", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  opacity: 0.5;
+}
+@media (max-width: 575px) {
+  section.what-if-section .content {
+    display: flex;
+    padding: 50px 30px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    position: relative;
+  }
+  section.what-if-section .content h2 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 22px;
+  }
+  section.what-if-section .content p {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}/*# sourceMappingURL=WhatIfSection.css.map */
