@@ -34,30 +34,43 @@ const useActiveIndex = () => {
   const refs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = Number(entry.target.getAttribute("data-index"));
-          if (entry.isIntersecting) {
-            setActiveIndex(index);
-          }
-        });
-      },
-      {
-        threshold: 0.6,
+    const handleScroll = () => {
+      const scrollPositions = refs.current.map((ref) => {
+        if (!ref) return Number.POSITIVE_INFINITY;
+        return Math.abs(ref.getBoundingClientRect().top);
+      });
+
+      const minPosition = Math.min(...scrollPositions);
+      const indexClosestToTop = scrollPositions.indexOf(minPosition);
+
+      if (indexClosestToTop !== activeIndex) {
+        setActiveIndex(indexClosestToTop);
       }
-    );
+    };
 
-    refs.current.forEach((ref) => ref && observer.observe(ref));
-
-    return () => observer.disconnect();
-  }, []);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeIndex]);
 
   return { activeIndex, refs };
 };
 
 const TermsScroll = () => {
   const { activeIndex, refs } = useActiveIndex();
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 575);
+    };
+
+    // Run the function once to set initial state
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="terms-container-mb">
@@ -68,9 +81,12 @@ const TermsScroll = () => {
             className={`term-card`}
             layout
             animate={{
-              backgroundColor: activeIndex === index ? "#4c4c4c" : "#232323",
-              color: activeIndex === index ? "#fff" : "#ccc",
-              scale: activeIndex === index ? 1.05 : 1,
+              backgroundColor:
+                activeIndex === index
+                  ? "#3B5F5D4D"
+                  : !isMobile
+                  ? "#232323"
+                  : "#1b1b1b05",
             }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
           >

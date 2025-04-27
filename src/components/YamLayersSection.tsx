@@ -9,9 +9,10 @@ import TermsScroll from "./TermContainer";
 
 type Props = {
   yamLayerRef: RefObject<HTMLDivElement | null>;
+  lightMode: boolean;
 };
 
-const YamLayersSection = ({ yamLayerRef }: Props) => {
+const YamLayersSection = ({ yamLayerRef, lightMode }: Props) => {
   const [indexNumber, setIndexNumber] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -81,8 +82,20 @@ const YamLayersSection = ({ yamLayerRef }: Props) => {
     restartInterval();
   };
 
+  const handleMouseEnter = (index: number) => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setIndexNumber(index); // <--- update immediately
+  };
+
+  const handleMouseLeave = () => {
+    restartInterval();
+  };
+
   return (
-    <section className="yam-layers-section" ref={yamLayerRef}>
+    <section
+      className={`yam-layers-section ${lightMode && "light-mode"}`}
+      ref={yamLayerRef}
+    >
       <div className="first-container">
         <div className="content">
           <h1>Yam Layers</h1>
@@ -93,54 +106,52 @@ const YamLayersSection = ({ yamLayerRef }: Props) => {
           </p>
         </div>
 
-        {!isMobile && (
-          <div className="terms-container">
-            <div className="main-term">
-              <AnimatePresence mode="wait">
-                <motion.h2
-                  key={`h2-${indexNumber}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4, ease: "easeInOut" }}
-                >
-                  {terms[indexNumber].name}
-                </motion.h2>
-              </AnimatePresence>
+        <div className="terms-container">
+          <div className="main-term">
+            <AnimatePresence mode="wait">
+              <motion.h2
+                key={`h2-${indexNumber}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+              >
+                {terms[indexNumber].name}
+              </motion.h2>
+            </AnimatePresence>
 
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={`p-${indexNumber}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4, ease: "easeInOut", delay: 0.1 }}
-                >
-                  {terms[indexNumber].description}
-                </motion.p>
-              </AnimatePresence>
-            </div>
-
-            <div className="term-cards">
-              {terms.map((term, index) => (
-                <motion.div
-                  key={index}
-                  className={`term-card ${
-                    indexNumber === index ? "active" : ""
-                  }`}
-                  onClick={() => handleClick(index)}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <h3>{term.name}</h3>
-                </motion.div>
-              ))}
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={`p-${indexNumber}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: "easeInOut", delay: 0.1 }}
+              >
+                {terms[indexNumber].description}
+              </motion.p>
+            </AnimatePresence>
           </div>
-        )}
+
+          <div className="term-cards">
+            {terms.map((term, index) => (
+              <motion.div
+                key={index}
+                className={`term-card ${indexNumber === index ? "active" : ""}`}
+                onClick={() => handleClick(index)}
+                onMouseEnter={() => handleMouseEnter(index)} // <-- important
+                onMouseLeave={handleMouseLeave} // <-- important
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <h3>{term.name}</h3>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
-      {isMobile && <TermsScroll />}
+      <TermsScroll />
       <div className="second-container">
         <div className="wrap">
           <div className="boxes-container">
@@ -211,6 +222,7 @@ const YamLayersSection = ({ yamLayerRef }: Props) => {
         </div>
       </div>
       <ActionCard
+        lightMode={lightMode}
         rmBorder={true}
         tagContents={["We get you.", "You’re not alone."]}
       />

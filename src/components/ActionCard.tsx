@@ -7,9 +7,10 @@ import "@/styles/ActionCard.css";
 type Props = {
   tagContents: Array<string>;
   rmBorder?: boolean;
+  lightMode?: boolean;
 };
 
-const ActionCard = ({ tagContents, rmBorder }: Props) => {
+const ActionCard = ({ tagContents, rmBorder, lightMode }: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -21,7 +22,11 @@ const ActionCard = ({ tagContents, rmBorder }: Props) => {
   }, [tagContents.length]);
 
   return (
-    <div className={`action-card ${rmBorder && "rm-border"}`}>
+    <div
+      className={`action-card ${rmBorder && "rm-border"} ${
+        lightMode && "light-mode"
+      }`}
+    >
       <div className="contain">
         {tagContents.map((content, index) => (
           <motion.h3

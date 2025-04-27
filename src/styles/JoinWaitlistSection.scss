@@ -1,6 +1,33 @@
 section.join-waitlist-section {
   width: 100%;
 
+  &.light-mode {
+    color: #1b1b1b;
+
+    .first-container {
+      .boxes-container {
+        .highlight {
+          border-color: #bfcaca79;
+        }
+      }
+
+      .groups-container {
+        .group {
+          border: 0.5px dashed var(--Default-Ash, #b8b8b8);
+          background: var(--Default-Dark-Ash, #e6e6e6);
+        }
+      }
+    }
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 100%;
+    margin-bottom: 50px;
+  }
+
   .first-container {
     width: 100%;
     max-width: 1000px;
@@ -161,14 +188,6 @@ section.join-waitlist-section {
     align-items: center;
     margin-bottom: 50px;
 
-    h1 {
-      text-align: center;
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 100%;
-      margin-bottom: 20px;
-    }
-
     p {
       font-family: "Commissioner", sans-serif;
       font-weight: 300;
@@ -220,7 +239,7 @@ section.join-waitlist-section {
       }
 
       &:hover .contain {
-        transform: scale(1.08) rotate(1deg);
+        transform: scale(1.01);
       }
 
       &:hover .contain span:first-child {
@@ -235,6 +254,8 @@ section.join-waitlist-section {
 
   @media (max-width: 575px) {
     & {
+      overflow: hidden;
+
       .first-container {
         width: 100%;
         max-width: 100%;
@@ -251,6 +272,15 @@ section.join-waitlist-section {
           display: grid;
           grid-template-columns: repeat(20, 50px);
           grid-template-rows: repeat(6, 50px);
+
+          &.first {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            grid-template-columns: repeat(9, 50px);
+            grid-template-rows: repeat(1, 50px);
+            transform: translateX(-50%);
+          }
 
           .grid-box {
             width: 50px;

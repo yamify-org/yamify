@@ -4,9 +4,10 @@ import ActionCard from "./ActionCard";
 
 type Props = {
   capabilityRef: RefObject<HTMLDivElement | null>;
+  lightMode: boolean;
 };
 
-const CapabilitySection = ({ capabilityRef }: Props) => {
+const CapabilitySection = ({ capabilityRef, lightMode }: Props) => {
   const classMap = {
     highlight: [
       0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23,
@@ -58,7 +59,10 @@ const CapabilitySection = ({ capabilityRef }: Props) => {
   ];
 
   return (
-    <section className="capability-section" ref={capabilityRef}>
+    <section
+      className={`capability-section ${lightMode && "light-mode"}`}
+      ref={capabilityRef}
+    >
       <div className="first-container">
         <div className="content">
           <h1>Capabilities that Work for You—Not Against You</h1>
@@ -99,6 +103,7 @@ const CapabilitySection = ({ capabilityRef }: Props) => {
           ))}
         </div>
         <ActionCard
+          lightMode={lightMode}
           rmBorder={true}
           tagContents={["Designed for Africa,", "Built for Developers."]}
         />

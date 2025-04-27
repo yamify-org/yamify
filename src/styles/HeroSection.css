@@ -1,6 +1,22 @@
 .hero-section {
   width: 100%;
 }
+.hero-section.light-mode {
+  color: #1b1b1b;
+}
+.hero-section.light-mode section {
+  border: 0.5px dashed var(--Default-Ash, #b8b8b8);
+  border-bottom: none;
+}
+.hero-section.light-mode section img.pin {
+  filter: invert(1);
+}
+.hero-section.light-mode section .right-content .highlight {
+  border-color: rgba(191, 202, 202, 0.4745098039);
+}
+.hero-section.light-mode section .right-content .highlight img.icon-img {
+  filter: invert(1);
+}
 .hero-section section {
   max-width: 1312px;
   width: 100%;
@@ -10,6 +26,7 @@
   display: flex;
   align-items: center;
   border: 0.6px dashed var(--Default-Ash, #4c4c4c);
+  border-bottom: none;
   position: relative;
   padding: 100px 60px;
   justify-content: space-between;
@@ -35,7 +52,6 @@
   line-height: 34px;
   display: flex;
   align-items: center;
-  color: #f8f8f8;
   margin-bottom: 30px;
 }
 .hero-section section .left-content p {
@@ -44,7 +60,6 @@
   line-height: 24px;
   display: flex;
   align-items: center;
-  color: #f8f8f8;
   font-family: "Commissioner", sans-serif;
   margin-bottom: 70px;
 }
@@ -61,8 +76,8 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 18px;
-  color: #1b1b1b;
   cursor: pointer;
+  color: #1b1b1b;
 }
 .hero-section section .left-content .btn .contain {
   height: 13px;
@@ -85,7 +100,7 @@
   gap: 10px;
 }
 .hero-section section .left-content .btn:hover .contain {
-  transform: scale(1.08) rotate(1deg);
+  transform: scale(1.01);
 }
 .hero-section section .left-content .btn:hover .contain span:first-child {
   transform: translateY(-105%);
@@ -181,6 +196,9 @@
   }
 }
 @media (max-width: 575px) {
+  .hero-section {
+    overflow: hidden;
+  }
   .hero-section section {
     max-width: 100%;
     max-height: -moz-fit-content;
@@ -345,7 +363,7 @@
     gap: 10px;
   }
   .hero-section section .left-content .btn:hover .contain {
-    transform: scale(1.08) rotate(1deg);
+    transform: scale(1.01);
   }
   .hero-section section .left-content .btn:hover .contain span:first-child {
     transform: translateY(-105%);
@@ -439,10 +457,5 @@
     100% {
       transform: translate(0px, 0px);
     }
-  }
-}
-@media screen and (min-width: 1280px) {
-  .hero-section section {
-    max-width: 90%;
   }
 }/*# sourceMappingURL=HeroSection.css.map */

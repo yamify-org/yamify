@@ -9,6 +9,47 @@ header {
   background: var(--Default-Black, #1b1b1b);
   transition: 0.3s all ease-in-out;
 
+  &.light-mode {
+    color: #1b1b1b;
+    background: var(--Default-Black, #f8f8f8);
+
+    .menu-mobile-container {
+      background: var(--Default-Black, #f8f8f8);
+
+      .nav-link {
+        border-bottom: 1px dashed var(--Default-Dark-Ash, #e6e6e6);
+        background: var(--Default-Black, #f8f8f8);
+
+        &:first-child {
+          border-top: 1px dashed var(--Default-Dark-Ash, #e6e6e6);
+        }
+      }
+    }
+
+    .menu {
+      filter: invert(1);
+    }
+
+    .btn-mode {
+      &:last-child {
+        img {
+          filter: invert(0);
+        }
+      }
+    }
+
+    .action-btns {
+      .btn {
+        color: #f8f8f8;
+      }
+    }
+
+    &.scrolled {
+      background: #f0f0f0;
+      backdrop-filter: blur(8px);
+    }
+  }
+
   &.scrolled {
     background: $ash;
     backdrop-filter: blur(8px);
@@ -48,7 +89,6 @@ header {
       gap: 30px;
 
       .nav-link {
-        color: var(--Default-White, #f8f8f8);
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
@@ -77,7 +117,7 @@ header {
         }
 
         &:hover {
-          transform: scale(1.08) rotate(1deg);
+          transform: scale(1.01);
         }
 
         &:hover span:first-child {
@@ -156,7 +196,7 @@ header {
         }
 
         &:hover .contain {
-          transform: scale(1.08) rotate(1deg);
+          transform: scale(1.01);
         }
 
         &:hover .contain span:first-child {
@@ -281,7 +321,7 @@ header {
             }
 
             &:hover {
-              transform: scale(1.08) rotate(1deg);
+              transform: scale(1.01);
             }
 
             &:hover span:first-child {
@@ -316,7 +356,7 @@ header {
               }
 
               &.dark {
-                display: none;
+                // display: none;
                 background: var(--Brand-Green, #3b5f5d);
               }
             }
@@ -402,7 +442,7 @@ header {
             }
 
             &:hover {
-              transform: scale(1.08) rotate(1deg);
+              transform: scale(1.01);
             }
 
             &:hover span:first-child {
@@ -451,11 +491,11 @@ header {
     }
   }
 
-  @media screen and (min-width: 1280px) {
-    & {
-      section {
-        max-width: 90%;
-      }
-    }
-  }
+  // @media screen and (min-width: 1280px) {
+  //   & {
+  //     section {
+  //       max-width: 90%;
+  //     }
+  //   }
+  // }
 }

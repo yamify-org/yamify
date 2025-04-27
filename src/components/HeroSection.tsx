@@ -4,21 +4,23 @@ import Image from "next/image";
 
 type Props = {
   heroRef: RefObject<HTMLDivElement | null>;
+  lightMode: boolean;
+  setJoinWaitlistModal: (value: boolean) => void;
 };
 
-const HeroSection = ({ heroRef }: Props) => {
+const HeroSection = ({ heroRef, lightMode, setJoinWaitlistModal }: Props) => {
   const classMap = {
     highlight: [
       2, 3, 5, 6, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 24, 25, 26, 27, 30,
       31, 32, 33, 34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 53,
       54, 55, 56, 57, 58, 64, 65, 66, 67, 74, 75, 76, 77, 84, 85, 86, 87, 95,
-      96, 99, 105, 108, 109,
+      96, 99, 105, 108,
     ],
     active: [23, 25, 26, 33, 35, 36, 43, 44, 45, 46, 55, 56, 64, 65],
   };
 
   return (
-    <div className="hero-section" ref={heroRef}>
+    <div className={`hero-section ${lightMode && "light-mode"}`} ref={heroRef}>
       <section>
         <Image
           src="/svgs/top_right_pin.svg"
@@ -42,7 +44,7 @@ const HeroSection = ({ heroRef }: Props) => {
             African developers the tools and support they need to launch, grow,
             and thrive.
           </p>
-          <div className="btn">
+          <div className="btn" onClick={() => setJoinWaitlistModal(true)}>
             <div className="contain">
               <span>Join the WaitList</span>
               <span className="hover-text">Join the WaitList</span>
@@ -63,6 +65,7 @@ const HeroSection = ({ heroRef }: Props) => {
                 {i === 23 && (
                   <Image
                     src="/svgs/laravel_icon.svg"
+                    className="icon-img"
                     alt=""
                     width={29.091}
                     height={29.948}
@@ -74,6 +77,7 @@ const HeroSection = ({ heroRef }: Props) => {
                     alt=""
                     width={30}
                     height={30}
+                    className="icon-img"
                   />
                 )}
                 {i === 26 && (
@@ -87,6 +91,7 @@ const HeroSection = ({ heroRef }: Props) => {
                 {i === 33 && (
                   <Image
                     src="/svgs/nextjs-svg.svg"
+                    className="icon-img"
                     alt=""
                     width={30}
                     height={30}
@@ -95,6 +100,7 @@ const HeroSection = ({ heroRef }: Props) => {
                 {i === 35 && (
                   <Image
                     src="/svgs/ai_bionic.svg"
+                    className="icon-img"
                     alt=""
                     width={22.5}
                     height={22.5}
@@ -111,6 +117,7 @@ const HeroSection = ({ heroRef }: Props) => {
                 {i === 43 && (
                   <Image
                     src="/svgs/javascript-svg.svg"
+                    className="icon-img"
                     alt=""
                     width={30}
                     height={30}
@@ -119,6 +126,7 @@ const HeroSection = ({ heroRef }: Props) => {
                 {i === 44 && (
                   <Image
                     src="/svgs/code-square-svg.svg"
+                    className="icon-img"
                     alt=""
                     width={30}
                     height={30}
@@ -127,6 +135,7 @@ const HeroSection = ({ heroRef }: Props) => {
                 {i === 45 && (
                   <Image
                     src="/svgs/java_svg.svg"
+                    className="icon-img"
                     alt=""
                     width={22.116}
                     height={29.941}
@@ -144,6 +153,7 @@ const HeroSection = ({ heroRef }: Props) => {
                 {i === 55 && (
                   <Image
                     src="/svgs/node-16-svg.svg"
+                    className="icon-img"
                     alt=""
                     width={30}
                     height={30}

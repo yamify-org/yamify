@@ -2,6 +2,36 @@ section.capability-section {
   width: 100%;
   border: 0.5px dashed var(--Default-Ash, #4c4c4c);
   border-top: none;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+section.capability-section.light-mode {
+  border: 0.5px dashed var(--Default-Ash, #b8b8b8);
+  color: #1b1b1b;
+}
+section.capability-section.light-mode .wrap .btn {
+  color: #f8f8f8;
+}
+section.capability-section.light-mode .first-container .content p {
+  color: #4c4c4c;
+}
+section.capability-section.light-mode .first-container .boxes-container .highlight {
+  border-color: rgba(191, 202, 202, 0.4745098039);
+}
+section.capability-section.light-mode .second-container {
+  position: relative;
+  background-color: #f8f8f8;
+  z-index: 2;
+}
+section.capability-section.light-mode .second-container .capability-container {
+  border-top: 0.5px dashed var(--Default-Ash, #b8b8b8);
+}
+section.capability-section.light-mode .second-container .capability-container .capability-card {
+  border-right: 0.5px dashed var(--Default-Ash, #b8b8b8);
+  border-bottom: 0.5px dashed var(--Default-Ash, #b8b8b8);
+}
+section.capability-section.light-mode .second-container .capability-container .capability-card:nth-child(even) {
+  background: var(--Default-Dark-Ash, #e6e6e6);
 }
 section.capability-section .first-container {
   position: sticky;
@@ -36,7 +66,6 @@ section.capability-section .first-container .content .wrap .btn {
   align-items: center;
   gap: 10px;
   background: var(--Brand-Gold, #dd9a38);
-  color: var(--Default-Black, #1b1b1b);
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
@@ -161,6 +190,15 @@ section.capability-section .second-container .capability-container .capability-c
 }
 section.capability-section .second-container .capability-container .capability-card:nth-child(even) {
   background: #232323;
+}
+section.capability-section .second-container .capability-container .capability-card:nth-child(3) {
+  border-right: none;
+}
+section.capability-section .second-container .capability-container .capability-card:nth-child(6) {
+  border-right: none;
+}
+section.capability-section .second-container .capability-container .capability-card:nth-child(9) {
+  border-right: none;
 }
 section.capability-section .second-container .capability-container .capability-card h3 {
   font-size: 14px;

@@ -5,12 +5,16 @@ import ActionCard from "./ActionCard";
 
 type Props = {
   workIfRef: RefObject<HTMLDivElement | null>;
+  lightMode: boolean;
 };
 
-const WhatIfSection = ({ workIfRef }: Props) => {
+const WhatIfSection = ({ workIfRef, lightMode }: Props) => {
   return (
-    <section className="what-if-section" ref={workIfRef}>
-      <div className="content">
+    <section
+      className={`what-if-section ${lightMode && "light-mode"}`}
+      ref={workIfRef}
+    >
+      <div className={`content `}>
         <Image
           src="/svgs/top_left_corner_pin.svg"
           className="pin top-left"
@@ -41,7 +45,10 @@ const WhatIfSection = ({ workIfRef }: Props) => {
         </p>
       </div>
       {/* <div className="action-card"></div> */}
-      <ActionCard tagContents={["Set it.", "Spin it.", "Scale it."]} />
+      <ActionCard
+        lightMode={lightMode}
+        tagContents={["Set it.", "Spin it.", "Scale it."]}
+      />
     </section>
   );
 };

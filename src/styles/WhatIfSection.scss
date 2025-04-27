@@ -1,6 +1,29 @@
 section.what-if-section {
   width: 100%;
 
+  &.light-mode {
+    .content {
+      border: 0.5px dashed var(--Default-Ash, #b8b8b8);
+      background: radial-gradient(
+          30.6% 44.87% at 100% 0%,
+          var(--Brand-Gold, rgba(221, 154, 56, 0.1)) 0%,
+          rgba(221, 154, 56, 0) 100%
+        ),
+        radial-gradient(
+          28.38% 27.56% at 0% 100%,
+          var(--Brand-Green, rgba(59, 95, 93, 0.1)) 0%,
+          rgba(59, 95, 93, 0) 100%
+        ),
+        var(--Default-Black, #f8f8f8);
+
+      color: #1b1b1b;
+
+      img.pin {
+        filter: invert(1);
+      }
+    }
+  }
+
   .content {
     display: flex;
     padding: 120px 60px;
@@ -55,6 +78,8 @@ section.what-if-section {
 
   @media (max-width: 575px) {
     & {
+      overflow: hidden;
+
       .content {
         display: flex;
         padding: 50px 30px;

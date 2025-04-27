@@ -1,6 +1,29 @@
 .hero-section {
   width: 100%;
 
+  &.light-mode {
+    color: #1b1b1b;
+
+    section {
+      border: 0.5px dashed var(--Default-Ash, #b8b8b8);
+      border-bottom: none;
+
+      img.pin {
+        filter: invert(1);
+      }
+
+      .right-content {
+        .highlight {
+          border-color: #bfcaca79;
+
+          img.icon-img {
+            filter: invert(1);
+          }
+        }
+      }
+    }
+  }
+
   section {
     max-width: 1312px;
     width: 100%;
@@ -10,6 +33,7 @@
     display: flex;
     align-items: center;
     border: 0.6px dashed var(--Default-Ash, #4c4c4c);
+    border-bottom: none;
     position: relative;
     padding: 100px 60px;
     justify-content: space-between;
@@ -38,7 +62,6 @@
         line-height: 34px;
         display: flex;
         align-items: center;
-        color: #f8f8f8;
         margin-bottom: 30px;
       }
 
@@ -48,7 +71,6 @@
         line-height: 24px;
         display: flex;
         align-items: center;
-        color: #f8f8f8;
         font-family: "Commissioner", sans-serif;
         margin-bottom: 70px;
       }
@@ -66,8 +88,8 @@
         font-weight: 400;
         font-size: 16px;
         line-height: 18px;
-        color: #1b1b1b;
         cursor: pointer;
+        color: #1b1b1b;
 
         .contain {
           height: 13px;
@@ -94,7 +116,7 @@
         }
 
         &:hover .contain {
-          transform: scale(1.08) rotate(1deg);
+          transform: scale(1.01);
         }
 
         &:hover .contain span:first-child {
@@ -220,6 +242,8 @@
 
   @media (max-width: 575px) {
     & {
+      overflow: hidden;
+
       section {
         max-width: 100%;
         max-height: fit-content;
@@ -406,7 +430,7 @@
             }
 
             &:hover .contain {
-              transform: scale(1.08) rotate(1deg);
+              transform: scale(1.01);
             }
 
             &:hover .contain span:first-child {
@@ -532,11 +556,11 @@
     }
   }
 
-  @media screen and (min-width: 1280px) {
-    & {
-      section {
-        max-width: 90%;
-      }
-    }
-  }
+  // @media screen and (min-width: 1280px) {
+  //   & {
+  //     section {
+  //       max-width: 90%;
+  //     }
+  //   }
+  // }
 }

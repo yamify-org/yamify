@@ -1,13 +1,64 @@
-import React from "react";
+import React, { RefObject } from "react";
 import "@/styles/Footer.css";
 import Image from "next/image";
 import Link from "next/link";
 
-const Footer = () => {
+type Props = {
+  setJoinWaitlistModal: (value: boolean) => void;
+  lightMode: boolean;
+  heroRef: RefObject<HTMLDivElement | null>;
+  workIfRef: RefObject<HTMLDivElement | null>;
+  capabilityRef: RefObject<HTMLDivElement | null>;
+  yamLayerRef: RefObject<HTMLDivElement | null>;
+  joinWaitlistRef: RefObject<HTMLDivElement | null>;
+  contactRef: RefObject<HTMLDivElement | null>;
+};
+
+const Footer = ({
+  setJoinWaitlistModal,
+  heroRef,
+  workIfRef,
+  capabilityRef,
+  yamLayerRef,
+  joinWaitlistRef,
+  contactRef,
+  lightMode,
+}: Props) => {
+  const handleScrollToWork = (e: React.MouseEvent) => {
+    e.preventDefault();
+    scrollToSection(heroRef);
+  };
+
+  const handleScrollToWorkIf = (e: React.MouseEvent) => {
+    e.preventDefault();
+    scrollToSection(workIfRef);
+  };
+
+  const handleScrollToCapability = (e: React.MouseEvent) => {
+    e.preventDefault();
+    scrollToSection(capabilityRef);
+  };
+
+  const handleScrollToYamLayer = (e: React.MouseEvent) => {
+    e.preventDefault();
+    scrollToSection(yamLayerRef);
+  };
+
+  const handleScrollToJoinWaitlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    scrollToSection(joinWaitlistRef);
+  };
+
+  const scrollToSection = (ref: RefObject<HTMLElement | null>) => {
+    setTimeout(() => {
+      ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 300); // Delay to ensure DOM is ready after navigation
+  };
+
   return (
-    <footer>
+    <footer ref={contactRef} className={`${lightMode && "light-mode"}`}>
       <section>
-        <div className="container">
+        <div className="container-footer">
           <div className="left">
             <h2>Navigations</h2>
             <Image
@@ -33,12 +84,33 @@ const Footer = () => {
             />
 
             <div className="links">
-              <div className="nav-link">Home</div>
-              <div className="nav-link">What if</div>
-              <div className="nav-link">Capabilities</div>
-              <div className="nav-link">Yamify Layers</div>
-              <div className="nav-link">For Developers</div>
-              <div className="nav-link">Join WaitList</div>
+              <div className="nav-link" onClick={handleScrollToWork}>
+                <span>Home</span>
+                <span className="hover-text">Home</span>
+              </div>
+              <div className="nav-link" onClick={handleScrollToWorkIf}>
+                <span>What if</span>
+                <span className="hover-text">What if</span>
+              </div>
+              <div className="nav-link" onClick={handleScrollToCapability}>
+                <span>Capabilities</span>
+                <span className="hover-text">Capabilities</span>
+              </div>
+              <div className="nav-link" onClick={handleScrollToYamLayer}>
+                <span>Yamify Layers</span>
+                <span className="hover-text">Yamify Layers</span>
+              </div>
+              <div className="nav-link" onClick={handleScrollToJoinWaitlist}>
+                <span>For Developers</span>
+                <span className="hover-text">For Developers</span>
+              </div>
+              <div
+                className="nav-link"
+                onClick={() => setJoinWaitlistModal(true)}
+              >
+                <span>Join WaitList</span>
+                <span className="hover-text">Join WaitList</span>
+              </div>
             </div>
           </div>
           <div className="right">
@@ -76,7 +148,27 @@ const Footer = () => {
 
         <div className="bottom">
           <Image
-            src="/svgs/yamify_logo_lg.svg"
+            src="/svgs/plus_pin.svg"
+            className="pin top-right"
+            alt=""
+            width={21}
+            height={21}
+          />
+
+          <Image
+            src="/svgs/plus_pin.svg"
+            className="pin bottom-left"
+            alt=""
+            width={21}
+            height={21}
+          />
+
+          <Image
+            src={
+              !lightMode
+                ? "/svgs/yamify_logo_lg.svg"
+                : "/svgs/yamify_logo_lg_lm.svg"
+            }
             alt="yamify logo"
             className="logo"
             width={30}

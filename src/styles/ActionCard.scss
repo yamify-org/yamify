@@ -24,10 +24,15 @@
     gap: 30px;
 
     h3 {
-      color: var(--Default-White, #f8f8f8);
       font-size: 30px;
       font-weight: 700;
     }
+  }
+
+  &.light-mode {
+    border-color: #b8b8b8;
+    background: var(--Default-White-T, rgba(27, 27, 27, 0.02));
+    color: #1b1b1b;
   }
 
   @media (max-width: 575px) {
