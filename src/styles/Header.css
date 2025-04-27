@@ -357,7 +357,6 @@ header section .action-btns .btn.green {
     gap: 15px;
   }
   header section nav .nav-link {
-    color: var(--Default-White, #f8f8f8);
     font-size: 10px;
     font-style: normal;
     font-weight: 400;

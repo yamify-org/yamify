@@ -75,16 +75,6 @@ const JoinWaitlistModal = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  useEffect(() => {
-    if (loadingBool) {
-      const timer = setTimeout(() => {
-        setSuccessModal(true);
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [loadingBool]);
-
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const scriptURL =
@@ -113,6 +103,7 @@ const JoinWaitlistModal = ({
       .then((response) => response.json())
       .then((data) => {
         setLoadingBool(false);
+        setSuccessModal(true);
         if (!(data.status === "updated" || data.status === "new entry added")) {
           showErrorToast();
         }

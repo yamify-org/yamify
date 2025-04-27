@@ -313,7 +313,6 @@
     line-height: 34px;
     display: flex;
     align-items: center;
-    color: #f8f8f8;
     margin-bottom: 30px;
   }
   .hero-section section .left-content p {
@@ -322,7 +321,6 @@
     line-height: 24px;
     display: flex;
     align-items: center;
-    color: #f8f8f8;
     font-family: "Commissioner", sans-serif;
     margin-bottom: 70px;
   }

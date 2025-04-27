@@ -9,9 +9,6 @@ section.capability-section.light-mode {
   border: 0.5px dashed var(--Default-Ash, #b8b8b8);
   color: #1b1b1b;
 }
-section.capability-section.light-mode .wrap .btn {
-  color: #f8f8f8;
-}
 section.capability-section.light-mode .first-container .content p {
   color: #4c4c4c;
 }
