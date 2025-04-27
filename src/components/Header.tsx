@@ -116,7 +116,7 @@ const Header = ({
               />
             ) : (
               <Image
-                src="/svgs/menu.svg"
+                src="/svgs/Menu.svg"
                 alt=""
                 width={20}
                 height={20}
@@ -233,6 +233,14 @@ const Header = ({
             <div className="nav-link" onClick={handleScrollToJoinWaitlist}>
               For Developers
             </div>
+
+            <Image
+              className="end"
+              src="/svgs/yamify_gd.svg"
+              alt=""
+              width={797}
+              height={306}
+            />
           </div>
         )}
       </section>

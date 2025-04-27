@@ -16,6 +16,10 @@ header {
     .menu-mobile-container {
       background: var(--Default-Black, #f8f8f8);
 
+      img.end {
+        filter: invert(1);
+      }
+
       .nav-link {
         border-bottom: 1px dashed var(--Default-Dark-Ash, #e6e6e6);
         background: var(--Default-Black, #f8f8f8);
@@ -259,6 +263,17 @@ header {
               border-top: 1px dashed var(--Default-Dark-Ash, #232323);
             }
           }
+
+          img.end {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.4;
+            pointer-events: none;
+            user-select: none;
+            width: 319px;
+          }
         }
 
         .menu {
@@ -491,11 +506,9 @@ header {
     }
   }
 
-  // @media screen and (min-width: 1280px) {
-  //   & {
-  //     section {
-  //       max-width: 90%;
-  //     }
-  //   }
-  // }
+  @media screen and (min-width: 1020px) and (max-width: 1280px) {
+    section {
+      max-width: 90%;
+    }
+  }
 }

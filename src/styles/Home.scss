@@ -47,11 +47,11 @@
     }
   }
 
-  // @media screen and (min-width: 1280px) {
-  //   & {
-  //     .section-containers {
-  //       max-width: 90%;
-  //     }
-  //   }
-  // }
+  @media screen and (min-width: 1020px) and (max-width: 1280px) {
+    & {
+      .section-containers {
+        max-width: 90%;
+      }
+    }
+  }
 }

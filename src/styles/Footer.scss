@@ -425,16 +425,15 @@ footer {
   }
 
   @media (min-width: 992px) and (max-width: 1102px) {
+    overflow: hidden;
     section {
       max-width: 90%;
     }
   }
 
-  // @media screen and (min-width: 1280px) {
-  //   & {
-  //     section {
-  //       max-width: 90%;
-  //     }
-  //   }
-  // }
+  @media screen and (min-width: 1020px) and (max-width: 1280px) {
+    section {
+      max-width: 90%;
+    }
+  }
 }

@@ -88,7 +88,7 @@ const JoinWaitlistModal = ({
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const scriptURL =
-      "https://script.google.com/macros/s/AKfycbzHBiVjCMDzGpxU_rn4KKFdqqhnZzX2YdNisfIlQZaxs8i-keN-J3V8_ICMboWYPrbO/exec";
+      "https://script.google.com/macros/s/AKfycbyTcfdPAztHinnin4edSV2cf0WpN5tUhXO1WWz95syvwp9NCHM9FiYFkKSEPwllOTGY/exec";
 
     const formData = {
       name,
@@ -97,10 +97,10 @@ const JoinWaitlistModal = ({
       tools: tools,
       specific_feature: specificFeature,
       biggest_struggle: biggestStruggle,
-      // selected_roles: selectedRoles,
-      // use_github: useGitHub,
-      // test_feedback: testFeedback,
-      // launching_range: launchingRange,
+      selected_roles: selectedRoles,
+      use_github: useGitHub,
+      test_feedback: testFeedback,
+      launching_range: launchingRange,
     };
 
     setLoadingBool(true);
@@ -117,7 +117,8 @@ const JoinWaitlistModal = ({
           showErrorToast();
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         setLoadingBool(false);
         showErrorToast();
       });
