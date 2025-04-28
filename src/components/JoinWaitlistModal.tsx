@@ -77,14 +77,15 @@ const JoinWaitlistModal = ({
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const scriptURL =
       "https://script.google.com/macros/s/AKfycbyTcfdPAztHinnin4edSV2cf0WpN5tUhXO1WWz95syvwp9NCHM9FiYFkKSEPwllOTGY/exec";
 
     const formData = {
       name,
       email,
-      location: location,
-      tools: tools,
+      location,
+      tools,
       specific_feature: specificFeature,
       biggest_struggle: biggestStruggle,
       selected_roles: selectedRoles,
@@ -95,24 +96,33 @@ const JoinWaitlistModal = ({
 
     setLoadingBool(true);
 
-    fetch(scriptURL, {
-      method: "POST",
-      mode: "cors",
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setLoadingBool(false);
-        setSuccessModal(true);
-        if (!(data.status === "updated" || data.status === "new entry added")) {
-          showErrorToast();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoadingBool(false);
-        showErrorToast();
+    try {
+      const response = await fetch(scriptURL, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json", // ADD THIS !!!
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.status === "updated" || data.status === "new entry added") {
+        setSuccessModal(true);
+      } else {
+        showErrorToast();
+      }
+    } catch (err) {
+      console.error(err);
+      showErrorToast();
+    } finally {
+      setLoadingBool(false);
+    }
   };
 
   const showErrorToast = () => {
