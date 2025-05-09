@@ -1,0 +1,130 @@
+.auth-section {
+  width: 100vw;
+  height: 100vh;
+
+  section {
+    max-width: 1312px;
+    width: 100%;
+    margin: 0 auto;
+
+    header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+      font-family: "Commissioner", sans-serif;
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        h1 {
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 100%;
+        }
+      }
+
+      .wrap {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        p {
+          font-size: 13px;
+          font-weight: 500;
+          line-height: 100%;
+        }
+
+        a {
+          font-size: 13px;
+          font-weight: 600;
+          line-height: 100%;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .container {
+      margin: 0 auto;
+      margin-top: 122px;
+      width: 400px;
+
+      h1 {
+        font-weight: 600;
+        font-size: 30px;
+        line-height: 37px;
+        margin-bottom: 29px;
+        color: #e6e6e6;
+        font-family: "Commissioner", sans-serif;
+      }
+
+      .auth-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 24px;
+        font-family: "Commissioner", sans-serif;
+
+        .btn {
+          display: flex;
+          height: 40px;
+          padding: 15px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          width: 100%;
+          color: var(--Default-Grey, #b8b8b8);
+          font-size: 14px;
+          font-weight: 600;
+          border: 1px solid var(--Default-Ash, #4c4c4c);
+          cursor: pointer;
+
+          &:first-child {
+            &:hover {
+              img {
+                filter: invert(1);
+              }
+            }
+          }
+
+          &:hover {
+            border: 1px solid var(--Default-Light-grey, #e6e6e6);
+            background: var(--Default-Light-grey, #e6e6e6);
+            color: #232323;
+          }
+        }
+      }
+
+      .line-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 15px;
+        margin-bottom: 24px;
+
+        .line {
+          flex: 1;
+          height: 1px;
+          background: var(--Default-Dark-Ash, #232323);
+        }
+
+        p {
+          color: var(--Default-Ash, #4c4c4c);
+          font-family: "Commissioner", sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 100%;
+          letter-spacing: -0.24px;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}
