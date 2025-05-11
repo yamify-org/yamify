@@ -1,0 +1,9 @@
+.dashboard {
+  width: 100%;
+}
+.dashboard section {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+}/*# sourceMappingURL=Dashboard.css.map */

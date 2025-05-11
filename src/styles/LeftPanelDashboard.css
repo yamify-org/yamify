@@ -1,0 +1,305 @@
+.left-panel {
+  top: 0px;
+  position: fixed;
+  z-index: 101;
+  left: 0;
+  width: 200px;
+  height: 100vh;
+  border-right: 1px solid var(--Default-Dark-Ash, #232323);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform-origin: left;
+  transition: 0.3s all ease-in-out;
+}
+.left-panel.not-expand {
+  width: 45px;
+}
+.left-panel.not-expand .head .logo h1 {
+  display: none;
+}
+.left-panel.not-expand .head img.side-bar {
+  display: none;
+}
+.left-panel.not-expand .links-container {
+  width: 100%;
+}
+.left-panel.not-expand .links-container a.link p {
+  display: none;
+}
+.left-panel.not-expand .links-container .wallet-setup {
+  justify-content: flex-end;
+}
+.left-panel.not-expand .links-container .wallet-setup.collapse-active {
+  height: 97px;
+  background: var(--Default-White-T, rgba(248, 248, 248, 0.02));
+  color: #e6e6e6;
+}
+.left-panel.not-expand .links-container .wallet-setup.collapse-active .wrap {
+  margin-bottom: 15px;
+}
+.left-panel.not-expand .links-container .wallet-setup.collapse-active .wrap h2 {
+  color: #e6e6e6;
+}
+.left-panel.not-expand .links-container .wallet-setup.collapse-active p {
+  display: none;
+}
+.left-panel.not-expand .links-container .wallet-setup.collapse-active button {
+  border: 1px solid var(--Default-Dark-Ash, #232323);
+  background: var(--Default-Black, #1b1b1b);
+}
+.left-panel.not-expand .links-container .wallet-setup .wrap {
+  display: none;
+}
+.left-panel.not-expand .links-container .wallet-setup p {
+  display: none;
+}
+.left-panel.not-expand .links-container .wallet-setup button .txt {
+  display: none;
+}
+.left-panel.not-expand .links-container .workspace-container .workspace-link .wrap p {
+  display: none;
+}
+.left-panel.not-expand .links-container .workspace-container .workspace-link .wrap img {
+  position: relative;
+  right: -4px;
+}
+.left-panel.not-expand .links-container .workspace-container .workspace-link img.more-icon {
+  display: none;
+}
+.left-panel.not-expand .yam-container .wrap h2 {
+  display: none;
+}
+.left-panel.not-expand .yam-container .wrap.active {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel.not-expand .yam-container .wrap:hover {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel.not-expand .yam-container .yams .yam h2 {
+  display: none;
+}
+.left-panel.not-expand .yam-container .btn-contain button .row {
+  display: none;
+}
+.left-panel .head {
+  width: 100%;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  border-bottom: 1px solid var(--Default-Dark-Ash, #232323);
+  margin-bottom: 10px;
+}
+.left-panel .head .logo {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.left-panel .head .logo h1 {
+  color: var(--Default-White, #f8f8f8);
+  font-family: "Commissioner", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 100%;
+}
+.left-panel .head img.side-bar {
+  cursor: pointer;
+}
+.left-panel .links-container {
+  width: 100%;
+}
+.left-panel .links-container a.link {
+  display: flex;
+  height: 32px;
+  padding: 5px 15px;
+  align-items: center;
+  gap: 10px;
+  font-family: "Commissioner", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 100%;
+}
+.left-panel .links-container a.link.active {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel .links-container a.link:hover {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel .links-container .wallet-setup {
+  height: 159px;
+  display: flex;
+  padding: 10px 5px 5px 5px;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  width: 100%;
+  background: var(--Brand-Gold, #dd9a38);
+  transition: 0.3s all ease-in-out;
+  transform-origin: bottom;
+}
+.left-panel .links-container .wallet-setup.collapse-active {
+  height: 97px;
+  background: var(--Default-White-T, rgba(248, 248, 248, 0.02));
+  color: #e6e6e6;
+}
+.left-panel .links-container .wallet-setup.collapse-active .wrap {
+  margin-bottom: 15px;
+}
+.left-panel .links-container .wallet-setup.collapse-active .wrap h2 {
+  color: #e6e6e6;
+}
+.left-panel .links-container .wallet-setup.collapse-active p {
+  display: none;
+}
+.left-panel .links-container .wallet-setup.collapse-active button {
+  border: 1px solid var(--Default-Dark-Ash, #232323);
+  background: var(--Default-Black, #1b1b1b);
+}
+.left-panel .links-container .wallet-setup .wrap {
+  width: 100%;
+  padding: 0px 10px;
+  padding-top: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.left-panel .links-container .wallet-setup .wrap h2 {
+  font-family: "Commissioner", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  color: #1b1b1b;
+}
+.left-panel .links-container .wallet-setup .wrap img {
+  cursor: pointer;
+}
+.left-panel .links-container .wallet-setup p {
+  font-family: "Commissioner", sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+  color: #1b1b1b;
+  opacity: 0.6;
+  padding: 10px;
+}
+.left-panel .links-container .wallet-setup button {
+  display: flex;
+  height: 32px;
+  padding: 5px 10px;
+  align-items: center;
+  gap: 10px;
+  background: var(--Default-Black, #1b1b1b);
+  color: var(--Default-White, #f8f8f8);
+  font-family: "Commissioner", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+.left-panel .links-container .workspace-container {
+  width: 100%;
+  border-top: 1px solid var(--Default-Dark-Ash, #232323);
+  padding-top: 10px;
+}
+.left-panel .links-container .workspace-container .workspace-link {
+  width: 100%;
+  display: flex;
+  height: 36px;
+  padding: 5px 9px;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.left-panel .links-container .workspace-container .workspace-link .wrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: "Commissioner", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 100%;
+}
+.left-panel .links-container .workspace-container .workspace-link.active {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel .links-container .workspace-container .workspace-link:hover {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel .yam-container {
+  width: 100%;
+  padding-top: 10px;
+  border-top: 1px solid var(--Default-Dark-Ash, #232323);
+}
+.left-panel .yam-container .wrap {
+  display: flex;
+  width: 100%;
+  height: 36px;
+  padding: 5px 15px;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.left-panel .yam-container .wrap h2 {
+  font-family: "Commissioner", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 100%;
+}
+.left-panel .yam-container .wrap.active {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel .yam-container .wrap:hover {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel .yam-container .yams .yam {
+  display: flex;
+  height: 32px;
+  padding: 5px 15px;
+  align-items: center;
+  gap: 10px;
+  font-family: "Commissioner", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 100%;
+  cursor: pointer;
+}
+.left-panel .yam-container .yams .yam.active {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel .yam-container .yams .yam:hover {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.left-panel .yam-container .btn-contain {
+  width: 100%;
+  padding: 0 5px;
+  padding-bottom: 5px;
+  margin-top: 20px;
+}
+.left-panel .yam-container .btn-contain button {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  padding: 15px 10px;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--Brand-Gold, #dd9a38);
+}
+.left-panel .yam-container .btn-contain button .row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Commissioner", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 100%;
+  color: #1e1e1e;
+}
+.left-panel .yam-container .btn-contain button .row img {
+  filter: invert(1);
+}/*# sourceMappingURL=LeftPanelDashboard.css.map */
