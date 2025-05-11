@@ -8,12 +8,11 @@ import routes from "@/libs/routes";
 type Props = {
   heroRef: RefObject<HTMLDivElement | null>;
   lightMode: boolean;
-  setJoinWaitlistModal: (value: boolean) => void;
 };
 
 type Timeout = ReturnType<typeof setTimeout>;
 
-const HeroSection = ({ heroRef, lightMode, setJoinWaitlistModal }: Props) => {
+const HeroSection = ({ heroRef, lightMode }: Props) => {
   const classMap = {
     highlight: [
       2, 3, 5, 6, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 24, 25, 26, 27, 30,

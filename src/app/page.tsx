@@ -47,11 +47,7 @@ export default function Home() {
         lightMode={lightMode}
         setLightMode={setLightMode}
       />
-      <HeroSection
-        heroRef={heroRef}
-        lightMode={lightMode}
-        setJoinWaitlistModal={setJoinWaitlistModal}
-      />
+      <HeroSection heroRef={heroRef} lightMode={lightMode} />
 
       <div className="section-containers">
         <WhatIfSection workIfRef={workIfRef} lightMode={lightMode} />

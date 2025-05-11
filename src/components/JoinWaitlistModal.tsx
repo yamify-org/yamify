@@ -128,7 +128,6 @@ const JoinWaitlistModal = ({
   const showErrorToast = () => {
     toast.error("Something went wrong on our end. Please try again later. 🔄", {
       position: "top-center",
-      icon: "🚨" as any,
       transition: Slide,
       autoClose: 4000,
       hideProgressBar: false, // Show progress bar
@@ -147,6 +146,7 @@ const JoinWaitlistModal = ({
         padding: "14px 20px",
         boxShadow: "0px 12px 35px rgba(255, 45, 85, 0.5)",
         border: "1px solid rgba(255, 255, 255, 0.2)",
+        overflow: "hidden",
       },
     });
   };
