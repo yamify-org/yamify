@@ -1,9 +1,48 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
 import AuthHeader from "../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
+import { countries } from "@/utils/data";
 
 export default function SignUp() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [country, setCountry] = useState({
+    name: "Nigeria",
+    dialCode: "+234",
+    code: "NG",
+    flag: "https://flagcdn.com/ng.svg",
+  });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+        setSearchTerm("");
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  const filteredCountries = countries.filter((country) =>
+    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="auth-section">
       <section>
@@ -29,6 +68,71 @@ export default function SignUp() {
           </div>
 
           <form action="">
+            <div className="label">
+              <div className="left">
+                <label htmlFor="">Country</label>
+              </div>
+              <div className="right">
+                <div className="input-wrap" onClick={() => setIsOpen(!isOpen)}>
+                  <div className="phone-btn">
+                    <Image
+                      src={country.flag}
+                      alt=""
+                      width={100}
+                      height={100}
+                      className="flag"
+                    />
+                    {/* <div className="code">{country.dialCode}</div> */}
+                    <div className="country-txt">{country.name}</div>
+                  </div>
+
+                  <div className="caret-contain">
+                    <Image
+                      src="/svgs/caret_down.svg"
+                      alt=""
+                      height={15}
+                      width={15}
+                    />
+                  </div>
+
+                  {isOpen && (
+                    <div className="modal-overlay" ref={modalRef}>
+                      <input
+                        type="text"
+                        placeholder="Search country..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="search-input"
+                      />
+
+                      {filteredCountries.map((country, index) => (
+                        <div
+                          className="country-item"
+                          key={index}
+                          onClick={() => {
+                            setCountry(country);
+                            setIsOpen(false);
+                            setSearchTerm("");
+                          }}
+                        >
+                          <div className="wrap">
+                            <Image
+                              src={country.flag}
+                              alt=""
+                              width={100}
+                              height={100}
+                              className="flag"
+                            />
+                            <div className="name">{country.name}</div>
+                          </div>
+                          <span className="code">{country.dialCode}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
             <div className="label">
               <div className="left">
                 <label htmlFor="">Name</label>
@@ -57,26 +161,41 @@ export default function SignUp() {
             </div>
             <div className="label">
               <div className="left">
-                <label htmlFor="">Password</label>
+                <label htmlFor="password">Password</label>
               </div>
               <div className="right">
                 <div className="wrap">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     placeholder="Set your password"
                     required
                   />
                   <Image
-                    src="/svgs/eyeopen.svg"
-                    alt=""
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    src={
+                      showPassword ? "/svgs/eyeopen.svg" : "/svgs/eyeopen.svg"
+                    }
+                    alt="Toggle password visibility"
                     height={15}
                     width={15}
                   />
                 </div>
               </div>
             </div>
+
+            <button type="submit">
+              <div className="contain">
+                <span>Create</span>
+                <span className="hover-text">Create</span>
+              </div>
+            </button>
           </form>
+
+          <div className="txt">
+            By signing up, you agree to our <span>Privacy Policy</span> and{" "}
+            <span>Terms of Use</span>
+          </div>
         </div>
       </section>
     </div>
