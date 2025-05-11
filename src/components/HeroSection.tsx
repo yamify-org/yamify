@@ -51,7 +51,8 @@ const HeroSection = ({ heroRef, lightMode }: Props) => {
           const idx = Math.floor(Math.random() * availableHighlights.length);
           group.push(availableHighlights[idx]);
         }
-        animateGroup(group, 300, 100);
+        // animateGroup(group, 300, 100);
+        animateGroup(group, 300);
         return 600 + Math.random() * 400;
       },
 
@@ -77,7 +78,8 @@ const HeroSection = ({ heroRef, lightMode }: Props) => {
             const idx = Math.floor(Math.random() * availableHighlights.length);
             cluster.push(availableHighlights[idx]);
           }
-          animateGroup(cluster, 400, 50 + Math.random() * 100);
+          // animateGroup(cluster, 400, 50 + Math.random() * 100);
+          animateGroup(cluster, 400);
         }
         return 800 + Math.random() * 400;
       },
@@ -86,8 +88,8 @@ const HeroSection = ({ heroRef, lightMode }: Props) => {
     // Animate a group of highlights
     const animateGroup = (
       indices: number[],
-      duration: number,
-      delay: number = 0
+      duration: number
+      // delay: number = 0
     ) => {
       setActiveIndices((prev) => [...prev, ...indices]);
 
