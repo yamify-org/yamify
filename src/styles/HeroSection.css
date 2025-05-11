@@ -68,9 +68,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px 10px;
+  padding: 0px 20px;
   gap: 10px;
-  width: 204px;
+  width: -moz-fit-content;
+  width: fit-content;
   height: 40px;
   background: #dd9a38;
   font-weight: 400;
@@ -129,9 +130,33 @@
 .hero-section section .right-content .highlight {
   border: 1px solid var(--Brand-Green-T, rgba(59, 95, 93, 0.3));
   cursor: pointer;
+  /* Add these to your styles */
 }
 .hero-section section .right-content .highlight.active::before, .hero-section section .right-content .highlight.active::after {
   background: var(--Brand-Green, #3b5f5d);
+}
+.hero-section section .right-content .highlight .highlight-bg {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  z-index: -1;
+}
+.hero-section section .right-content .highlight .highlight-bg.left {
+  left: 0;
+  transform-origin: right;
+  background: #dd9a38;
+}
+.hero-section section .right-content .highlight .highlight-bg.right {
+  right: 0;
+  transform-origin: left;
+  background: #dd9a38;
+}
+.hero-section section .right-content .highlight.active .highlight-bg.left {
+  background: #3b5f5d;
+}
+.hero-section section .right-content .highlight.active .highlight-bg.right {
+  background: #3b5f5d;
 }
 .hero-section section .right-content .highlight::before, .hero-section section .right-content .highlight::after {
   content: "";
@@ -157,43 +182,6 @@
   transform: scaleX(1);
   opacity: 1;
   transition: transform 0.4s ease-in-out, opacity 0.4s ease;
-}
-.hero-section section .right-content .glitch {
-  background: repeating-linear-gradient(45deg, #f87171, #f87171 10px, #facc15 10px, #facc15 20px);
-  animation: glitch 0.8s infinite alternate;
-}
-.hero-section section .right-content .gold {
-  background-color: #f59e0b;
-  box-shadow: 0 0 10px #fbbf24;
-  transform: rotate(5deg);
-}
-@keyframes pulse-highlight {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.08);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes glitch {
-  0% {
-    transform: translate(0px, 0px);
-  }
-  25% {
-    transform: translate(2px, -1px);
-  }
-  50% {
-    transform: translate(-1px, 2px);
-  }
-  75% {
-    transform: translate(1px, -1px);
-  }
-  100% {
-    transform: translate(0px, 0px);
-  }
 }
 @media (max-width: 575px) {
   .hero-section {
@@ -249,9 +237,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0px 10px;
+    padding: 0px 20px;
     gap: 10px;
-    width: 180px;
     height: 40px;
     background: #dd9a38;
     font-weight: 400;
@@ -329,9 +316,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0px 10px;
+    padding: 0px 20px;
     gap: 10px;
-    width: 204px;
     height: 40px;
     background: #dd9a38;
     font-weight: 400;

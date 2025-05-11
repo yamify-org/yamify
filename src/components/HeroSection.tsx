@@ -1,12 +1,17 @@
-import React, { RefObject } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import "@/styles/HeroSection.css";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import routes from "@/libs/routes";
 
 type Props = {
   heroRef: RefObject<HTMLDivElement | null>;
   lightMode: boolean;
   setJoinWaitlistModal: (value: boolean) => void;
 };
+
+type Timeout = ReturnType<typeof setTimeout>;
 
 const HeroSection = ({ heroRef, lightMode, setJoinWaitlistModal }: Props) => {
   const classMap = {
@@ -18,6 +23,137 @@ const HeroSection = ({ heroRef, lightMode, setJoinWaitlistModal }: Props) => {
     ],
     active: [23, 25, 26, 33, 35, 36, 43, 44, 45, 46, 55, 56, 64, 65],
   };
+
+  const [activeIndices, setActiveIndices] = useState<number[]>([]);
+  const timeoutRefs = useRef<Timeout[]>([]);
+  const rhythmRef = useRef<number>(0); // Track rhythm position
+
+  // Clear all timeouts on unmount
+  useEffect(() => {
+    return () => {
+      timeoutRefs.current.forEach(clearTimeout);
+      timeoutRefs.current = [];
+    };
+  }, []);
+
+  useEffect(() => {
+    // Available highlights excluding active boxes
+    const availableHighlights = classMap.highlight.filter(
+      (idx) => !classMap.active.includes(idx)
+    );
+
+    // Different animation patterns
+    const patterns = [
+      // Pattern 1: Quick successive bursts
+      () => {
+        const count = 2 + Math.floor(Math.random() * 3);
+        const group = [];
+        for (let i = 0; i < count; i++) {
+          const idx = Math.floor(Math.random() * availableHighlights.length);
+          group.push(availableHighlights[idx]);
+        }
+        animateGroup(group, 300, 100);
+        return 600 + Math.random() * 400;
+      },
+
+      // Pattern 2: Slow wave
+      () => {
+        const waveSize = 4 + Math.floor(Math.random() * 3);
+        const wave: number[][] = [];
+        for (let i = 0; i < waveSize; i++) {
+          const idx = Math.floor(Math.random() * availableHighlights.length);
+          wave.push([availableHighlights[idx]]);
+        }
+        animateWave(wave, 150, 200);
+        return 1200 + Math.random() * 600;
+      },
+
+      // Pattern 3: Random clusters
+      () => {
+        const clusterCount = 1 + Math.floor(Math.random() * 2);
+        for (let c = 0; c < clusterCount; c++) {
+          const clusterSize = 2 + Math.floor(Math.random() * 3);
+          const cluster = [];
+          for (let i = 0; i < clusterSize; i++) {
+            const idx = Math.floor(Math.random() * availableHighlights.length);
+            cluster.push(availableHighlights[idx]);
+          }
+          animateGroup(cluster, 400, 50 + Math.random() * 100);
+        }
+        return 800 + Math.random() * 400;
+      },
+    ];
+
+    // Animate a group of highlights
+    const animateGroup = (
+      indices: number[],
+      duration: number,
+      delay: number = 0
+    ) => {
+      setActiveIndices((prev) => [...prev, ...indices]);
+
+      timeoutRefs.current.push(
+        setTimeout(() => {
+          setActiveIndices((prev) =>
+            prev.filter((idx) => !indices.includes(idx))
+          );
+        }, duration)
+      );
+    };
+
+    // Animate a wave pattern
+    const animateWave = (
+      waveGroups: number[][],
+      duration: number,
+      delay: number
+    ) => {
+      waveGroups.forEach((group, i) => {
+        timeoutRefs.current.push(
+          setTimeout(() => {
+            animateGroup(group, duration);
+          }, i * delay)
+        );
+      });
+    };
+
+    // Main rhythm driver
+    const driveRhythm = () => {
+      rhythmRef.current = (rhythmRef.current + 1) % patterns.length;
+      const nextDelay = patterns[rhythmRef.current]();
+
+      timeoutRefs.current.push(setTimeout(driveRhythm, nextDelay));
+    };
+
+    // Start with initial delay
+    timeoutRefs.current.push(setTimeout(driveRhythm, 1000));
+
+    // Occasionally highlight active boxes with special effect
+    const highlightActive = () => {
+      const activeGroup = [...classMap.active];
+      const duration = 600;
+
+      // Special "glow" effect for active boxes
+      setActiveIndices((prev) => [...prev, ...activeGroup]);
+
+      timeoutRefs.current.push(
+        setTimeout(() => {
+          setActiveIndices((prev) =>
+            prev.filter((idx) => !activeGroup.includes(idx))
+          );
+        }, duration)
+      );
+
+      return 5000 + Math.random() * 3000;
+    };
+
+    // Start active box highlighter
+    const startActiveHighlighter = () => {
+      const delay = highlightActive();
+      timeoutRefs.current.push(setTimeout(startActiveHighlighter, delay));
+    };
+
+    startActiveHighlighter();
+  }, []);
 
   return (
     <div className={`hero-section ${lightMode && "light-mode"}`} ref={heroRef}>
@@ -44,24 +180,62 @@ const HeroSection = ({ heroRef, lightMode, setJoinWaitlistModal }: Props) => {
             African developers the tools and support they need to launch, grow,
             and thrive.
           </p>
-          <div className="btn" onClick={() => setJoinWaitlistModal(true)}>
+          <Link href={routes.auth.signup} className="btn">
             <div className="contain">
-              <span>Join the WaitList</span>
-              <span className="hover-text">Join the WaitList</span>
+              <span>Get Started for Free</span>
+              <span className="hover-text">Get Started for Free</span>
             </div>
-          </div>
+          </Link>
         </div>
 
         <div className="right-content">
           {[...Array(110)].map((_, i) => {
             let boxClass = "grid-box";
+            const isHighlight = classMap.highlight.includes(i);
+            const isActive = classMap.active.includes(i);
 
-            Object.entries(classMap).forEach(([key, indexes]) => {
-              if (indexes.includes(i)) boxClass += ` ${key}`;
-            });
+            if (isHighlight) boxClass += " highlight";
+            if (isActive) boxClass += " active";
+
+            const isAnimating = activeIndices.includes(i);
 
             return (
               <div key={i} className={boxClass}>
+                {isHighlight && (
+                  <>
+                    <motion.div
+                      className="highlight-bg left"
+                      initial={{ scaleX: 0, opacity: 0 }}
+                      animate={{
+                        scaleX: isAnimating ? 1 : 0,
+                        opacity: isAnimating ? (isActive ? 0.8 : 0.6) : 0,
+                      }}
+                      transition={{
+                        scaleX: {
+                          duration: 0.4,
+                          ease: [0.16, 0.3, 0.3, 1.2], // Bouncy ease
+                        },
+                        opacity: { duration: 0.3 },
+                      }}
+                    />
+                    <motion.div
+                      className="highlight-bg right"
+                      initial={{ scaleX: 0, opacity: 0 }}
+                      animate={{
+                        scaleX: isAnimating ? 1 : 0,
+                        opacity: isAnimating ? (isActive ? 0.8 : 0.6) : 0,
+                      }}
+                      transition={{
+                        scaleX: {
+                          duration: 0.4,
+                          ease: [0.16, 0.3, 0.3, 1.2],
+                          delay: 0.05,
+                        },
+                        opacity: { duration: 0.3, delay: 0.05 },
+                      }}
+                    />
+                  </>
+                )}
                 {i === 23 && (
                   <Image
                     src="/svgs/laravel_icon.svg"
