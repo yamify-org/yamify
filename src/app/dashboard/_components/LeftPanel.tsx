@@ -114,7 +114,7 @@ const LeftPanel = ({ expandRightPanel, setExpandRightPanel }: Props) => {
                 height={15}
               />
             </div>
-            <Link href={routes.dashboard.overview} className="link">
+            <Link href={routes.dashboard.yams.all} className="link">
               <Image src="/svgs/cluster.svg" alt="" width={15} height={15} />
               <p>All Yams</p>
             </Link>

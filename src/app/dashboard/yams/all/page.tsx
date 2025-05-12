@@ -1,11 +1,11 @@
 "use client";
 
-import LeftPanel from "./_components/LeftPanel";
 import "@/styles/Dashboard.css";
-import RightPanel from "./_components/RightPanel";
 import { useState } from "react";
+import LeftPanel from "../../_components/LeftPanel";
+import RightPanelYams from "./_components/RightPanelYams";
 
-export default function Dashboard() {
+export default function YamsPage() {
   const [expandRightPanel, setExpandRightPanel] = useState(false);
 
   return (
@@ -15,7 +15,7 @@ export default function Dashboard() {
           expandRightPanel={expandRightPanel}
           setExpandRightPanel={setExpandRightPanel}
         />
-        <RightPanel expandRightPanel={expandRightPanel} />
+        <RightPanelYams expandRightPanel={expandRightPanel} />
       </section>
     </div>
   );

@@ -1,0 +1,132 @@
+.right-panel-yams .main-panel .section {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  margin-top: 40px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: "Commissioner", sans-serif;
+}
+.right-panel-yams .main-panel .section nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.right-panel-yams .main-panel .section nav .wrap {
+  display: flex;
+  padding: 5px 0px;
+  align-items: center;
+  gap: 10px;
+}
+.right-panel-yams .main-panel .section nav .wrap h1 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 100%;
+}
+.right-panel-yams .main-panel .section nav button {
+  display: flex;
+  height: 40px;
+  width: 190px;
+  padding: 15px;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: var(--Brand-Gold, #dd9a38);
+}
+.right-panel-yams .main-panel .section nav button span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--Default-Black, #1b1b1b);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 100%;
+}
+.right-panel-yams .main-panel .section nav button span img {
+  filter: invert(1);
+}
+.right-panel-yams .main-panel .section .yam-table {
+  padding: 1rem;
+  width: 100%;
+}
+.right-panel-yams .main-panel .section .yam-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.right-panel-yams .main-panel .section .yam-table table th,
+.right-panel-yams .main-panel .section .yam-table table td {
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid #1e1e1e;
+}
+.right-panel-yams .main-panel .section .yam-table table tbody tr {
+  border: 1px solid var(--Default-Dark-Ash, #232323);
+  background: var(--Default-Light-Black, #1e1e1e);
+  padding-bottom: 10px;
+}
+.right-panel-yams .main-panel .section .yam-table table td.td {
+  color: var(--Default-Light-grey, #e6e6e6);
+  font-family: "PT Mono", Arial;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 100%;
+}
+.right-panel-yams .main-panel .section .yam-table table td.td:last-child {
+  text-align: right;
+}
+.right-panel-yams .main-panel .section .yam-table table th {
+  font-weight: 600;
+  color: #ccc;
+}
+.right-panel-yams .main-panel .section .yam-table table tr:hover {
+  background-color: #1a1a1a;
+}
+.right-panel-yams .main-panel .section .yam-table table .yam-name {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.right-panel-yams .main-panel .section .yam-table table .yam-name span.title-yam {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.right-panel-yams .main-panel .section .yam-table table .yam-name .title {
+  color: var(--Default-Grey, #b8b8b8);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 100%;
+}
+.right-panel-yams .main-panel .section .yam-table table .yam-name span.meta {
+  font-size: 0.75rem;
+  color: #888;
+  color: var(--Default-Grey, #b8b8b8);
+  font-family: "PT Mono", Arial;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.right-panel-yams .main-panel .section .yam-table table .yam-name span.meta span.status {
+  font-weight: bold;
+  color: #59bf62;
+}
+.right-panel-yams .main-panel .section .yam-table table .yam-name span.meta span.workspace {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: capitalize;
+}
+.right-panel-yams .main-panel .section .yam-table table .action-btn {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.2rem;
+  cursor: pointer;
+}/*# sourceMappingURL=RightPanelDashboardYam.css.map */

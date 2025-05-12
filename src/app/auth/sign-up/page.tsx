@@ -5,6 +5,7 @@ import AuthHeader from "../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
 import { countries } from "@/utils/data";
+// import { useRouter } from "next/navigation";
 
 export default function SignUp() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,6 +44,65 @@ export default function SignUp() {
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // const router = useRouter();
+
+  // useEffect(() => {
+  //   const handleMessage = (event: MessageEvent) => {
+  //     if (event.origin !== window.location.origin) return;
+
+  //     if (event.data.type === "github-auth-success") {
+  //       router.push("/dashboard");
+  //     } else if (event.data.type === "github-auth-error") {
+  //       console.error("GitHub auth error:", event.data.error);
+  //       alert("GitHub authentication failed. Please try again.");
+  //     }
+  //   };
+
+  //   window.addEventListener("message", handleMessage);
+  //   return () => window.removeEventListener("message", handleMessage);
+  // }, [router]);
+
+  // const initiateGitHubOAuth = () => {
+  //   // const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID || "";
+  //   const clientId = "Ov23li0xw0wSK8MpIurj";
+  //   const redirectUri = `${window.location.origin}/auth/github/callback`;
+  //   const scope = "user:email";
+
+  //   const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+  //     redirectUri
+  //   )}&scope=${encodeURIComponent(scope)}`;
+
+  //   const width = 600;
+  //   const height = 600;
+  //   const left = (window.innerWidth - width) / 2;
+  //   const top = (window.innerHeight - height) / 2;
+
+  //   const popup = window.open(
+  //     githubAuthUrl,
+  //     "GitHub OAuth",
+  //     `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${width}, height=${height}, top=${top}, left=${left}`
+  //   );
+
+  //   if (!popup || popup.closed || typeof popup.closed === "undefined") {
+  //     alert(
+  //       "Popup blocked! Please allow popups for this site to continue with GitHub login."
+  //     );
+  //     return;
+  //   }
+
+  //   const checkPopup = setInterval(() => {
+  //     if (popup.closed) {
+  //       clearInterval(checkPopup);
+  //     }
+  //   }, 500);
+  // };
+
+  const handleGitHubLogin = () => {
+    const githubAuthUrl =
+      "https://yamify-backend.onrender.com/api/v1/auth/github";
+    window.location.href = githubAuthUrl;
+  };
+
   return (
     <div className="auth-section">
       <section>
@@ -51,7 +111,7 @@ export default function SignUp() {
           <h1>Create your account</h1>
 
           <div className="auth-btns">
-            <div className="btn">
+            <div className="btn" onClick={handleGitHubLogin}>
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
