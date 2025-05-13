@@ -1,0 +1,403 @@
+.create-yam-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1000;
+}
+.create-yam-dialog .background-opacity {
+  background: var(--Default-Black, #1b1b1b);
+  opacity: 0.3;
+  width: 100%;
+  flex: 0.05;
+}
+.create-yam-dialog .dialog-contain {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  flex-shrink: 0;
+  background: var(--Default-Black, #1b1b1b);
+}
+.create-yam-dialog .dialog-contain .close-btn {
+  position: absolute;
+  top: 30px;
+  right: 50px;
+  cursor: pointer;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  width: 100%;
+  max-width: 1080px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form {
+  width: 40%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 50px;
+  flex-shrink: 0;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .head {
+  width: 100%;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .head h1 {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 100%;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form p {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  align-items: center;
+  color: #b8b8b8;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form {
+  width: 100%;
+  gap: 5px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 400px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label {
+  width: 100%;
+  display: flex;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .left {
+  display: flex;
+  width: 100px;
+  padding: 10px;
+  padding-left: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 10px;
+  border-right: 1px solid var(--Default-Ash, #4c4c4c);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .left label {
+  font-family: "Commissioner", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 100%;
+  direction: rtl;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right {
+  flex: 1;
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+  font-family: "PT Mono", Arial;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right.checkbox-right {
+  padding: 0 10px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right input {
+  outline: none;
+  border: none;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 100%;
+  color: var(--Brand-Gold, #dd9a38);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right input::-moz-placeholder {
+  color: var(--Default-Ash, #4c4c4c);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right input::placeholder {
+  color: var(--Default-Ash, #4c4c4c);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .workspace-select {
+  position: relative;
+  width: 100%;
+  letter-spacing: -0.01em;
+  color: var(--Default-Ash, #4c4c4c);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 100%;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .workspace-select .selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .workspace-select .options {
+  overflow: hidden;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #232323;
+  border: 1px solid #3a3a3a;
+  border-radius: 3px;
+  margin-top: 4px;
+  list-style: none;
+  padding: 0;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .workspace-select .options li {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .workspace-select .options li:hover {
+  background: #e6e6e6;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .box {
+  display: flex;
+  padding: 10px 15px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--Default-Ash, #4c4c4c);
+  color: var(--Default-Ash, #4c4c4c);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .box.active {
+  color: var(--Brand-Gold, #dd9a38);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .box .containn {
+  height: 12px;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  overflow: hidden;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .box .containn.wrapped-link {
+  position: relative;
+  height: 16px;
+  top: -3px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .box .containn span {
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .box .containn span.wrap {
+  display: flex;
+  gap: 10px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .box:hover .containn {
+  transform: scale(1.01);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .box:hover .containn span:first-child {
+  transform: translateY(-105%);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .box:hover .containn .hover-text {
+  transform: translateY(-105%);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .wrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .wrap img {
+  cursor: pointer;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 100%;
+  color: var(--Brand-Gold, #dd9a38);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .phone-btn {
+  padding: 0 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .phone-btn img.flag {
+  width: 15px;
+  height: 15px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .phone-btn .country-txt {
+  color: var(--Default-Light-grey, #e6e6e6);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 100%;
+  margin-left: 10px;
+  width: -moz-fit-content;
+  width: fit-content;
+  width: 150px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .phone-btn img.caret {
+  margin-right: 8px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .caret-contain {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay {
+  position: absolute;
+  left: 0;
+  bottom: -260px;
+  background: #040404;
+  height: 250px;
+  overflow-y: auto;
+  width: 250px;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 20;
+  color: #e6e6e6;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #1a1a1a;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay::-webkit-scrollbar {
+  width: 6px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 10px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+  border: 1px solid #1a1a1a;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay .search-input {
+  background: #1a1a1a;
+  border: 1px solid #3a3a3a;
+  padding: 8px 10px;
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay .search-input::-moz-placeholder {
+  color: #777;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay .search-input::placeholder {
+  color: #777;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay .country-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  cursor: pointer;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay .country-item:hover {
+  background: #3a3a3a;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay .country-item .wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .form .label .right .input-wrap .modal-overlay .country-item .wrap img.flag {
+  width: 20px;
+  height: 20px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .default-container {
+  width: 100%;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .default-container h3 {
+  color: var(--Default-Grey, #b8b8b8);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 100%;
+  margin-bottom: 10px;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .default-container .default-contain {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  background: var(--Default-Light-Black, #1e1e1e);
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .default-container .default-contain .default-row {
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  flex: 1;
+  cursor: pointer;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .default-container .default-contain .default-row:hover {
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .default-container .default-contain .default-row h2 {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 100%;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form .default-container .default-contain .default-row p {
+  font-family: "PT Mono";
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 100%;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container form button {
+  display: flex;
+  width: 400px;
+  height: 40px;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 100%;
+  cursor: pointer;
+}
+.create-yam-dialog .dialog-contain .yam-dialog-container .sample-container {
+  width: 100%;
+  height: 525px;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+  border-radius: 10px;
+  border: 2px solid var(--Default-Dark-Ash, #232323);
+  background: var(--Default-Black, #1b1b1b);
+  box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
+}/*# sourceMappingURL=CreateYamDialog.css.map */

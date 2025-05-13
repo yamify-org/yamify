@@ -4,6 +4,7 @@ import Image from "next/image";
 
 type Props = {
   expandRightPanel: boolean;
+  setShowYamDialog: (Callback: boolean) => void;
 };
 
 const yamData = [
@@ -25,7 +26,7 @@ const yamData = [
   },
 ];
 
-const RightPanelYams = ({ expandRightPanel }: Props) => {
+const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
   return (
     <div
       className={`right-panel right-panel-yams ${
@@ -58,14 +59,14 @@ const RightPanelYams = ({ expandRightPanel }: Props) => {
           </div>
         </div>
 
-        <div className="section">
+        <div className="section-yam">
           <nav>
             <div className="wrap">
               <Image alt="" src="/svgs/cluster.svg" width={24} height={24} />
               <h1>All Yams</h1>
             </div>
 
-            <button>
+            <button onClick={() => setShowYamDialog(true)}>
               <span>
                 <Image alt="" src="/svgs/cluster.svg" width={15} height={15} />
                 Create a Yam
