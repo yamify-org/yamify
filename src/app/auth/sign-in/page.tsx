@@ -9,6 +9,12 @@ import Link from "next/link";
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
 
+  const handleGitHubLogin = () => {
+    const githubAuthUrl =
+      "https://yamify-backend.onrender.com/api/v1/auth/github";
+    window.location.href = githubAuthUrl;
+  };
+
   return (
     <div className="auth-section">
       <section>
@@ -17,7 +23,7 @@ export default function SignIn() {
           <h1>Sign in</h1>
 
           <div className="auth-btns">
-            <div className="btn">
+            <div className="btn" onClick={handleGitHubLogin}>
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>

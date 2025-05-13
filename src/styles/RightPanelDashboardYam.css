@@ -54,19 +54,28 @@
 }
 .right-panel-yams .main-panel .section .yam-table table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 5px;
   font-size: 0.95rem;
+}
+.right-panel-yams .main-panel .section .yam-table table thead tr {
+  height: 45px;
+}
+.right-panel-yams .main-panel .section .yam-table table thead tr th {
+  border-bottom: 1px solid var(--Default-Dark-Ash, #232323);
+}
+.right-panel-yams .main-panel .section .yam-table table thead {
+  margin-bottom: 24px;
+}
+.right-panel-yams .main-panel .section .yam-table table tbody tr {
+  background: var(--Default-Light-Black, #1e1e1e);
+  border: 1px solid var(--Default-Dark-Ash, #232323);
 }
 .right-panel-yams .main-panel .section .yam-table table th,
 .right-panel-yams .main-panel .section .yam-table table td {
   padding: 10px 16px;
   text-align: left;
   border-bottom: 1px solid #1e1e1e;
-}
-.right-panel-yams .main-panel .section .yam-table table tbody tr {
-  border: 1px solid var(--Default-Dark-Ash, #232323);
-  background: var(--Default-Light-Black, #1e1e1e);
-  padding-bottom: 10px;
 }
 .right-panel-yams .main-panel .section .yam-table table td.td {
   color: var(--Default-Light-grey, #e6e6e6);
@@ -103,7 +112,6 @@
 }
 .right-panel-yams .main-panel .section .yam-table table .yam-name span.meta {
   font-size: 0.75rem;
-  color: #888;
   color: var(--Default-Grey, #b8b8b8);
   font-family: "PT Mono", Arial;
   font-size: 10px;
