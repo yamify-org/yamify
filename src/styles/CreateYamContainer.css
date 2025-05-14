@@ -207,7 +207,7 @@
   color: var(--Brand-Gold, #dd9a38);
 }
 .create-yam-container .form .label .right .box .containn {
-  height: 13px;
+  height: 12px;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   overflow: hidden;
 }
@@ -379,10 +379,10 @@
   padding: 10px;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 }
 .create-yam-container .default-container .default-contain .default-row:hover {
   background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
-  cursor: pointer;
 }
 .create-yam-container .default-container .default-contain .default-row:first-child {
   width: 101px;

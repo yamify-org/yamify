@@ -10,6 +10,10 @@ const routes = {
   contactUs: "/contact-us",
   dashboard: {
     overview: "/dashboard",
+    yams: {
+      all: "/dashboard/yams/all",
+      single: (name: string) => `/dashboard/yams/${name}`,
+    },
     users: {
       list: "/dashboard/users/list",
       grid: "/dashboard/users/grid",

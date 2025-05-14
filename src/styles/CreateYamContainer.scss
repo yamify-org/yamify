@@ -225,7 +225,7 @@
           }
 
           .containn {
-            height: 13px;
+            height: 12px;
             transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             overflow: hidden;
 
@@ -434,10 +434,10 @@
         padding: 10px;
         align-items: center;
         gap: 10px;
+        cursor: pointer;
 
         &:hover {
           background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
-          cursor: pointer;
         }
 
         &:first-child {
