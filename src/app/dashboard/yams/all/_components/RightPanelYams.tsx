@@ -1,6 +1,7 @@
 import "@/styles/RightPanelDashboard.css";
 import "@/styles/RightPanelDashboardYam.css";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type Props = {
   expandRightPanel: boolean;
@@ -27,6 +28,11 @@ const yamData = [
 ];
 
 const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
+  const router = useRouter();
+
+  const handleRedirect = (name: string) => {
+    router.push(`/dashboard/yams/${name}`);
+  };
   return (
     <div
       className={`right-panel right-panel-yams ${
@@ -88,7 +94,7 @@ const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
               </thead>
               <tbody>
                 {yamData.map((yam, index) => (
-                  <tr key={index}>
+                  <tr key={index} onClick={() => handleRedirect(yam.name)}>
                     <td>
                       <div className="yam-name">
                         <span className="title-yam">
