@@ -18,7 +18,7 @@ const LeftPanel = ({
 }: Props) => {
   // const [collapseWallet, setCollapseWallet] = useState(false);
   const [collapseYam, setCollapseYam] = useState(true);
-  const [sidebar, setSidebar] = useState(false);
+  // const [sidebar, setSidebar] = useState(false);
 
   const pathname = usePathname();
 
@@ -38,8 +38,8 @@ const LeftPanel = ({
             ) : (
               <div className="wrap-head">
                 <Image
-                  onMouseOver={() => setSidebar(true)}
-                  onMouseLeave={() => setSidebar(false)}
+                  // onMouseOver={() => setSidebar(true)}
+                  // onMouseLeave={() => setSidebar(false)}
                   src={"/svgs/panel_logo.svg"}
                   alt="Yamify Logo"
                   className="logo-img"
