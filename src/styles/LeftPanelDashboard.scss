@@ -20,6 +20,16 @@
         h1 {
           display: none;
         }
+
+        .wrap-head {
+          position: relative;
+
+          img.side-bar-logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+        }
       }
 
       img.side-bar {

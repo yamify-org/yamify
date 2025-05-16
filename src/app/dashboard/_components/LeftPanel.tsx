@@ -16,8 +16,9 @@ const LeftPanel = ({
   setExpandRightPanel,
   setShowYamDialog,
 }: Props) => {
-  const [collapseWallet, setCollapseWallet] = useState(false);
+  // const [collapseWallet, setCollapseWallet] = useState(false);
   const [collapseYam, setCollapseYam] = useState(true);
+  const [sidebar, setSidebar] = useState(false);
 
   const pathname = usePathname();
 
@@ -35,15 +36,29 @@ const LeftPanel = ({
                 height={15.2}
               />
             ) : (
-              <Image
-                src={"/svgs/panel_logo.svg"}
-                alt="Yamify Logo"
-                className="logo-img"
-                width={12}
-                onClick={() => setExpandRightPanel(!expandRightPanel)}
-                style={{ cursor: "pointer" }}
-                height={15.2}
-              />
+              <div className="wrap-head">
+                <Image
+                  onMouseOver={() => setSidebar(true)}
+                  onMouseLeave={() => setSidebar(false)}
+                  src={"/svgs/panel_logo.svg"}
+                  alt="Yamify Logo"
+                  className="logo-img"
+                  width={12}
+                  onClick={() => setExpandRightPanel(!expandRightPanel)}
+                  style={{ cursor: "pointer" }}
+                  height={15.2}
+                />
+                {/* {sidebar && (
+                  <Image
+                    src="/svgs/sidebar.svg"
+                    alt=""
+                    className="side-bar-logo"
+                    height={15}
+                    width={15}
+                    onClick={() => setExpandRightPanel(!expandRightPanel)}
+                  />
+                )} */}
+              </div>
             )}
             <h1>Yamify</h1>
           </div>
@@ -68,11 +83,11 @@ const LeftPanel = ({
             <Image src="/svgs/grid.svg" alt="" width={15} height={15} />
             <p>Dashboard</p>
           </Link>
-          <Link href={routes.dashboard.overview} className="link">
+          {/* <Link href={routes.dashboard.overview} className="link">
             <Image src="/svgs/globe.svg" alt="" width={15} height={15} />
             <p>Community</p>
-          </Link>
-          <div
+          </Link> */}
+          {/* <div
             className={`wallet-setup ${collapseWallet && "collapse-active"}`}
           >
             <div className="wrap">
@@ -105,7 +120,7 @@ const LeftPanel = ({
               <Image src="/svgs/card.svg" alt="" height={15} width={15} />
               <div className="txt">Set up wallet</div>
             </button>
-          </div>
+          </div> */}
 
           <div className="workspace-container">
             <div className="workspace-link">
@@ -136,7 +151,7 @@ const LeftPanel = ({
               <Image src="/svgs/cluster.svg" alt="" width={15} height={15} />
               <p>All Yams</p>
             </Link>
-            <Link href={routes.dashboard.overview} className="link">
+            {/* <Link href={routes.dashboard.overview} className="link">
               <Image src="/svgs/list.svg" alt="" width={15} height={15} />
               <p>Marketplace</p>
             </Link>
@@ -151,7 +166,7 @@ const LeftPanel = ({
             <Link href={routes.dashboard.overview} className="link">
               <Image src="/svgs/users.svg" alt="" width={15} height={15} />
               <p>People</p>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

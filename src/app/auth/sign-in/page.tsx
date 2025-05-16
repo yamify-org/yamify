@@ -21,6 +21,8 @@ export default function SignIn() {
           }
         );
 
+        console.log(res);
+
         if (!res.ok) throw new Error("Failed to fetch user");
 
         const data = await res.json();
@@ -39,6 +41,13 @@ export default function SignIn() {
     window.location.href = githubAuthUrl;
   };
 
+  const handleGoogleLogin = () => {
+    const googleAuthUrl =
+      "https://yamify-backend.onrender.com/api/v1/auth/google";
+
+    window.location.href = googleAuthUrl;
+  };
+
   return (
     <div className="auth-section">
       <section>
@@ -51,7 +60,7 @@ export default function SignIn() {
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
-            <div className="btn">
+            <div className="btn" onClick={handleGoogleLogin}>
               <Image src="/svgs/google.svg" alt="" height={20} width={20} />
               Continue with Google
             </div>

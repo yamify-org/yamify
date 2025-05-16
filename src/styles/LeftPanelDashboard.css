@@ -18,6 +18,14 @@
 .left-panel.not-expand .head .logo h1 {
   display: none;
 }
+.left-panel.not-expand .head .logo .wrap-head {
+  position: relative;
+}
+.left-panel.not-expand .head .logo .wrap-head img.side-bar-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 .left-panel.not-expand .head img.side-bar {
   display: none;
 }

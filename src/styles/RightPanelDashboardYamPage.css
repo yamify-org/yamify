@@ -74,7 +74,7 @@
   border-bottom: 2px solid var(--Brand-Gold, #dd9a38);
 }
 .right-panel-yams .main-panel .section-yam .tab-container .tab:hover {
-  border-bottom: 2px solid var(--Brand-Gold, #dd9a38);
+  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
 }
 .right-panel-yams .main-panel .section-yam .yam-details {
   width: 100%;
@@ -140,9 +140,6 @@
   position: relative;
   top: -3px;
 }
-.right-panel-yams .main-panel .section-yam .yam-details .left .card .row .contain .txt-content:hover {
-  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
-}
 .right-panel-yams .main-panel .section-yam .yam-details .left .card .row .contain .txt-content h4 {
   color: var(--Default-Light-grey, #e6e6e6);
   font-size: 11px;
@@ -181,9 +178,6 @@
   align-items: center;
   cursor: pointer;
   border-bottom: 1px solid #232323;
-}
-.right-panel-yams .main-panel .section-yam .yam-details .right .card .row:hover {
-  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
 }
 .right-panel-yams .main-panel .section-yam .yam-details .right .card .row .txt-content {
   display: flex;
