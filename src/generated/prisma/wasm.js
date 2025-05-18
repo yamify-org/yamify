@@ -120,9 +120,62 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email'
+};
+
+exports.Prisma.WorkspaceScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  domain: 'domain',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.YamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  namespace: 'namespace',
+  domain: 'domain',
+  workspaceId: 'workspaceId',
+  kubeConfig: 'kubeConfig',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DeploymentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  namespace: 'namespace',
+  chart: 'chart',
+  valuesYaml: 'valuesYaml',
+  workspaceId: 'workspaceId',
+  yamId: 'yamId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
-
+  User: 'User',
+  Workspace: 'Workspace',
+  Yam: 'Yam',
+  Deployment: 'Deployment'
 };
 
 /**

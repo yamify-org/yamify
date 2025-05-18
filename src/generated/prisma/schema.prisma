@@ -14,3 +14,48 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+model User {
+  id         String      @id
+  email      String      @unique
+  workspaces Workspace[]
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  domain    String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  yams      Yam[]
+}
+
+model Yam {
+  id          String   @id @default(cuid())
+  name        String
+  namespace   String
+  domain      String
+  workspaceId String
+  kubeConfig  String
+  createdAt   DateTime @default(now())
+
+  deployments Deployment[]
+  workspace   Workspace    @relation(fields: [workspaceId], references: [id])
+
+  @@unique([name, workspaceId])
+}
+
+model Deployment {
+  id          String   @id @default(cuid())
+  name        String
+  type        String
+  namespace   String
+  chart       String
+  valuesYaml  String
+  workspaceId String
+  yamId       String
+  createdAt   DateTime @default(now())
+
+  yam Yam @relation(fields: [yamId], references: [id])
+}

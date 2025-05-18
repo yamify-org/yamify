@@ -57,15 +57,89 @@ export const kube = {
       }
     });
   },  
+
+  createNamespaceIngress: async (name: string) => {
+    await networkingV1Api.createNamespacedIngress({
+      namespace: name,
+      body: {
+        metadata: {
+          name: 'ingress',
+          annotations: {
+            'kubernetes.io/ingress.class': 'nginx',
+            'nginx.ingress.kubernetes.io/backend-protocol': 'HTTPS',
+            'nginx.ingress.kubernetes.io/ssl-passthrough': 'true',
+            'nginx.ingress.kubernetes.io/ssl-redirect': 'true',
+            'external-dns.alpha.kubernetes.io/hostname': `${name}.aiscaler.ai`,
+            'cert-manager.io/cluster-issuer': 'letsencrypt-prod',
+          },
+        },
+        spec: {
+          ingressClassName: 'nginx',
+          tls: [
+            {
+              hosts: [`${name}.aiscaler.ai`],
+              secretName: `${name}-tls-cert`,
+            },
+          ],
+          rules: [
+            {
+              host: `${name}.aiscaler.ai`,  // team-a.aiscaler.ai
+              http: {
+                paths: [
+                  {
+                    path: '/',
+                    pathType: 'ImplementationSpecific',
+                    backend: {
+                      service: {
+                        name: name,
+                        port: {
+                          number: 443,
+                        },
+                      },
+                    },
+                  },
+                ],
+              }
+            }
+          ]
+        }
+      }
+    });
+  },
   deleteNamespace: async (name: string) => {
     await k8sApi.deleteNamespace({name});
   },
   createVCluster: async (name: string, namespace: string) => {
-    const values = `controlPlane:
+    const values = 
+    `
+controlPlane:
+  ingress:
+    enabled: false
   proxy:
     extraSANs:
-    - ${name}.aiscaler.ai`;
+      - ${name}.aiscaler.ai
+sync:
+  toHost:
+    ingresses:
+      enabled: true
+  fromHost:
+    ingressClasses:
+      enabled: true
+`;
+
     await execa('vcluster', ['create', name, '-n', namespace, '--connect=false', '-f', '-'], { input: values });
+  },
+  retrieveKubeconfig: async (clusterName: string, namespace: string): Promise<string> => {
+    const { stdout } = await execa('vcluster', [
+      'connect',
+      clusterName,
+      '-n',
+      namespace,
+      '--print',
+      `--server=https://${clusterName}.aiscaler.ai`,
+    ]);
+
+    return stdout;
   },
   deleteVCluster: async (name: string, namespace: string) => {
     await execa('vcluster', ['delete', name, '-n', namespace]);
