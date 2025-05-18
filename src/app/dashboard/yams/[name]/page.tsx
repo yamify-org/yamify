@@ -1,12 +1,12 @@
 "use client";
 
-import LeftPanel from "./_components/LeftPanel";
 import "@/styles/Dashboard.css";
-import RightPanel from "./_components/RightPanel";
 import { useState } from "react";
-import CreateYamDialog from "./_components/CreateYamDialog";
+import LeftPanel from "../../_components/LeftPanel";
+import CreateYamDialog from "../../_components/CreateYamDialog";
+import RightPanelYam from "./_components/RightPanelYam";
 
-export default function Dashboard() {
+export default function YamPage() {
   const [expandRightPanel, setExpandRightPanel] = useState(false);
   const [showYamDialog, setShowYamDialog] = useState(false);
 
@@ -15,11 +15,11 @@ export default function Dashboard() {
       {showYamDialog && <CreateYamDialog setShowYamDialog={setShowYamDialog} />}
       <section>
         <LeftPanel
+          setShowYamDialog={setShowYamDialog}
           expandRightPanel={expandRightPanel}
           setExpandRightPanel={setExpandRightPanel}
-          setShowYamDialog={setShowYamDialog}
         />
-        <RightPanel expandRightPanel={expandRightPanel} />
+        <RightPanelYam expandRightPanel={expandRightPanel} />
       </section>
     </div>
   );

@@ -288,6 +288,7 @@
   padding: 15px 10px;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
   background: var(--Brand-Gold, #dd9a38);
 }
 .left-panel .yam-container .btn-contain button .row {

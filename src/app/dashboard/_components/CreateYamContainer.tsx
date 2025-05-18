@@ -114,7 +114,7 @@ const CreateYamContainer = () => {
             </div>
             <div className="label">
               <div className="left">
-                <label htmlFor="">Workspace</label>
+                <label htmlFor="">Privacy</label>
               </div>
               <div className="right checkbox-right">
                 <div className="checkbox-container">

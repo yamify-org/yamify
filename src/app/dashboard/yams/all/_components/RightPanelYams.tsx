@@ -1,9 +1,11 @@
 import "@/styles/RightPanelDashboard.css";
 import "@/styles/RightPanelDashboardYam.css";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type Props = {
   expandRightPanel: boolean;
+  setShowYamDialog: (Callback: boolean) => void;
 };
 
 const yamData = [
@@ -25,7 +27,12 @@ const yamData = [
   },
 ];
 
-const RightPanelYams = ({ expandRightPanel }: Props) => {
+const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
+  const router = useRouter();
+
+  const handleRedirect = (name: string) => {
+    router.push(`/dashboard/yams/${name}`);
+  };
   return (
     <div
       className={`right-panel right-panel-yams ${
@@ -58,14 +65,14 @@ const RightPanelYams = ({ expandRightPanel }: Props) => {
           </div>
         </div>
 
-        <div className="section">
+        <div className="section-yam">
           <nav>
             <div className="wrap">
               <Image alt="" src="/svgs/cluster.svg" width={24} height={24} />
               <h1>All Yams</h1>
             </div>
 
-            <button>
+            <button onClick={() => setShowYamDialog(true)}>
               <span>
                 <Image alt="" src="/svgs/cluster.svg" width={15} height={15} />
                 Create a Yam
@@ -87,7 +94,7 @@ const RightPanelYams = ({ expandRightPanel }: Props) => {
               </thead>
               <tbody>
                 {yamData.map((yam, index) => (
-                  <tr key={index}>
+                  <tr key={index} onClick={() => handleRedirect(yam.name)}>
                     <td>
                       <div className="yam-name">
                         <span className="title-yam">

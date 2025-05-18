@@ -1,4 +1,4 @@
-.right-panel-yams .main-panel .section {
+.right-panel-yams .main-panel .section-yam {
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
@@ -9,24 +9,24 @@
   align-items: flex-start;
   font-family: "Commissioner", sans-serif;
 }
-.right-panel-yams .main-panel .section nav {
+.right-panel-yams .main-panel .section-yam nav {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.right-panel-yams .main-panel .section nav .wrap {
+.right-panel-yams .main-panel .section-yam nav .wrap {
   display: flex;
   padding: 5px 0px;
   align-items: center;
   gap: 10px;
 }
-.right-panel-yams .main-panel .section nav .wrap h1 {
+.right-panel-yams .main-panel .section-yam nav .wrap h1 {
   font-size: 20px;
   font-weight: 600;
   line-height: 100%;
 }
-.right-panel-yams .main-panel .section nav button {
+.right-panel-yams .main-panel .section-yam nav button {
   display: flex;
   height: 40px;
   width: 190px;
@@ -36,7 +36,7 @@
   cursor: pointer;
   background: var(--Brand-Gold, #dd9a38);
 }
-.right-panel-yams .main-panel .section nav button span {
+.right-panel-yams .main-panel .section-yam nav button span {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -45,65 +45,74 @@
   font-weight: 700;
   line-height: 100%;
 }
-.right-panel-yams .main-panel .section nav button span img {
+.right-panel-yams .main-panel .section-yam nav button span img {
   filter: invert(1);
 }
-.right-panel-yams .main-panel .section .yam-table {
+.right-panel-yams .main-panel .section-yam .yam-table {
   padding: 1rem;
   width: 100%;
 }
-.right-panel-yams .main-panel .section .yam-table table {
+.right-panel-yams .main-panel .section-yam .yam-table table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 5px;
   font-size: 0.95rem;
 }
-.right-panel-yams .main-panel .section .yam-table table th,
-.right-panel-yams .main-panel .section .yam-table table td {
+.right-panel-yams .main-panel .section-yam .yam-table table thead tr {
+  height: 45px;
+}
+.right-panel-yams .main-panel .section-yam .yam-table table thead tr th {
+  border-bottom: 1px solid var(--Default-Dark-Ash, #232323);
+}
+.right-panel-yams .main-panel .section-yam .yam-table table thead {
+  margin-bottom: 24px;
+}
+.right-panel-yams .main-panel .section-yam .yam-table table tbody tr {
+  background: var(--Default-Light-Black, #1e1e1e);
+  border: 1px solid var(--Default-Dark-Ash, #232323);
+  cursor: pointer;
+}
+.right-panel-yams .main-panel .section-yam .yam-table table th,
+.right-panel-yams .main-panel .section-yam .yam-table table td {
   padding: 10px 16px;
   text-align: left;
   border-bottom: 1px solid #1e1e1e;
 }
-.right-panel-yams .main-panel .section .yam-table table tbody tr {
-  border: 1px solid var(--Default-Dark-Ash, #232323);
-  background: var(--Default-Light-Black, #1e1e1e);
-  padding-bottom: 10px;
-}
-.right-panel-yams .main-panel .section .yam-table table td.td {
+.right-panel-yams .main-panel .section-yam .yam-table table td.td {
   color: var(--Default-Light-grey, #e6e6e6);
   font-family: "PT Mono", Arial;
   font-size: 13px;
   font-weight: 400;
   line-height: 100%;
 }
-.right-panel-yams .main-panel .section .yam-table table td.td:last-child {
+.right-panel-yams .main-panel .section-yam .yam-table table td.td:last-child {
   text-align: right;
 }
-.right-panel-yams .main-panel .section .yam-table table th {
+.right-panel-yams .main-panel .section-yam .yam-table table th {
   font-weight: 600;
   color: #ccc;
 }
-.right-panel-yams .main-panel .section .yam-table table tr:hover {
+.right-panel-yams .main-panel .section-yam .yam-table table tr:hover {
   background-color: #1a1a1a;
 }
-.right-panel-yams .main-panel .section .yam-table table .yam-name {
+.right-panel-yams .main-panel .section-yam .yam-table table .yam-name {
   display: flex;
   gap: 10px;
   flex-direction: column;
 }
-.right-panel-yams .main-panel .section .yam-table table .yam-name span.title-yam {
+.right-panel-yams .main-panel .section-yam .yam-table table .yam-name span.title-yam {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.right-panel-yams .main-panel .section .yam-table table .yam-name .title {
+.right-panel-yams .main-panel .section-yam .yam-table table .yam-name .title {
   color: var(--Default-Grey, #b8b8b8);
   font-size: 14px;
   font-weight: 600;
   line-height: 100%;
 }
-.right-panel-yams .main-panel .section .yam-table table .yam-name span.meta {
+.right-panel-yams .main-panel .section-yam .yam-table table .yam-name span.meta {
   font-size: 0.75rem;
-  color: #888;
   color: var(--Default-Grey, #b8b8b8);
   font-family: "PT Mono", Arial;
   font-size: 10px;
@@ -113,17 +122,17 @@
   align-items: center;
   gap: 10px;
 }
-.right-panel-yams .main-panel .section .yam-table table .yam-name span.meta span.status {
+.right-panel-yams .main-panel .section-yam .yam-table table .yam-name span.meta span.status {
   font-weight: bold;
   color: #59bf62;
 }
-.right-panel-yams .main-panel .section .yam-table table .yam-name span.meta span.workspace {
+.right-panel-yams .main-panel .section-yam .yam-table table .yam-name span.meta span.workspace {
   display: flex;
   align-items: center;
   gap: 10px;
   text-transform: capitalize;
 }
-.right-panel-yams .main-panel .section .yam-table table .action-btn {
+.right-panel-yams .main-panel .section-yam .yam-table table .action-btn {
   background: none;
   border: none;
   color: #ccc;

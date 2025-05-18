@@ -1,6 +1,6 @@
 .right-panel-yams {
   .main-panel {
-    .section {
+    .section-yam {
       width: 100%;
       max-width: 100%;
       margin: 0 auto;
@@ -62,22 +62,37 @@
 
         table {
           width: 100%;
-          border-collapse: collapse;
+          border-collapse: separate;
+          border-spacing: 0 5px;
           font-size: 0.95rem;
+
+          thead {
+            tr {
+              height: 45px;
+
+              th {
+                border-bottom: 1px solid var(--Default-Dark-Ash, #232323);
+              }
+            }
+          }
+
+          thead {
+            margin-bottom: 24px;
+          }
+
+          tbody {
+            tr {
+              background: var(--Default-Light-Black, #1e1e1e);
+              border: 1px solid var(--Default-Dark-Ash, #232323);
+              cursor: pointer;
+            }
+          }
 
           th,
           td {
             padding: 10px 16px;
             text-align: left;
             border-bottom: 1px solid #1e1e1e;
-          }
-
-          tbody {
-            tr {
-              border: 1px solid var(--Default-Dark-Ash, #232323);
-              background: var(--Default-Light-Black, #1e1e1e);
-              padding-bottom: 10px;
-            }
           }
 
           td.td {
@@ -121,7 +136,6 @@
 
             span.meta {
               font-size: 0.75rem;
-              color: #888;
               color: var(--Default-Grey, #b8b8b8);
               font-family: "PT Mono", Arial;
               font-size: 10px;

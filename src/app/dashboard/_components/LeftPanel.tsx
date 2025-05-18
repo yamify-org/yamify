@@ -4,14 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import routes from "@/libs/routes";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 type Props = {
   setExpandRightPanel: (Callback: boolean) => void;
+  setShowYamDialog: (Callback: boolean) => void;
   expandRightPanel: boolean;
 };
-const LeftPanel = ({ expandRightPanel, setExpandRightPanel }: Props) => {
+const LeftPanel = ({
+  expandRightPanel,
+  setExpandRightPanel,
+  setShowYamDialog,
+}: Props) => {
   const [collapseWallet, setCollapseWallet] = useState(false);
   const [collapseYam, setCollapseYam] = useState(true);
+
+  const pathname = usePathname();
 
   return (
     <div className={`left-panel ${expandRightPanel && "not-expand"}`}>
@@ -51,7 +59,12 @@ const LeftPanel = ({ expandRightPanel, setExpandRightPanel }: Props) => {
         </div>
 
         <div className="links-container">
-          <Link href={routes.dashboard.overview} className={`link active`}>
+          <Link
+            href={routes.dashboard.overview}
+            className={`link ${
+              pathname === routes.dashboard.overview && "active"
+            }`}
+          >
             <Image src="/svgs/grid.svg" alt="" width={15} height={15} />
             <p>Dashboard</p>
           </Link>
@@ -114,7 +127,12 @@ const LeftPanel = ({ expandRightPanel, setExpandRightPanel }: Props) => {
                 height={15}
               />
             </div>
-            <Link href={routes.dashboard.yams.all} className="link">
+            <Link
+              href={routes.dashboard.yams.all}
+              className={`link ${
+                pathname === routes.dashboard.yams.all && "active"
+              }`}
+            >
               <Image src="/svgs/cluster.svg" alt="" width={15} height={15} />
               <p>All Yams</p>
             </Link>
@@ -169,7 +187,7 @@ const LeftPanel = ({ expandRightPanel, setExpandRightPanel }: Props) => {
         </AnimatePresence>
 
         <div className="btn-contain">
-          <button>
+          <button onClick={() => setShowYamDialog(true)}>
             <div className="row">
               <Image src="/svgs/cluster.svg" alt="" width={15} height={15} />
               <p> Create a Yam</p>
