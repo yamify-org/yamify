@@ -143,7 +143,7 @@ exports.Prisma.YamScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.DeploymentScalarFieldEnum = {
+exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
   type: 'type',
@@ -175,7 +175,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Workspace: 'Workspace',
   Yam: 'Yam',
-  Deployment: 'Deployment'
+  Project: 'Project'
 };
 
 /**

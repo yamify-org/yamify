@@ -1,13 +1,9 @@
-import { deploymentRepository } from '../repository/deployment.repository';
+import { projectRepository } from '../repository/project.repository';
 import { execa } from 'execa';
 
-export const deploymentService = {
-  list: async (opts: { workspaceId: string; yamId?: string }) => {
-    if (opts.yamId) {
-      return deploymentRepository.listByYam(opts.yamId);
-    } else {
-      return deploymentRepository.listByWorkspace(opts.workspaceId);
-    }
+export const projectService = {
+  list: async (opts: { yamId: string }) => {
+    return projectRepository.listByYam(opts.yamId);
   },
 
   create: async (params: {
@@ -19,8 +15,8 @@ export const deploymentService = {
     workspaceId: string;
     yamId?: string;
   }) => {
-    // Persist the deployment record
-    const record = await deploymentRepository.create(params);
+    // Persist the project record
+    const record = await projectRepository.create(params);
 
     // Add Helm repository and update
     await execa('helm', ['repo', 'add', record.name, record.chart]);
@@ -48,7 +44,7 @@ export const deploymentService = {
   remove: async (opts: { id: string; name: string; namespace: string }) => {
     // Uninstall the Helm release
     await execa('helm', ['uninstall', opts.name, '--namespace', opts.namespace]);
-    // Remove the deployment record from the database
-    return deploymentRepository.delete(opts.id);
+    // Remove the project record from the database
+    return projectRepository.delete(opts.id);
   },
 };

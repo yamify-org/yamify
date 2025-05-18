@@ -29,10 +29,10 @@ export type Workspace = $Result.DefaultSelection<Prisma.$WorkspacePayload>
  */
 export type Yam = $Result.DefaultSelection<Prisma.$YamPayload>
 /**
- * Model Deployment
+ * Model Project
  * 
  */
-export type Deployment = $Result.DefaultSelection<Prisma.$DeploymentPayload>
+export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -190,14 +190,14 @@ export class PrismaClient<
   get yam(): Prisma.YamDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.deployment`: Exposes CRUD operations for the **Deployment** model.
+   * `prisma.project`: Exposes CRUD operations for the **Project** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Deployments
-    * const deployments = await prisma.deployment.findMany()
+    * // Fetch zero or more Projects
+    * const projects = await prisma.project.findMany()
     * ```
     */
-  get deployment(): Prisma.DeploymentDelegate<ExtArgs, ClientOptions>;
+  get project(): Prisma.ProjectDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -641,7 +641,7 @@ export namespace Prisma {
     User: 'User',
     Workspace: 'Workspace',
     Yam: 'Yam',
-    Deployment: 'Deployment'
+    Project: 'Project'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -660,7 +660,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "workspace" | "yam" | "deployment"
+      modelProps: "user" | "workspace" | "yam" | "project"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -886,77 +886,77 @@ export namespace Prisma {
           }
         }
       }
-      Deployment: {
-        payload: Prisma.$DeploymentPayload<ExtArgs>
-        fields: Prisma.DeploymentFieldRefs
+      Project: {
+        payload: Prisma.$ProjectPayload<ExtArgs>
+        fields: Prisma.ProjectFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.DeploymentFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload> | null
+            args: Prisma.ProjectFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.DeploymentFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload>
+            args: Prisma.ProjectFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
           }
           findFirst: {
-            args: Prisma.DeploymentFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload> | null
+            args: Prisma.ProjectFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.DeploymentFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload>
+            args: Prisma.ProjectFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
           }
           findMany: {
-            args: Prisma.DeploymentFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload>[]
+            args: Prisma.ProjectFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>[]
           }
           create: {
-            args: Prisma.DeploymentCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload>
+            args: Prisma.ProjectCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
           }
           createMany: {
-            args: Prisma.DeploymentCreateManyArgs<ExtArgs>
+            args: Prisma.ProjectCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.DeploymentCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload>[]
+            args: Prisma.ProjectCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>[]
           }
           delete: {
-            args: Prisma.DeploymentDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload>
+            args: Prisma.ProjectDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
           }
           update: {
-            args: Prisma.DeploymentUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload>
+            args: Prisma.ProjectUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
           }
           deleteMany: {
-            args: Prisma.DeploymentDeleteManyArgs<ExtArgs>
+            args: Prisma.ProjectDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.DeploymentUpdateManyArgs<ExtArgs>
+            args: Prisma.ProjectUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.DeploymentUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload>[]
+            args: Prisma.ProjectUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>[]
           }
           upsert: {
-            args: Prisma.DeploymentUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DeploymentPayload>
+            args: Prisma.ProjectUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectPayload>
           }
           aggregate: {
-            args: Prisma.DeploymentAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateDeployment>
+            args: Prisma.ProjectAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProject>
           }
           groupBy: {
-            args: Prisma.DeploymentGroupByArgs<ExtArgs>
-            result: $Utils.Optional<DeploymentGroupByOutputType>[]
+            args: Prisma.ProjectGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectGroupByOutputType>[]
           }
           count: {
-            args: Prisma.DeploymentCountArgs<ExtArgs>
-            result: $Utils.Optional<DeploymentCountAggregateOutputType> | number
+            args: Prisma.ProjectCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectCountAggregateOutputType> | number
           }
         }
       }
@@ -1047,7 +1047,7 @@ export namespace Prisma {
     user?: UserOmit
     workspace?: WorkspaceOmit
     yam?: YamOmit
-    deployment?: DeploymentOmit
+    project?: ProjectOmit
   }
 
   /* Types for Logging */
@@ -1204,11 +1204,11 @@ export namespace Prisma {
    */
 
   export type YamCountOutputType = {
-    deployments: number
+    projects: number
   }
 
   export type YamCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    deployments?: boolean | YamCountOutputTypeCountDeploymentsArgs
+    projects?: boolean | YamCountOutputTypeCountProjectsArgs
   }
 
   // Custom InputTypes
@@ -1225,8 +1225,8 @@ export namespace Prisma {
   /**
    * YamCountOutputType without action
    */
-  export type YamCountOutputTypeCountDeploymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DeploymentWhereInput
+  export type YamCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectWhereInput
   }
 
 
@@ -3533,7 +3533,7 @@ export namespace Prisma {
     workspaceId?: boolean
     kubeConfig?: boolean
     createdAt?: boolean
-    deployments?: boolean | Yam$deploymentsArgs<ExtArgs>
+    projects?: boolean | Yam$projectsArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     _count?: boolean | YamCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["yam"]>
@@ -3572,7 +3572,7 @@ export namespace Prisma {
 
   export type YamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "namespace" | "domain" | "workspaceId" | "kubeConfig" | "createdAt", ExtArgs["result"]["yam"]>
   export type YamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    deployments?: boolean | Yam$deploymentsArgs<ExtArgs>
+    projects?: boolean | Yam$projectsArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     _count?: boolean | YamCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3586,7 +3586,7 @@ export namespace Prisma {
   export type $YamPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Yam"
     objects: {
-      deployments: Prisma.$DeploymentPayload<ExtArgs>[]
+      projects: Prisma.$ProjectPayload<ExtArgs>[]
       workspace: Prisma.$WorkspacePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3991,7 +3991,7 @@ export namespace Prisma {
    */
   export interface Prisma__YamClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    deployments<T extends Yam$deploymentsArgs<ExtArgs> = {}>(args?: Subset<T, Yam$deploymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    projects<T extends Yam$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Yam$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workspace<T extends WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceDefaultArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4425,27 +4425,27 @@ export namespace Prisma {
   }
 
   /**
-   * Yam.deployments
+   * Yam.projects
    */
-  export type Yam$deploymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Yam$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
-    where?: DeploymentWhereInput
-    orderBy?: DeploymentOrderByWithRelationInput | DeploymentOrderByWithRelationInput[]
-    cursor?: DeploymentWhereUniqueInput
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
+    cursor?: ProjectWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: DeploymentScalarFieldEnum | DeploymentScalarFieldEnum[]
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
   }
 
   /**
@@ -4468,16 +4468,16 @@ export namespace Prisma {
 
 
   /**
-   * Model Deployment
+   * Model Project
    */
 
-  export type AggregateDeployment = {
-    _count: DeploymentCountAggregateOutputType | null
-    _min: DeploymentMinAggregateOutputType | null
-    _max: DeploymentMaxAggregateOutputType | null
+  export type AggregateProject = {
+    _count: ProjectCountAggregateOutputType | null
+    _min: ProjectMinAggregateOutputType | null
+    _max: ProjectMaxAggregateOutputType | null
   }
 
-  export type DeploymentMinAggregateOutputType = {
+  export type ProjectMinAggregateOutputType = {
     id: string | null
     name: string | null
     type: string | null
@@ -4489,7 +4489,7 @@ export namespace Prisma {
     createdAt: Date | null
   }
 
-  export type DeploymentMaxAggregateOutputType = {
+  export type ProjectMaxAggregateOutputType = {
     id: string | null
     name: string | null
     type: string | null
@@ -4501,7 +4501,7 @@ export namespace Prisma {
     createdAt: Date | null
   }
 
-  export type DeploymentCountAggregateOutputType = {
+  export type ProjectCountAggregateOutputType = {
     id: number
     name: number
     type: number
@@ -4515,7 +4515,7 @@ export namespace Prisma {
   }
 
 
-  export type DeploymentMinAggregateInputType = {
+  export type ProjectMinAggregateInputType = {
     id?: true
     name?: true
     type?: true
@@ -4527,7 +4527,7 @@ export namespace Prisma {
     createdAt?: true
   }
 
-  export type DeploymentMaxAggregateInputType = {
+  export type ProjectMaxAggregateInputType = {
     id?: true
     name?: true
     type?: true
@@ -4539,7 +4539,7 @@ export namespace Prisma {
     createdAt?: true
   }
 
-  export type DeploymentCountAggregateInputType = {
+  export type ProjectCountAggregateInputType = {
     id?: true
     name?: true
     type?: true
@@ -4552,79 +4552,79 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type DeploymentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Deployment to aggregate.
+     * Filter which Project to aggregate.
      */
-    where?: DeploymentWhereInput
+    where?: ProjectWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Deployments to fetch.
+     * Determine the order of Projects to fetch.
      */
-    orderBy?: DeploymentOrderByWithRelationInput | DeploymentOrderByWithRelationInput[]
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: DeploymentWhereUniqueInput
+    cursor?: ProjectWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Deployments from the position of the cursor.
+     * Take `±n` Projects from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Deployments.
+     * Skip the first `n` Projects.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Deployments
+     * Count returned Projects
     **/
-    _count?: true | DeploymentCountAggregateInputType
+    _count?: true | ProjectCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: DeploymentMinAggregateInputType
+    _min?: ProjectMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: DeploymentMaxAggregateInputType
+    _max?: ProjectMaxAggregateInputType
   }
 
-  export type GetDeploymentAggregateType<T extends DeploymentAggregateArgs> = {
-        [P in keyof T & keyof AggregateDeployment]: P extends '_count' | 'count'
+  export type GetProjectAggregateType<T extends ProjectAggregateArgs> = {
+        [P in keyof T & keyof AggregateProject]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateDeployment[P]>
-      : GetScalarType<T[P], AggregateDeployment[P]>
+        : GetScalarType<T[P], AggregateProject[P]>
+      : GetScalarType<T[P], AggregateProject[P]>
   }
 
 
 
 
-  export type DeploymentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DeploymentWhereInput
-    orderBy?: DeploymentOrderByWithAggregationInput | DeploymentOrderByWithAggregationInput[]
-    by: DeploymentScalarFieldEnum[] | DeploymentScalarFieldEnum
-    having?: DeploymentScalarWhereWithAggregatesInput
+  export type ProjectGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectWhereInput
+    orderBy?: ProjectOrderByWithAggregationInput | ProjectOrderByWithAggregationInput[]
+    by: ProjectScalarFieldEnum[] | ProjectScalarFieldEnum
+    having?: ProjectScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: DeploymentCountAggregateInputType | true
-    _min?: DeploymentMinAggregateInputType
-    _max?: DeploymentMaxAggregateInputType
+    _count?: ProjectCountAggregateInputType | true
+    _min?: ProjectMinAggregateInputType
+    _max?: ProjectMaxAggregateInputType
   }
 
-  export type DeploymentGroupByOutputType = {
+  export type ProjectGroupByOutputType = {
     id: string
     name: string
     type: string
@@ -4634,26 +4634,26 @@ export namespace Prisma {
     workspaceId: string
     yamId: string
     createdAt: Date
-    _count: DeploymentCountAggregateOutputType | null
-    _min: DeploymentMinAggregateOutputType | null
-    _max: DeploymentMaxAggregateOutputType | null
+    _count: ProjectCountAggregateOutputType | null
+    _min: ProjectMinAggregateOutputType | null
+    _max: ProjectMaxAggregateOutputType | null
   }
 
-  type GetDeploymentGroupByPayload<T extends DeploymentGroupByArgs> = Prisma.PrismaPromise<
+  type GetProjectGroupByPayload<T extends ProjectGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<DeploymentGroupByOutputType, T['by']> &
+      PickEnumerable<ProjectGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof DeploymentGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ProjectGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], DeploymentGroupByOutputType[P]>
-            : GetScalarType<T[P], DeploymentGroupByOutputType[P]>
+              : GetScalarType<T[P], ProjectGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type DeploymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ProjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     type?: boolean
@@ -4664,9 +4664,9 @@ export namespace Prisma {
     yamId?: boolean
     createdAt?: boolean
     yam?: boolean | YamDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["deployment"]>
+  }, ExtArgs["result"]["project"]>
 
-  export type DeploymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     type?: boolean
@@ -4677,9 +4677,9 @@ export namespace Prisma {
     yamId?: boolean
     createdAt?: boolean
     yam?: boolean | YamDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["deployment"]>
+  }, ExtArgs["result"]["project"]>
 
-  export type DeploymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     type?: boolean
@@ -4690,9 +4690,9 @@ export namespace Prisma {
     yamId?: boolean
     createdAt?: boolean
     yam?: boolean | YamDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["deployment"]>
+  }, ExtArgs["result"]["project"]>
 
-  export type DeploymentSelectScalar = {
+  export type ProjectSelectScalar = {
     id?: boolean
     name?: boolean
     type?: boolean
@@ -4704,19 +4704,19 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type DeploymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "namespace" | "chart" | "valuesYaml" | "workspaceId" | "yamId" | "createdAt", ExtArgs["result"]["deployment"]>
-  export type DeploymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "namespace" | "chart" | "valuesYaml" | "workspaceId" | "yamId" | "createdAt", ExtArgs["result"]["project"]>
+  export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     yam?: boolean | YamDefaultArgs<ExtArgs>
   }
-  export type DeploymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     yam?: boolean | YamDefaultArgs<ExtArgs>
   }
-  export type DeploymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     yam?: boolean | YamDefaultArgs<ExtArgs>
   }
 
-  export type $DeploymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Deployment"
+  export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Project"
     objects: {
       yam: Prisma.$YamPayload<ExtArgs>
     }
@@ -4730,136 +4730,136 @@ export namespace Prisma {
       workspaceId: string
       yamId: string
       createdAt: Date
-    }, ExtArgs["result"]["deployment"]>
+    }, ExtArgs["result"]["project"]>
     composites: {}
   }
 
-  type DeploymentGetPayload<S extends boolean | null | undefined | DeploymentDefaultArgs> = $Result.GetResult<Prisma.$DeploymentPayload, S>
+  type ProjectGetPayload<S extends boolean | null | undefined | ProjectDefaultArgs> = $Result.GetResult<Prisma.$ProjectPayload, S>
 
-  type DeploymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<DeploymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: DeploymentCountAggregateInputType | true
+  type ProjectCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProjectFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProjectCountAggregateInputType | true
     }
 
-  export interface DeploymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Deployment'], meta: { name: 'Deployment' } }
+  export interface ProjectDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Project'], meta: { name: 'Project' } }
     /**
-     * Find zero or one Deployment that matches the filter.
-     * @param {DeploymentFindUniqueArgs} args - Arguments to find a Deployment
+     * Find zero or one Project that matches the filter.
+     * @param {ProjectFindUniqueArgs} args - Arguments to find a Project
      * @example
-     * // Get one Deployment
-     * const deployment = await prisma.deployment.findUnique({
+     * // Get one Project
+     * const project = await prisma.project.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends DeploymentFindUniqueArgs>(args: SelectSubset<T, DeploymentFindUniqueArgs<ExtArgs>>): Prisma__DeploymentClient<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends ProjectFindUniqueArgs>(args: SelectSubset<T, ProjectFindUniqueArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Deployment that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Project that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {DeploymentFindUniqueOrThrowArgs} args - Arguments to find a Deployment
+     * @param {ProjectFindUniqueOrThrowArgs} args - Arguments to find a Project
      * @example
-     * // Get one Deployment
-     * const deployment = await prisma.deployment.findUniqueOrThrow({
+     * // Get one Project
+     * const project = await prisma.project.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends DeploymentFindUniqueOrThrowArgs>(args: SelectSubset<T, DeploymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DeploymentClient<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends ProjectFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Deployment that matches the filter.
+     * Find the first Project that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DeploymentFindFirstArgs} args - Arguments to find a Deployment
+     * @param {ProjectFindFirstArgs} args - Arguments to find a Project
      * @example
-     * // Get one Deployment
-     * const deployment = await prisma.deployment.findFirst({
+     * // Get one Project
+     * const project = await prisma.project.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends DeploymentFindFirstArgs>(args?: SelectSubset<T, DeploymentFindFirstArgs<ExtArgs>>): Prisma__DeploymentClient<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends ProjectFindFirstArgs>(args?: SelectSubset<T, ProjectFindFirstArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Deployment that matches the filter or
+     * Find the first Project that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DeploymentFindFirstOrThrowArgs} args - Arguments to find a Deployment
+     * @param {ProjectFindFirstOrThrowArgs} args - Arguments to find a Project
      * @example
-     * // Get one Deployment
-     * const deployment = await prisma.deployment.findFirstOrThrow({
+     * // Get one Project
+     * const project = await prisma.project.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends DeploymentFindFirstOrThrowArgs>(args?: SelectSubset<T, DeploymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__DeploymentClient<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends ProjectFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Deployments that matches the filter.
+     * Find zero or more Projects that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DeploymentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {ProjectFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Deployments
-     * const deployments = await prisma.deployment.findMany()
+     * // Get all Projects
+     * const projects = await prisma.project.findMany()
      * 
-     * // Get first 10 Deployments
-     * const deployments = await prisma.deployment.findMany({ take: 10 })
+     * // Get first 10 Projects
+     * const projects = await prisma.project.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const deploymentWithIdOnly = await prisma.deployment.findMany({ select: { id: true } })
+     * const projectWithIdOnly = await prisma.project.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends DeploymentFindManyArgs>(args?: SelectSubset<T, DeploymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends ProjectFindManyArgs>(args?: SelectSubset<T, ProjectFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Deployment.
-     * @param {DeploymentCreateArgs} args - Arguments to create a Deployment.
+     * Create a Project.
+     * @param {ProjectCreateArgs} args - Arguments to create a Project.
      * @example
-     * // Create one Deployment
-     * const Deployment = await prisma.deployment.create({
+     * // Create one Project
+     * const Project = await prisma.project.create({
      *   data: {
-     *     // ... data to create a Deployment
+     *     // ... data to create a Project
      *   }
      * })
      * 
      */
-    create<T extends DeploymentCreateArgs>(args: SelectSubset<T, DeploymentCreateArgs<ExtArgs>>): Prisma__DeploymentClient<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends ProjectCreateArgs>(args: SelectSubset<T, ProjectCreateArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Deployments.
-     * @param {DeploymentCreateManyArgs} args - Arguments to create many Deployments.
+     * Create many Projects.
+     * @param {ProjectCreateManyArgs} args - Arguments to create many Projects.
      * @example
-     * // Create many Deployments
-     * const deployment = await prisma.deployment.createMany({
+     * // Create many Projects
+     * const project = await prisma.project.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends DeploymentCreateManyArgs>(args?: SelectSubset<T, DeploymentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends ProjectCreateManyArgs>(args?: SelectSubset<T, ProjectCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Deployments and returns the data saved in the database.
-     * @param {DeploymentCreateManyAndReturnArgs} args - Arguments to create many Deployments.
+     * Create many Projects and returns the data saved in the database.
+     * @param {ProjectCreateManyAndReturnArgs} args - Arguments to create many Projects.
      * @example
-     * // Create many Deployments
-     * const deployment = await prisma.deployment.createManyAndReturn({
+     * // Create many Projects
+     * const project = await prisma.project.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Deployments and only return the `id`
-     * const deploymentWithIdOnly = await prisma.deployment.createManyAndReturn({
+     * // Create many Projects and only return the `id`
+     * const projectWithIdOnly = await prisma.project.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -4869,28 +4869,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends DeploymentCreateManyAndReturnArgs>(args?: SelectSubset<T, DeploymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends ProjectCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Deployment.
-     * @param {DeploymentDeleteArgs} args - Arguments to delete one Deployment.
+     * Delete a Project.
+     * @param {ProjectDeleteArgs} args - Arguments to delete one Project.
      * @example
-     * // Delete one Deployment
-     * const Deployment = await prisma.deployment.delete({
+     * // Delete one Project
+     * const Project = await prisma.project.delete({
      *   where: {
-     *     // ... filter to delete one Deployment
+     *     // ... filter to delete one Project
      *   }
      * })
      * 
      */
-    delete<T extends DeploymentDeleteArgs>(args: SelectSubset<T, DeploymentDeleteArgs<ExtArgs>>): Prisma__DeploymentClient<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends ProjectDeleteArgs>(args: SelectSubset<T, ProjectDeleteArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Deployment.
-     * @param {DeploymentUpdateArgs} args - Arguments to update one Deployment.
+     * Update one Project.
+     * @param {ProjectUpdateArgs} args - Arguments to update one Project.
      * @example
-     * // Update one Deployment
-     * const deployment = await prisma.deployment.update({
+     * // Update one Project
+     * const project = await prisma.project.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4900,30 +4900,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends DeploymentUpdateArgs>(args: SelectSubset<T, DeploymentUpdateArgs<ExtArgs>>): Prisma__DeploymentClient<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends ProjectUpdateArgs>(args: SelectSubset<T, ProjectUpdateArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Deployments.
-     * @param {DeploymentDeleteManyArgs} args - Arguments to filter Deployments to delete.
+     * Delete zero or more Projects.
+     * @param {ProjectDeleteManyArgs} args - Arguments to filter Projects to delete.
      * @example
-     * // Delete a few Deployments
-     * const { count } = await prisma.deployment.deleteMany({
+     * // Delete a few Projects
+     * const { count } = await prisma.project.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends DeploymentDeleteManyArgs>(args?: SelectSubset<T, DeploymentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends ProjectDeleteManyArgs>(args?: SelectSubset<T, ProjectDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Deployments.
+     * Update zero or more Projects.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DeploymentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ProjectUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Deployments
-     * const deployment = await prisma.deployment.updateMany({
+     * // Update many Projects
+     * const project = await prisma.project.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4933,14 +4933,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends DeploymentUpdateManyArgs>(args: SelectSubset<T, DeploymentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends ProjectUpdateManyArgs>(args: SelectSubset<T, ProjectUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Deployments and returns the data updated in the database.
-     * @param {DeploymentUpdateManyAndReturnArgs} args - Arguments to update many Deployments.
+     * Update zero or more Projects and returns the data updated in the database.
+     * @param {ProjectUpdateManyAndReturnArgs} args - Arguments to update many Projects.
      * @example
-     * // Update many Deployments
-     * const deployment = await prisma.deployment.updateManyAndReturn({
+     * // Update many Projects
+     * const project = await prisma.project.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4949,8 +4949,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Deployments and only return the `id`
-     * const deploymentWithIdOnly = await prisma.deployment.updateManyAndReturn({
+     * // Update zero or more Projects and only return the `id`
+     * const projectWithIdOnly = await prisma.project.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -4963,56 +4963,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends DeploymentUpdateManyAndReturnArgs>(args: SelectSubset<T, DeploymentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends ProjectUpdateManyAndReturnArgs>(args: SelectSubset<T, ProjectUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Deployment.
-     * @param {DeploymentUpsertArgs} args - Arguments to update or create a Deployment.
+     * Create or update one Project.
+     * @param {ProjectUpsertArgs} args - Arguments to update or create a Project.
      * @example
-     * // Update or create a Deployment
-     * const deployment = await prisma.deployment.upsert({
+     * // Update or create a Project
+     * const project = await prisma.project.upsert({
      *   create: {
-     *     // ... data to create a Deployment
+     *     // ... data to create a Project
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Deployment we want to update
+     *     // ... the filter for the Project we want to update
      *   }
      * })
      */
-    upsert<T extends DeploymentUpsertArgs>(args: SelectSubset<T, DeploymentUpsertArgs<ExtArgs>>): Prisma__DeploymentClient<$Result.GetResult<Prisma.$DeploymentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends ProjectUpsertArgs>(args: SelectSubset<T, ProjectUpsertArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Deployments.
+     * Count the number of Projects.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DeploymentCountArgs} args - Arguments to filter Deployments to count.
+     * @param {ProjectCountArgs} args - Arguments to filter Projects to count.
      * @example
-     * // Count the number of Deployments
-     * const count = await prisma.deployment.count({
+     * // Count the number of Projects
+     * const count = await prisma.project.count({
      *   where: {
-     *     // ... the filter for the Deployments we want to count
+     *     // ... the filter for the Projects we want to count
      *   }
      * })
     **/
-    count<T extends DeploymentCountArgs>(
-      args?: Subset<T, DeploymentCountArgs>,
+    count<T extends ProjectCountArgs>(
+      args?: Subset<T, ProjectCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], DeploymentCountAggregateOutputType>
+          : GetScalarType<T['select'], ProjectCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Deployment.
+     * Allows you to perform aggregations operations on a Project.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DeploymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ProjectAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -5032,13 +5032,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends DeploymentAggregateArgs>(args: Subset<T, DeploymentAggregateArgs>): Prisma.PrismaPromise<GetDeploymentAggregateType<T>>
+    aggregate<T extends ProjectAggregateArgs>(args: Subset<T, ProjectAggregateArgs>): Prisma.PrismaPromise<GetProjectAggregateType<T>>
 
     /**
-     * Group by Deployment.
+     * Group by Project.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DeploymentGroupByArgs} args - Group by arguments.
+     * @param {ProjectGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -5053,14 +5053,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends DeploymentGroupByArgs,
+      T extends ProjectGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: DeploymentGroupByArgs['orderBy'] }
-        : { orderBy?: DeploymentGroupByArgs['orderBy'] },
+        ? { orderBy: ProjectGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -5109,20 +5109,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, DeploymentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDeploymentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ProjectGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Deployment model
+   * Fields of the Project model
    */
-  readonly fields: DeploymentFieldRefs;
+  readonly fields: ProjectFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Deployment.
+   * The delegate class that acts as a "Promise-like" for Project.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__DeploymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     yam<T extends YamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, YamDefaultArgs<ExtArgs>>): Prisma__YamClient<$Result.GetResult<Prisma.$YamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
@@ -5151,429 +5151,429 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Deployment model
+   * Fields of the Project model
    */
-  interface DeploymentFieldRefs {
-    readonly id: FieldRef<"Deployment", 'String'>
-    readonly name: FieldRef<"Deployment", 'String'>
-    readonly type: FieldRef<"Deployment", 'String'>
-    readonly namespace: FieldRef<"Deployment", 'String'>
-    readonly chart: FieldRef<"Deployment", 'String'>
-    readonly valuesYaml: FieldRef<"Deployment", 'String'>
-    readonly workspaceId: FieldRef<"Deployment", 'String'>
-    readonly yamId: FieldRef<"Deployment", 'String'>
-    readonly createdAt: FieldRef<"Deployment", 'DateTime'>
+  interface ProjectFieldRefs {
+    readonly id: FieldRef<"Project", 'String'>
+    readonly name: FieldRef<"Project", 'String'>
+    readonly type: FieldRef<"Project", 'String'>
+    readonly namespace: FieldRef<"Project", 'String'>
+    readonly chart: FieldRef<"Project", 'String'>
+    readonly valuesYaml: FieldRef<"Project", 'String'>
+    readonly workspaceId: FieldRef<"Project", 'String'>
+    readonly yamId: FieldRef<"Project", 'String'>
+    readonly createdAt: FieldRef<"Project", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Deployment findUnique
+   * Project findUnique
    */
-  export type DeploymentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
     /**
-     * Filter, which Deployment to fetch.
+     * Filter, which Project to fetch.
      */
-    where: DeploymentWhereUniqueInput
+    where: ProjectWhereUniqueInput
   }
 
   /**
-   * Deployment findUniqueOrThrow
+   * Project findUniqueOrThrow
    */
-  export type DeploymentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
     /**
-     * Filter, which Deployment to fetch.
+     * Filter, which Project to fetch.
      */
-    where: DeploymentWhereUniqueInput
+    where: ProjectWhereUniqueInput
   }
 
   /**
-   * Deployment findFirst
+   * Project findFirst
    */
-  export type DeploymentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
     /**
-     * Filter, which Deployment to fetch.
+     * Filter, which Project to fetch.
      */
-    where?: DeploymentWhereInput
+    where?: ProjectWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Deployments to fetch.
+     * Determine the order of Projects to fetch.
      */
-    orderBy?: DeploymentOrderByWithRelationInput | DeploymentOrderByWithRelationInput[]
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Deployments.
+     * Sets the position for searching for Projects.
      */
-    cursor?: DeploymentWhereUniqueInput
+    cursor?: ProjectWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Deployments from the position of the cursor.
+     * Take `±n` Projects from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Deployments.
+     * Skip the first `n` Projects.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Deployments.
+     * Filter by unique combinations of Projects.
      */
-    distinct?: DeploymentScalarFieldEnum | DeploymentScalarFieldEnum[]
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
   }
 
   /**
-   * Deployment findFirstOrThrow
+   * Project findFirstOrThrow
    */
-  export type DeploymentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
     /**
-     * Filter, which Deployment to fetch.
+     * Filter, which Project to fetch.
      */
-    where?: DeploymentWhereInput
+    where?: ProjectWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Deployments to fetch.
+     * Determine the order of Projects to fetch.
      */
-    orderBy?: DeploymentOrderByWithRelationInput | DeploymentOrderByWithRelationInput[]
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Deployments.
+     * Sets the position for searching for Projects.
      */
-    cursor?: DeploymentWhereUniqueInput
+    cursor?: ProjectWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Deployments from the position of the cursor.
+     * Take `±n` Projects from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Deployments.
+     * Skip the first `n` Projects.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Deployments.
+     * Filter by unique combinations of Projects.
      */
-    distinct?: DeploymentScalarFieldEnum | DeploymentScalarFieldEnum[]
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
   }
 
   /**
-   * Deployment findMany
+   * Project findMany
    */
-  export type DeploymentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
     /**
-     * Filter, which Deployments to fetch.
+     * Filter, which Projects to fetch.
      */
-    where?: DeploymentWhereInput
+    where?: ProjectWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Deployments to fetch.
+     * Determine the order of Projects to fetch.
      */
-    orderBy?: DeploymentOrderByWithRelationInput | DeploymentOrderByWithRelationInput[]
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Deployments.
+     * Sets the position for listing Projects.
      */
-    cursor?: DeploymentWhereUniqueInput
+    cursor?: ProjectWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Deployments from the position of the cursor.
+     * Take `±n` Projects from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Deployments.
+     * Skip the first `n` Projects.
      */
     skip?: number
-    distinct?: DeploymentScalarFieldEnum | DeploymentScalarFieldEnum[]
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
   }
 
   /**
-   * Deployment create
+   * Project create
    */
-  export type DeploymentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
     /**
-     * The data needed to create a Deployment.
+     * The data needed to create a Project.
      */
-    data: XOR<DeploymentCreateInput, DeploymentUncheckedCreateInput>
+    data: XOR<ProjectCreateInput, ProjectUncheckedCreateInput>
   }
 
   /**
-   * Deployment createMany
+   * Project createMany
    */
-  export type DeploymentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Deployments.
+     * The data used to create many Projects.
      */
-    data: DeploymentCreateManyInput | DeploymentCreateManyInput[]
+    data: ProjectCreateManyInput | ProjectCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Deployment createManyAndReturn
+   * Project createManyAndReturn
    */
-  export type DeploymentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelectCreateManyAndReturn<ExtArgs> | null
+    select?: ProjectSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
-     * The data used to create many Deployments.
+     * The data used to create many Projects.
      */
-    data: DeploymentCreateManyInput | DeploymentCreateManyInput[]
+    data: ProjectCreateManyInput | ProjectCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: ProjectIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Deployment update
+   * Project update
    */
-  export type DeploymentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
     /**
-     * The data needed to update a Deployment.
+     * The data needed to update a Project.
      */
-    data: XOR<DeploymentUpdateInput, DeploymentUncheckedUpdateInput>
+    data: XOR<ProjectUpdateInput, ProjectUncheckedUpdateInput>
     /**
-     * Choose, which Deployment to update.
+     * Choose, which Project to update.
      */
-    where: DeploymentWhereUniqueInput
+    where: ProjectWhereUniqueInput
   }
 
   /**
-   * Deployment updateMany
+   * Project updateMany
    */
-  export type DeploymentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Deployments.
+     * The data used to update Projects.
      */
-    data: XOR<DeploymentUpdateManyMutationInput, DeploymentUncheckedUpdateManyInput>
+    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyInput>
     /**
-     * Filter which Deployments to update
+     * Filter which Projects to update
      */
-    where?: DeploymentWhereInput
+    where?: ProjectWhereInput
     /**
-     * Limit how many Deployments to update.
+     * Limit how many Projects to update.
      */
     limit?: number
   }
 
   /**
-   * Deployment updateManyAndReturn
+   * Project updateManyAndReturn
    */
-  export type DeploymentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: ProjectSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
-     * The data used to update Deployments.
+     * The data used to update Projects.
      */
-    data: XOR<DeploymentUpdateManyMutationInput, DeploymentUncheckedUpdateManyInput>
+    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyInput>
     /**
-     * Filter which Deployments to update
+     * Filter which Projects to update
      */
-    where?: DeploymentWhereInput
+    where?: ProjectWhereInput
     /**
-     * Limit how many Deployments to update.
+     * Limit how many Projects to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: ProjectIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Deployment upsert
+   * Project upsert
    */
-  export type DeploymentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
     /**
-     * The filter to search for the Deployment to update in case it exists.
+     * The filter to search for the Project to update in case it exists.
      */
-    where: DeploymentWhereUniqueInput
+    where: ProjectWhereUniqueInput
     /**
-     * In case the Deployment found by the `where` argument doesn't exist, create a new Deployment with this data.
+     * In case the Project found by the `where` argument doesn't exist, create a new Project with this data.
      */
-    create: XOR<DeploymentCreateInput, DeploymentUncheckedCreateInput>
+    create: XOR<ProjectCreateInput, ProjectUncheckedCreateInput>
     /**
-     * In case the Deployment was found with the provided `where` argument, update it with this data.
+     * In case the Project was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<DeploymentUpdateInput, DeploymentUncheckedUpdateInput>
+    update: XOR<ProjectUpdateInput, ProjectUncheckedUpdateInput>
   }
 
   /**
-   * Deployment delete
+   * Project delete
    */
-  export type DeploymentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
     /**
-     * Filter which Deployment to delete.
+     * Filter which Project to delete.
      */
-    where: DeploymentWhereUniqueInput
+    where: ProjectWhereUniqueInput
   }
 
   /**
-   * Deployment deleteMany
+   * Project deleteMany
    */
-  export type DeploymentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Deployments to delete
+     * Filter which Projects to delete
      */
-    where?: DeploymentWhereInput
+    where?: ProjectWhereInput
     /**
-     * Limit how many Deployments to delete.
+     * Limit how many Projects to delete.
      */
     limit?: number
   }
 
   /**
-   * Deployment without action
+   * Project without action
    */
-  export type DeploymentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Deployment
+     * Select specific fields to fetch from the Project
      */
-    select?: DeploymentSelect<ExtArgs> | null
+    select?: ProjectSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Deployment
+     * Omit specific fields from the Project
      */
-    omit?: DeploymentOmit<ExtArgs> | null
+    omit?: ProjectOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DeploymentInclude<ExtArgs> | null
+    include?: ProjectInclude<ExtArgs> | null
   }
 
 
@@ -5623,7 +5623,7 @@ export namespace Prisma {
   export type YamScalarFieldEnum = (typeof YamScalarFieldEnum)[keyof typeof YamScalarFieldEnum]
 
 
-  export const DeploymentScalarFieldEnum: {
+  export const ProjectScalarFieldEnum: {
     id: 'id',
     name: 'name',
     type: 'type',
@@ -5635,7 +5635,7 @@ export namespace Prisma {
     createdAt: 'createdAt'
   };
 
-  export type DeploymentScalarFieldEnum = (typeof DeploymentScalarFieldEnum)[keyof typeof DeploymentScalarFieldEnum]
+  export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5821,7 +5821,7 @@ export namespace Prisma {
     workspaceId?: StringFilter<"Yam"> | string
     kubeConfig?: StringFilter<"Yam"> | string
     createdAt?: DateTimeFilter<"Yam"> | Date | string
-    deployments?: DeploymentListRelationFilter
+    projects?: ProjectListRelationFilter
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
   }
 
@@ -5833,7 +5833,7 @@ export namespace Prisma {
     workspaceId?: SortOrder
     kubeConfig?: SortOrder
     createdAt?: SortOrder
-    deployments?: DeploymentOrderByRelationAggregateInput
+    projects?: ProjectOrderByRelationAggregateInput
     workspace?: WorkspaceOrderByWithRelationInput
   }
 
@@ -5849,7 +5849,7 @@ export namespace Prisma {
     workspaceId?: StringFilter<"Yam"> | string
     kubeConfig?: StringFilter<"Yam"> | string
     createdAt?: DateTimeFilter<"Yam"> | Date | string
-    deployments?: DeploymentListRelationFilter
+    projects?: ProjectListRelationFilter
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
   }, "id" | "name_workspaceId">
 
@@ -5879,23 +5879,23 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Yam"> | Date | string
   }
 
-  export type DeploymentWhereInput = {
-    AND?: DeploymentWhereInput | DeploymentWhereInput[]
-    OR?: DeploymentWhereInput[]
-    NOT?: DeploymentWhereInput | DeploymentWhereInput[]
-    id?: StringFilter<"Deployment"> | string
-    name?: StringFilter<"Deployment"> | string
-    type?: StringFilter<"Deployment"> | string
-    namespace?: StringFilter<"Deployment"> | string
-    chart?: StringFilter<"Deployment"> | string
-    valuesYaml?: StringFilter<"Deployment"> | string
-    workspaceId?: StringFilter<"Deployment"> | string
-    yamId?: StringFilter<"Deployment"> | string
-    createdAt?: DateTimeFilter<"Deployment"> | Date | string
+  export type ProjectWhereInput = {
+    AND?: ProjectWhereInput | ProjectWhereInput[]
+    OR?: ProjectWhereInput[]
+    NOT?: ProjectWhereInput | ProjectWhereInput[]
+    id?: StringFilter<"Project"> | string
+    name?: StringFilter<"Project"> | string
+    type?: StringFilter<"Project"> | string
+    namespace?: StringFilter<"Project"> | string
+    chart?: StringFilter<"Project"> | string
+    valuesYaml?: StringFilter<"Project"> | string
+    workspaceId?: StringFilter<"Project"> | string
+    yamId?: StringFilter<"Project"> | string
+    createdAt?: DateTimeFilter<"Project"> | Date | string
     yam?: XOR<YamScalarRelationFilter, YamWhereInput>
   }
 
-  export type DeploymentOrderByWithRelationInput = {
+  export type ProjectOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     type?: SortOrder
@@ -5908,23 +5908,23 @@ export namespace Prisma {
     yam?: YamOrderByWithRelationInput
   }
 
-  export type DeploymentWhereUniqueInput = Prisma.AtLeast<{
+  export type ProjectWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: DeploymentWhereInput | DeploymentWhereInput[]
-    OR?: DeploymentWhereInput[]
-    NOT?: DeploymentWhereInput | DeploymentWhereInput[]
-    name?: StringFilter<"Deployment"> | string
-    type?: StringFilter<"Deployment"> | string
-    namespace?: StringFilter<"Deployment"> | string
-    chart?: StringFilter<"Deployment"> | string
-    valuesYaml?: StringFilter<"Deployment"> | string
-    workspaceId?: StringFilter<"Deployment"> | string
-    yamId?: StringFilter<"Deployment"> | string
-    createdAt?: DateTimeFilter<"Deployment"> | Date | string
+    AND?: ProjectWhereInput | ProjectWhereInput[]
+    OR?: ProjectWhereInput[]
+    NOT?: ProjectWhereInput | ProjectWhereInput[]
+    name?: StringFilter<"Project"> | string
+    type?: StringFilter<"Project"> | string
+    namespace?: StringFilter<"Project"> | string
+    chart?: StringFilter<"Project"> | string
+    valuesYaml?: StringFilter<"Project"> | string
+    workspaceId?: StringFilter<"Project"> | string
+    yamId?: StringFilter<"Project"> | string
+    createdAt?: DateTimeFilter<"Project"> | Date | string
     yam?: XOR<YamScalarRelationFilter, YamWhereInput>
   }, "id">
 
-  export type DeploymentOrderByWithAggregationInput = {
+  export type ProjectOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     type?: SortOrder
@@ -5934,24 +5934,24 @@ export namespace Prisma {
     workspaceId?: SortOrder
     yamId?: SortOrder
     createdAt?: SortOrder
-    _count?: DeploymentCountOrderByAggregateInput
-    _max?: DeploymentMaxOrderByAggregateInput
-    _min?: DeploymentMinOrderByAggregateInput
+    _count?: ProjectCountOrderByAggregateInput
+    _max?: ProjectMaxOrderByAggregateInput
+    _min?: ProjectMinOrderByAggregateInput
   }
 
-  export type DeploymentScalarWhereWithAggregatesInput = {
-    AND?: DeploymentScalarWhereWithAggregatesInput | DeploymentScalarWhereWithAggregatesInput[]
-    OR?: DeploymentScalarWhereWithAggregatesInput[]
-    NOT?: DeploymentScalarWhereWithAggregatesInput | DeploymentScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Deployment"> | string
-    name?: StringWithAggregatesFilter<"Deployment"> | string
-    type?: StringWithAggregatesFilter<"Deployment"> | string
-    namespace?: StringWithAggregatesFilter<"Deployment"> | string
-    chart?: StringWithAggregatesFilter<"Deployment"> | string
-    valuesYaml?: StringWithAggregatesFilter<"Deployment"> | string
-    workspaceId?: StringWithAggregatesFilter<"Deployment"> | string
-    yamId?: StringWithAggregatesFilter<"Deployment"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Deployment"> | Date | string
+  export type ProjectScalarWhereWithAggregatesInput = {
+    AND?: ProjectScalarWhereWithAggregatesInput | ProjectScalarWhereWithAggregatesInput[]
+    OR?: ProjectScalarWhereWithAggregatesInput[]
+    NOT?: ProjectScalarWhereWithAggregatesInput | ProjectScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Project"> | string
+    name?: StringWithAggregatesFilter<"Project"> | string
+    type?: StringWithAggregatesFilter<"Project"> | string
+    namespace?: StringWithAggregatesFilter<"Project"> | string
+    chart?: StringWithAggregatesFilter<"Project"> | string
+    valuesYaml?: StringWithAggregatesFilter<"Project"> | string
+    workspaceId?: StringWithAggregatesFilter<"Project"> | string
+    yamId?: StringWithAggregatesFilter<"Project"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -6059,7 +6059,7 @@ export namespace Prisma {
     domain: string
     kubeConfig: string
     createdAt?: Date | string
-    deployments?: DeploymentCreateNestedManyWithoutYamInput
+    projects?: ProjectCreateNestedManyWithoutYamInput
     workspace: WorkspaceCreateNestedOneWithoutYamsInput
   }
 
@@ -6071,7 +6071,7 @@ export namespace Prisma {
     workspaceId: string
     kubeConfig: string
     createdAt?: Date | string
-    deployments?: DeploymentUncheckedCreateNestedManyWithoutYamInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutYamInput
   }
 
   export type YamUpdateInput = {
@@ -6081,7 +6081,7 @@ export namespace Prisma {
     domain?: StringFieldUpdateOperationsInput | string
     kubeConfig?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deployments?: DeploymentUpdateManyWithoutYamNestedInput
+    projects?: ProjectUpdateManyWithoutYamNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutYamsNestedInput
   }
 
@@ -6093,7 +6093,7 @@ export namespace Prisma {
     workspaceId?: StringFieldUpdateOperationsInput | string
     kubeConfig?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deployments?: DeploymentUncheckedUpdateManyWithoutYamNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutYamNestedInput
   }
 
   export type YamCreateManyInput = {
@@ -6125,7 +6125,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DeploymentCreateInput = {
+  export type ProjectCreateInput = {
     id?: string
     name: string
     type: string
@@ -6134,10 +6134,10 @@ export namespace Prisma {
     valuesYaml: string
     workspaceId: string
     createdAt?: Date | string
-    yam: YamCreateNestedOneWithoutDeploymentsInput
+    yam: YamCreateNestedOneWithoutProjectsInput
   }
 
-  export type DeploymentUncheckedCreateInput = {
+  export type ProjectUncheckedCreateInput = {
     id?: string
     name: string
     type: string
@@ -6149,7 +6149,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type DeploymentUpdateInput = {
+  export type ProjectUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -6158,10 +6158,10 @@ export namespace Prisma {
     valuesYaml?: StringFieldUpdateOperationsInput | string
     workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    yam?: YamUpdateOneRequiredWithoutDeploymentsNestedInput
+    yam?: YamUpdateOneRequiredWithoutProjectsNestedInput
   }
 
-  export type DeploymentUncheckedUpdateInput = {
+  export type ProjectUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -6173,7 +6173,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DeploymentCreateManyInput = {
+  export type ProjectCreateManyInput = {
     id?: string
     name: string
     type: string
@@ -6185,7 +6185,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type DeploymentUpdateManyMutationInput = {
+  export type ProjectUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -6196,7 +6196,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DeploymentUncheckedUpdateManyInput = {
+  export type ProjectUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -6368,10 +6368,10 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type DeploymentListRelationFilter = {
-    every?: DeploymentWhereInput
-    some?: DeploymentWhereInput
-    none?: DeploymentWhereInput
+  export type ProjectListRelationFilter = {
+    every?: ProjectWhereInput
+    some?: ProjectWhereInput
+    none?: ProjectWhereInput
   }
 
   export type WorkspaceScalarRelationFilter = {
@@ -6379,7 +6379,7 @@ export namespace Prisma {
     isNot?: WorkspaceWhereInput
   }
 
-  export type DeploymentOrderByRelationAggregateInput = {
+  export type ProjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -6423,7 +6423,7 @@ export namespace Prisma {
     isNot?: YamWhereInput
   }
 
-  export type DeploymentCountOrderByAggregateInput = {
+  export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     type?: SortOrder
@@ -6435,7 +6435,7 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type DeploymentMaxOrderByAggregateInput = {
+  export type ProjectMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     type?: SortOrder
@@ -6447,7 +6447,7 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type DeploymentMinOrderByAggregateInput = {
+  export type ProjectMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     type?: SortOrder
@@ -6569,11 +6569,11 @@ export namespace Prisma {
     deleteMany?: YamScalarWhereInput | YamScalarWhereInput[]
   }
 
-  export type DeploymentCreateNestedManyWithoutYamInput = {
-    create?: XOR<DeploymentCreateWithoutYamInput, DeploymentUncheckedCreateWithoutYamInput> | DeploymentCreateWithoutYamInput[] | DeploymentUncheckedCreateWithoutYamInput[]
-    connectOrCreate?: DeploymentCreateOrConnectWithoutYamInput | DeploymentCreateOrConnectWithoutYamInput[]
-    createMany?: DeploymentCreateManyYamInputEnvelope
-    connect?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
+  export type ProjectCreateNestedManyWithoutYamInput = {
+    create?: XOR<ProjectCreateWithoutYamInput, ProjectUncheckedCreateWithoutYamInput> | ProjectCreateWithoutYamInput[] | ProjectUncheckedCreateWithoutYamInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutYamInput | ProjectCreateOrConnectWithoutYamInput[]
+    createMany?: ProjectCreateManyYamInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
   }
 
   export type WorkspaceCreateNestedOneWithoutYamsInput = {
@@ -6582,25 +6582,25 @@ export namespace Prisma {
     connect?: WorkspaceWhereUniqueInput
   }
 
-  export type DeploymentUncheckedCreateNestedManyWithoutYamInput = {
-    create?: XOR<DeploymentCreateWithoutYamInput, DeploymentUncheckedCreateWithoutYamInput> | DeploymentCreateWithoutYamInput[] | DeploymentUncheckedCreateWithoutYamInput[]
-    connectOrCreate?: DeploymentCreateOrConnectWithoutYamInput | DeploymentCreateOrConnectWithoutYamInput[]
-    createMany?: DeploymentCreateManyYamInputEnvelope
-    connect?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
+  export type ProjectUncheckedCreateNestedManyWithoutYamInput = {
+    create?: XOR<ProjectCreateWithoutYamInput, ProjectUncheckedCreateWithoutYamInput> | ProjectCreateWithoutYamInput[] | ProjectUncheckedCreateWithoutYamInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutYamInput | ProjectCreateOrConnectWithoutYamInput[]
+    createMany?: ProjectCreateManyYamInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
   }
 
-  export type DeploymentUpdateManyWithoutYamNestedInput = {
-    create?: XOR<DeploymentCreateWithoutYamInput, DeploymentUncheckedCreateWithoutYamInput> | DeploymentCreateWithoutYamInput[] | DeploymentUncheckedCreateWithoutYamInput[]
-    connectOrCreate?: DeploymentCreateOrConnectWithoutYamInput | DeploymentCreateOrConnectWithoutYamInput[]
-    upsert?: DeploymentUpsertWithWhereUniqueWithoutYamInput | DeploymentUpsertWithWhereUniqueWithoutYamInput[]
-    createMany?: DeploymentCreateManyYamInputEnvelope
-    set?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
-    disconnect?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
-    delete?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
-    connect?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
-    update?: DeploymentUpdateWithWhereUniqueWithoutYamInput | DeploymentUpdateWithWhereUniqueWithoutYamInput[]
-    updateMany?: DeploymentUpdateManyWithWhereWithoutYamInput | DeploymentUpdateManyWithWhereWithoutYamInput[]
-    deleteMany?: DeploymentScalarWhereInput | DeploymentScalarWhereInput[]
+  export type ProjectUpdateManyWithoutYamNestedInput = {
+    create?: XOR<ProjectCreateWithoutYamInput, ProjectUncheckedCreateWithoutYamInput> | ProjectCreateWithoutYamInput[] | ProjectUncheckedCreateWithoutYamInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutYamInput | ProjectCreateOrConnectWithoutYamInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutYamInput | ProjectUpsertWithWhereUniqueWithoutYamInput[]
+    createMany?: ProjectCreateManyYamInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutYamInput | ProjectUpdateWithWhereUniqueWithoutYamInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutYamInput | ProjectUpdateManyWithWhereWithoutYamInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
   export type WorkspaceUpdateOneRequiredWithoutYamsNestedInput = {
@@ -6611,32 +6611,32 @@ export namespace Prisma {
     update?: XOR<XOR<WorkspaceUpdateToOneWithWhereWithoutYamsInput, WorkspaceUpdateWithoutYamsInput>, WorkspaceUncheckedUpdateWithoutYamsInput>
   }
 
-  export type DeploymentUncheckedUpdateManyWithoutYamNestedInput = {
-    create?: XOR<DeploymentCreateWithoutYamInput, DeploymentUncheckedCreateWithoutYamInput> | DeploymentCreateWithoutYamInput[] | DeploymentUncheckedCreateWithoutYamInput[]
-    connectOrCreate?: DeploymentCreateOrConnectWithoutYamInput | DeploymentCreateOrConnectWithoutYamInput[]
-    upsert?: DeploymentUpsertWithWhereUniqueWithoutYamInput | DeploymentUpsertWithWhereUniqueWithoutYamInput[]
-    createMany?: DeploymentCreateManyYamInputEnvelope
-    set?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
-    disconnect?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
-    delete?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
-    connect?: DeploymentWhereUniqueInput | DeploymentWhereUniqueInput[]
-    update?: DeploymentUpdateWithWhereUniqueWithoutYamInput | DeploymentUpdateWithWhereUniqueWithoutYamInput[]
-    updateMany?: DeploymentUpdateManyWithWhereWithoutYamInput | DeploymentUpdateManyWithWhereWithoutYamInput[]
-    deleteMany?: DeploymentScalarWhereInput | DeploymentScalarWhereInput[]
+  export type ProjectUncheckedUpdateManyWithoutYamNestedInput = {
+    create?: XOR<ProjectCreateWithoutYamInput, ProjectUncheckedCreateWithoutYamInput> | ProjectCreateWithoutYamInput[] | ProjectUncheckedCreateWithoutYamInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutYamInput | ProjectCreateOrConnectWithoutYamInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutYamInput | ProjectUpsertWithWhereUniqueWithoutYamInput[]
+    createMany?: ProjectCreateManyYamInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutYamInput | ProjectUpdateWithWhereUniqueWithoutYamInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutYamInput | ProjectUpdateManyWithWhereWithoutYamInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
-  export type YamCreateNestedOneWithoutDeploymentsInput = {
-    create?: XOR<YamCreateWithoutDeploymentsInput, YamUncheckedCreateWithoutDeploymentsInput>
-    connectOrCreate?: YamCreateOrConnectWithoutDeploymentsInput
+  export type YamCreateNestedOneWithoutProjectsInput = {
+    create?: XOR<YamCreateWithoutProjectsInput, YamUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: YamCreateOrConnectWithoutProjectsInput
     connect?: YamWhereUniqueInput
   }
 
-  export type YamUpdateOneRequiredWithoutDeploymentsNestedInput = {
-    create?: XOR<YamCreateWithoutDeploymentsInput, YamUncheckedCreateWithoutDeploymentsInput>
-    connectOrCreate?: YamCreateOrConnectWithoutDeploymentsInput
-    upsert?: YamUpsertWithoutDeploymentsInput
+  export type YamUpdateOneRequiredWithoutProjectsNestedInput = {
+    create?: XOR<YamCreateWithoutProjectsInput, YamUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: YamCreateOrConnectWithoutProjectsInput
+    upsert?: YamUpsertWithoutProjectsInput
     connect?: YamWhereUniqueInput
-    update?: XOR<XOR<YamUpdateToOneWithWhereWithoutDeploymentsInput, YamUpdateWithoutDeploymentsInput>, YamUncheckedUpdateWithoutDeploymentsInput>
+    update?: XOR<XOR<YamUpdateToOneWithWhereWithoutProjectsInput, YamUpdateWithoutProjectsInput>, YamUncheckedUpdateWithoutProjectsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -6823,7 +6823,7 @@ export namespace Prisma {
     domain: string
     kubeConfig: string
     createdAt?: Date | string
-    deployments?: DeploymentCreateNestedManyWithoutYamInput
+    projects?: ProjectCreateNestedManyWithoutYamInput
   }
 
   export type YamUncheckedCreateWithoutWorkspaceInput = {
@@ -6833,7 +6833,7 @@ export namespace Prisma {
     domain: string
     kubeConfig: string
     createdAt?: Date | string
-    deployments?: DeploymentUncheckedCreateNestedManyWithoutYamInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutYamInput
   }
 
   export type YamCreateOrConnectWithoutWorkspaceInput = {
@@ -6896,7 +6896,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Yam"> | Date | string
   }
 
-  export type DeploymentCreateWithoutYamInput = {
+  export type ProjectCreateWithoutYamInput = {
     id?: string
     name: string
     type: string
@@ -6907,7 +6907,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type DeploymentUncheckedCreateWithoutYamInput = {
+  export type ProjectUncheckedCreateWithoutYamInput = {
     id?: string
     name: string
     type: string
@@ -6918,13 +6918,13 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type DeploymentCreateOrConnectWithoutYamInput = {
-    where: DeploymentWhereUniqueInput
-    create: XOR<DeploymentCreateWithoutYamInput, DeploymentUncheckedCreateWithoutYamInput>
+  export type ProjectCreateOrConnectWithoutYamInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutYamInput, ProjectUncheckedCreateWithoutYamInput>
   }
 
-  export type DeploymentCreateManyYamInputEnvelope = {
-    data: DeploymentCreateManyYamInput | DeploymentCreateManyYamInput[]
+  export type ProjectCreateManyYamInputEnvelope = {
+    data: ProjectCreateManyYamInput | ProjectCreateManyYamInput[]
     skipDuplicates?: boolean
   }
 
@@ -6949,35 +6949,35 @@ export namespace Prisma {
     create: XOR<WorkspaceCreateWithoutYamsInput, WorkspaceUncheckedCreateWithoutYamsInput>
   }
 
-  export type DeploymentUpsertWithWhereUniqueWithoutYamInput = {
-    where: DeploymentWhereUniqueInput
-    update: XOR<DeploymentUpdateWithoutYamInput, DeploymentUncheckedUpdateWithoutYamInput>
-    create: XOR<DeploymentCreateWithoutYamInput, DeploymentUncheckedCreateWithoutYamInput>
+  export type ProjectUpsertWithWhereUniqueWithoutYamInput = {
+    where: ProjectWhereUniqueInput
+    update: XOR<ProjectUpdateWithoutYamInput, ProjectUncheckedUpdateWithoutYamInput>
+    create: XOR<ProjectCreateWithoutYamInput, ProjectUncheckedCreateWithoutYamInput>
   }
 
-  export type DeploymentUpdateWithWhereUniqueWithoutYamInput = {
-    where: DeploymentWhereUniqueInput
-    data: XOR<DeploymentUpdateWithoutYamInput, DeploymentUncheckedUpdateWithoutYamInput>
+  export type ProjectUpdateWithWhereUniqueWithoutYamInput = {
+    where: ProjectWhereUniqueInput
+    data: XOR<ProjectUpdateWithoutYamInput, ProjectUncheckedUpdateWithoutYamInput>
   }
 
-  export type DeploymentUpdateManyWithWhereWithoutYamInput = {
-    where: DeploymentScalarWhereInput
-    data: XOR<DeploymentUpdateManyMutationInput, DeploymentUncheckedUpdateManyWithoutYamInput>
+  export type ProjectUpdateManyWithWhereWithoutYamInput = {
+    where: ProjectScalarWhereInput
+    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutYamInput>
   }
 
-  export type DeploymentScalarWhereInput = {
-    AND?: DeploymentScalarWhereInput | DeploymentScalarWhereInput[]
-    OR?: DeploymentScalarWhereInput[]
-    NOT?: DeploymentScalarWhereInput | DeploymentScalarWhereInput[]
-    id?: StringFilter<"Deployment"> | string
-    name?: StringFilter<"Deployment"> | string
-    type?: StringFilter<"Deployment"> | string
-    namespace?: StringFilter<"Deployment"> | string
-    chart?: StringFilter<"Deployment"> | string
-    valuesYaml?: StringFilter<"Deployment"> | string
-    workspaceId?: StringFilter<"Deployment"> | string
-    yamId?: StringFilter<"Deployment"> | string
-    createdAt?: DateTimeFilter<"Deployment"> | Date | string
+  export type ProjectScalarWhereInput = {
+    AND?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+    OR?: ProjectScalarWhereInput[]
+    NOT?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+    id?: StringFilter<"Project"> | string
+    name?: StringFilter<"Project"> | string
+    type?: StringFilter<"Project"> | string
+    namespace?: StringFilter<"Project"> | string
+    chart?: StringFilter<"Project"> | string
+    valuesYaml?: StringFilter<"Project"> | string
+    workspaceId?: StringFilter<"Project"> | string
+    yamId?: StringFilter<"Project"> | string
+    createdAt?: DateTimeFilter<"Project"> | Date | string
   }
 
   export type WorkspaceUpsertWithoutYamsInput = {
@@ -7007,7 +7007,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type YamCreateWithoutDeploymentsInput = {
+  export type YamCreateWithoutProjectsInput = {
     id?: string
     name: string
     namespace: string
@@ -7017,7 +7017,7 @@ export namespace Prisma {
     workspace: WorkspaceCreateNestedOneWithoutYamsInput
   }
 
-  export type YamUncheckedCreateWithoutDeploymentsInput = {
+  export type YamUncheckedCreateWithoutProjectsInput = {
     id?: string
     name: string
     namespace: string
@@ -7027,23 +7027,23 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type YamCreateOrConnectWithoutDeploymentsInput = {
+  export type YamCreateOrConnectWithoutProjectsInput = {
     where: YamWhereUniqueInput
-    create: XOR<YamCreateWithoutDeploymentsInput, YamUncheckedCreateWithoutDeploymentsInput>
+    create: XOR<YamCreateWithoutProjectsInput, YamUncheckedCreateWithoutProjectsInput>
   }
 
-  export type YamUpsertWithoutDeploymentsInput = {
-    update: XOR<YamUpdateWithoutDeploymentsInput, YamUncheckedUpdateWithoutDeploymentsInput>
-    create: XOR<YamCreateWithoutDeploymentsInput, YamUncheckedCreateWithoutDeploymentsInput>
+  export type YamUpsertWithoutProjectsInput = {
+    update: XOR<YamUpdateWithoutProjectsInput, YamUncheckedUpdateWithoutProjectsInput>
+    create: XOR<YamCreateWithoutProjectsInput, YamUncheckedCreateWithoutProjectsInput>
     where?: YamWhereInput
   }
 
-  export type YamUpdateToOneWithWhereWithoutDeploymentsInput = {
+  export type YamUpdateToOneWithWhereWithoutProjectsInput = {
     where?: YamWhereInput
-    data: XOR<YamUpdateWithoutDeploymentsInput, YamUncheckedUpdateWithoutDeploymentsInput>
+    data: XOR<YamUpdateWithoutProjectsInput, YamUncheckedUpdateWithoutProjectsInput>
   }
 
-  export type YamUpdateWithoutDeploymentsInput = {
+  export type YamUpdateWithoutProjectsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     namespace?: StringFieldUpdateOperationsInput | string
@@ -7053,7 +7053,7 @@ export namespace Prisma {
     workspace?: WorkspaceUpdateOneRequiredWithoutYamsNestedInput
   }
 
-  export type YamUncheckedUpdateWithoutDeploymentsInput = {
+  export type YamUncheckedUpdateWithoutProjectsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     namespace?: StringFieldUpdateOperationsInput | string
@@ -7109,7 +7109,7 @@ export namespace Prisma {
     domain?: StringFieldUpdateOperationsInput | string
     kubeConfig?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deployments?: DeploymentUpdateManyWithoutYamNestedInput
+    projects?: ProjectUpdateManyWithoutYamNestedInput
   }
 
   export type YamUncheckedUpdateWithoutWorkspaceInput = {
@@ -7119,7 +7119,7 @@ export namespace Prisma {
     domain?: StringFieldUpdateOperationsInput | string
     kubeConfig?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deployments?: DeploymentUncheckedUpdateManyWithoutYamNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutYamNestedInput
   }
 
   export type YamUncheckedUpdateManyWithoutWorkspaceInput = {
@@ -7131,7 +7131,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DeploymentCreateManyYamInput = {
+  export type ProjectCreateManyYamInput = {
     id?: string
     name: string
     type: string
@@ -7142,7 +7142,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type DeploymentUpdateWithoutYamInput = {
+  export type ProjectUpdateWithoutYamInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -7153,7 +7153,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DeploymentUncheckedUpdateWithoutYamInput = {
+  export type ProjectUncheckedUpdateWithoutYamInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -7164,7 +7164,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DeploymentUncheckedUpdateManyWithoutYamInput = {
+  export type ProjectUncheckedUpdateManyWithoutYamInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string

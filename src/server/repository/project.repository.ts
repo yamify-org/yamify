@@ -1,11 +1,11 @@
 import prisma from "@/libs/prsima";
 
-export const deploymentRepository = {
+export const projectRepository = {
   listByWorkspace: (workspaceId: string) =>
-    prisma.deployment.findMany({ where: { workspaceId } }),
+    prisma.project.findMany({ where: { workspaceId } }),
 
   listByYam: (yamId: string) =>
-    prisma.deployment.findMany({ where: { yamId } }),
+    prisma.project.findMany({ where: { yamId } }),
 
   create: (data: {
     name: string;
@@ -16,8 +16,8 @@ export const deploymentRepository = {
     workspaceId: string;
     yamId?: string;
   }) =>
-    prisma.deployment.create({ data }),
+    prisma.project.create({ data }),
 
   delete: (id: string) =>
-    prisma.deployment.delete({ where: { id } }),
+    prisma.project.delete({ where: { id } }),
 };

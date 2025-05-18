@@ -40,13 +40,13 @@ model Yam {
   kubeConfig  String
   createdAt   DateTime @default(now())
 
-  deployments Deployment[]
-  workspace   Workspace    @relation(fields: [workspaceId], references: [id])
+  projects  Project[]
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
 
   @@unique([name, workspaceId])
 }
 
-model Deployment {
+model Project {
   id          String   @id @default(cuid())
   name        String
   type        String
