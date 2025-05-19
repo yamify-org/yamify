@@ -5,6 +5,7 @@ import AuthHeader from "../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
 import { countries } from "@/utils/data";
+import { authClient } from "@/libs/auth-client";
 
 export default function SignUp() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,10 +44,11 @@ export default function SignUp() {
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleGitHubLogin = () => {
-    const githubAuthUrl =
-      "https://yamify-backend.onrender.com/api/v1/auth/github";
-    window.location.href = githubAuthUrl;
+  const handleGitHubLogin = async () => {
+    console.log("github login")
+    const data = await authClient.signIn.social({
+        provider: "github"
+    })
   };
 
   return (
