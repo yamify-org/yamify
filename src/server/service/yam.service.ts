@@ -5,13 +5,15 @@ export const yamService = {
   list: (workspaceId: string) => yamRepository.listByWorkspace(workspaceId),
 
   createAndStoreVCluster: async (clusterName: string, namespace: string, workspaceId: string) => {
-    await kube.createVCluster(clusterName, namespace);
+    const response = await kube.createVCluster(clusterName, namespace);
     const kubeconfig = await kube.retrieveKubeconfig(clusterName, namespace);
 
+    console.log({response})
+    console.log({kubeconfig})
     await yamRepository.create({
         name: clusterName,
         namespace,
-        kubeconfig,
+        kubeConfig: kubeconfig,
         workspaceId,
     });
   },

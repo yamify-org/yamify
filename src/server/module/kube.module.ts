@@ -1,65 +1,27 @@
+import { promises as fs } from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
 import { execa } from 'execa';
 import * as k8s from '@kubernetes/client-node';
 
 const kc = new k8s.KubeConfig();
-kc.loadFromFile(process.env.KUBECONFIG_PATH || '');
+// kc.loadFromFile(process.env.KUBECONFIG_PATH || '');
+kc.loadFromDefault();
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
 const networkingV1Api = kc.makeApiClient(k8s.NetworkingV1Api);
 
 export const kube = {
   createNamespace: async (name: string) => {
-    await k8sApi.createNamespace({ body: { metadata: { name } } });
+    const namespace = await k8sApi.createNamespace({ body: { metadata: { name } } });
     // create an ingress for the namespace
-    await networkingV1Api.createNamespacedIngress({
-      namespace: name,
-      body: {
-        metadata: {
-          name: 'ingress',
-          annotations: {
-            'kubernetes.io/ingress.class': 'nginx',
-            'nginx.ingress.kubernetes.io/backend-protocol': 'HTTPS',
-            'nginx.ingress.kubernetes.io/ssl-passthrough': 'true',
-            'nginx.ingress.kubernetes.io/ssl-redirect': 'true',
-            'external-dns.alpha.kubernetes.io/hostname': `${name}.aiscaler.ai`,
-            'cert-manager.io/cluster-issuer': 'letsencrypt-prod',
-          },
-        },
-        spec: {
-          ingressClassName: 'nginx',
-          tls: [
-            {
-              hosts: [`${name}.aiscaler.ai`],
-              secretName: `${name}-tls-cert`,
-            },
-          ],
-          rules: [
-            {
-              host: `${name}.aiscaler.ai`,  // team-a.aiscaler.ai
-              http: {
-                paths: [
-                  {
-                    path: '/',
-                    pathType: 'ImplementationSpecific',
-                    backend: {
-                      service: {
-                        name: name,
-                        port: {
-                          number: 443,
-                        },
-                      },
-                    },
-                  },
-                ],
-              }
-            }
-          ]
-        }
-      }
-    });
+
+    return {
+      namespace,
+    };
   },  
 
   createNamespaceIngress: async (name: string) => {
-    await networkingV1Api.createNamespacedIngress({
+    const response = await networkingV1Api.createNamespacedIngress({
       namespace: name,
       body: {
         metadata: {
@@ -105,6 +67,8 @@ export const kube = {
         }
       }
     });
+
+    console.log({response})
   },
   deleteNamespace: async (name: string) => {
     await k8sApi.deleteNamespace({name});
@@ -127,7 +91,24 @@ sync:
       enabled: true
 `;
 
-    await execa('vcluster', ['create', name, '-n', namespace, '--connect=false', '-f', '-'], { input: values });
+    const tmpValuesPath = join(tmpdir(), `vcluster-values-${name}.yaml`);
+
+    await fs.writeFile(tmpValuesPath, values);
+
+    try {
+      // Create the vCluster
+      await execa('vcluster', [
+        'create',
+        name,
+        '-n',
+        namespace,
+        '--connect=false',
+        '-f',
+        tmpValuesPath,
+      ]);
+    } finally {
+      await fs.unlink(tmpValuesPath);
+    }
   },
   retrieveKubeconfig: async (clusterName: string, namespace: string): Promise<string> => {
     const { stdout } = await execa('vcluster', [
@@ -144,15 +125,125 @@ sync:
   deleteVCluster: async (name: string, namespace: string) => {
     await execa('vcluster', ['delete', name, '-n', namespace]);
   },
-  deployCodeServer: async (name: string, namespace: string) => {
-    const { stdout } = await execa('vcluster', ['connect', name, '-n', namespace, '--print', `--server=https://${name}.aiscaler.ai`]);
-    await execa('helm', ['repo', 'add', 'coder', 'https://helm.coder.com']);
-    await execa('helm', ['repo', 'update']);
-    await execa('helm', [
-      'install', name, 'coder/code-server',
-      '--kubeconfig', '/tmp/kubeconfig',
-      '--namespace', 'default',
-      '--set', 'service.type=ClusterIP'
-    ]);
+  waitForVCluster: async (kubeconfigPath: string, maxRetries = 10, delayMs = 5000) => {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      await execa('kubectl', ['--kubeconfig', kubeconfigPath, 'get', 'ns']);
+      console.log('✅ vCluster is ready');
+      return;
+    } catch (err) {
+      console.log(`⏳ Waiting for vCluster to be ready... (${attempt}/${maxRetries})`);
+      await new Promise((res) => setTimeout(res, delayMs));
+    }
   }
+
+  throw new Error('❌ Timed out waiting for vCluster to become ready.');
+},
+  deployCodeServer: async (
+  kubeconfig: string,
+  subdomain: string,
+  namespace: string
+): Promise<string> => {
+  const host = `${subdomain}.aiscaler.ai`;
+
+  const kubeconfigPath = join(tmpdir(), `kubeconfig-${subdomain}.yaml`);
+  const valuesPath = join(tmpdir(), `values-${subdomain}.yaml`);
+  await fs.writeFile(kubeconfigPath, kubeconfig);
+
+  const values = `
+image:
+  repository: ghcr.io/linuxserver/code-server
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+secret:
+  PASSWORD: "changeme"
+
+env:
+  TZ: "UTC"
+  PUID: "1000"
+  PGID: "1000"
+
+service:
+  port:
+    port: 8443
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    kubernetes.io/ingress.class: nginx
+    external-dns.alpha.kubernetes.io/hostname: ${host}
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: "${host}"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: ${subdomain}-tls-cert
+      hosts:
+        - ${host}
+
+persistence:
+  config:
+    enabled: true
+    emptyDir: false
+    mountPath: /config
+    accessMode: ReadWriteOnce
+    size: 10Gi
+`;
+
+  await fs.writeFile(valuesPath, values);
+
+  try {
+    // Wait until vCluster API is reachable
+    await kube.waitForVCluster(kubeconfigPath);
+
+    // Create namespace (if needed)
+    await execa('kubectl', [
+      '--kubeconfig',
+      kubeconfigPath,
+      'create',
+      'namespace',
+      namespace,
+    ]).catch((err) => {
+      if (!err.stderr?.includes('AlreadyExists')) throw err;
+    });
+
+    // Install code-server via Helm
+    await execa('helm', [
+      'install',
+      'codeserver',
+      'nicholaswilde/code-server',
+      '--namespace',
+      namespace,
+      '-f',
+      valuesPath,
+      '--kubeconfig',
+      kubeconfigPath,
+      '--debug',
+    ]);
+
+    // Wait for pod to be ready (timeout in 120s)
+    await execa('kubectl', [
+      '--kubeconfig',
+      kubeconfigPath,
+      'wait',
+      '--namespace',
+      namespace,
+      '--for=condition=Ready',
+      'pod',
+      '-l=app.kubernetes.io/name=code-server',
+      '--timeout=120s',
+    ]);
+  } finally {
+    await fs.unlink(kubeconfigPath);
+    await fs.unlink(valuesPath);
+  }
+
+  return `https://${host}`;
+}
 };

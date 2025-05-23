@@ -44,7 +44,7 @@ const CreateYamContainer = () => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     setSuccessBool(true);
   };
 

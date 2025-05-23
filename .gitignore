@@ -42,3 +42,7 @@ next-env.d.ts
 
 # kube config
 src/server/config/kubeconfig
+src/server/config/gsa-key.json
+
+# clerk configuration (can include secrets)
+/.clerk/

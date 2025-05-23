@@ -1,4 +1,4 @@
-import prisma from "@/libs/prsima";
+import prisma from "@/libs/prisma";
 
 export const projectRepository = {
   listByWorkspace: (workspaceId: string) =>
@@ -14,7 +14,7 @@ export const projectRepository = {
     chart: string;
     valuesYaml: string;
     workspaceId: string;
-    yamId?: string;
+    yamId: string;
   }) =>
     prisma.project.create({ data }),
 

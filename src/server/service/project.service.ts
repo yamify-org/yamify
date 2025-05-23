@@ -13,7 +13,7 @@ export const projectService = {
     chart: string;
     valuesYaml: string;
     workspaceId: string;
-    yamId?: string;
+    yamId: string;
   }) => {
     // Persist the project record
     const record = await projectRepository.create(params);
