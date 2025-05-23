@@ -79,6 +79,8 @@
 
       .workspace-container {
         .workspace-link {
+          position: relative;
+
           .wrap {
             p {
               display: none;
@@ -271,6 +273,7 @@
       width: 100%;
       border-top: 1px solid var(--Default-Dark-Ash, #232323);
       padding-top: 10px;
+      position: relative;
 
       .workspace-link {
         width: 100%;
@@ -298,6 +301,80 @@
 
         &:hover {
           background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+        }
+      }
+
+      .drop-down {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        width: 220px;
+        padding: 8px 5px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border: 1px solid var(--Default-Dark-Ash, #232323);
+        background: var(--Default-Black, #1b1b1b);
+        box-shadow: 0px 1px 2px 1px var(--Default-Dark-Ash, #232323);
+
+        .workspace-row {
+          width: 100%;
+          display: flex;
+          height: 36px;
+          padding: 5px 9px;
+          justify-content: space-between;
+          align-items: center;
+          flex-shrink: 0;
+          background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+
+          .wr {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-family: "Commissioner", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 100%;
+          }
+
+          img.checkmark {
+            filter: invert(1);
+          }
+        }
+
+        .workspace-end {
+          width: 100%;
+          border-top: 1px solid var(--Default-Dark-Ash, #232323);
+          padding-top: 10px;
+
+          .wr {
+            display: flex;
+            height: 32px;
+            padding: 5px 10px;
+            align-items: center;
+            gap: 10px;
+            align-self: stretch;
+
+            &:hover {
+              background: var(
+                --Brand-Transparent-Gold,
+                rgba(221, 154, 56, 0.1)
+              );
+            }
+
+            img {
+              filter: invert(1);
+            }
+
+            p {
+              font-family: "Commissioner", sans-serif;
+              font-size: 13px;
+              font-weight: 500;
+              line-height: 100%;
+            }
+          }
         }
       }
     }

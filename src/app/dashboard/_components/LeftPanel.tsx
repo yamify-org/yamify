@@ -9,15 +9,18 @@ import { usePathname } from "next/navigation";
 type Props = {
   setExpandRightPanel: (Callback: boolean) => void;
   setShowYamDialog: (Callback: boolean) => void;
+  setShowWorkspaceDialog?: (Callback: boolean) => void;
   expandRightPanel: boolean;
 };
 const LeftPanel = ({
   expandRightPanel,
   setExpandRightPanel,
   setShowYamDialog,
+  setShowWorkspaceDialog,
 }: Props) => {
   const [collapseWallet, setCollapseWallet] = useState(false);
   const [collapseYam, setCollapseYam] = useState(true);
+  const [dropDownWorkspace, setDropDownWorkspace] = useState(false);
 
   const pathname = usePathname();
 
@@ -120,12 +123,57 @@ const LeftPanel = ({
               </div>
 
               <Image
-                src="/svgs/more.svg"
+                src="/svgs/more_horizontal.svg"
                 className="more-icon"
                 alt=""
                 width={15}
                 height={15}
+                onClick={() => setDropDownWorkspace(!dropDownWorkspace)}
               />
+
+              {dropDownWorkspace && (
+                <div className="drop-down">
+                  <div className="workspace-row">
+                    <div className="wr">
+                      <Image
+                        src="/svgs/user_green.svg"
+                        alt=""
+                        width={18}
+                        height={18}
+                      />
+                      <p> Marcus’s Workspace</p>
+                    </div>
+
+                    <Image
+                      src="/svgs/checkmark.svg"
+                      className="checkmark"
+                      alt=""
+                      width={15}
+                      height={15}
+                      onClick={() => setDropDownWorkspace(!dropDownWorkspace)}
+                    />
+                  </div>
+
+                  <div className="workspace-end">
+                    <div
+                      className="wr"
+                      onClick={() => {
+                        if (setShowWorkspaceDialog) {
+                          setShowWorkspaceDialog(true);
+                        }
+                      }}
+                    >
+                      <Image
+                        src="/svgs/plus.svg"
+                        alt=""
+                        width={15}
+                        height={15}
+                      />
+                      <p>Create new workspace</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <Link
               href={routes.dashboard.yams.all}
