@@ -119,7 +119,7 @@ const LeftPanel = ({
                   width={18}
                   height={18}
                 />
-                <p> Marcus’s Workspace</p>
+                <p>Marcus&apos;s Workspace</p>
               </div>
 
               <Image
@@ -160,6 +160,7 @@ const LeftPanel = ({
                       onClick={() => {
                         if (setShowWorkspaceDialog) {
                           setShowWorkspaceDialog(true);
+                          setDropDownWorkspace(false);
                         }
                       }}
                     >
