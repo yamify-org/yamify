@@ -10,9 +10,21 @@ export default function YamPage() {
   const [expandRightPanel, setExpandRightPanel] = useState(false);
   const [showYamDialog, setShowYamDialog] = useState(false);
 
+  const loadingTxts = [
+    "Creating your cluster with optimized defaults…",
+    "Auto-scaling and security being configured in the background.",
+    "We’re applying AI-powered enhancements for smooth performance.",
+    "You’ll be ready to build in just a moment.",
+  ];
+
   return (
     <div className="dashboard">
-      {showYamDialog && <CreateYamDialog setShowYamDialog={setShowYamDialog} />}
+      {showYamDialog && (
+        <CreateYamDialog
+          loadingTxts={loadingTxts}
+          setShowYamDialog={setShowYamDialog}
+        />
+      )}
       <section>
         <LeftPanel
           setShowYamDialog={setShowYamDialog}

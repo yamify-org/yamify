@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import CreateYamContainer from "./CreateYamContainer";
 import Link from "next/link";
+import DashboardHeader from "./DashboardHeader";
 
 type Props = {
   expandRightPanel: boolean;
@@ -80,29 +81,7 @@ const RightPanel = ({ expandRightPanel }: Props) => {
     <div className={`right-panel ${expandRightPanel && "not-expand"}`}>
       <div className="dummy-panel"></div>
       <div className="main-panel">
-        <div className="header">
-          <div className="wrap">
-            <div className="notification">
-              <Image
-                src="/svgs/notification.svg"
-                alt=""
-                width={15}
-                height={15}
-              />
-            </div>
-            <div className="profile-contain">
-              <Image
-                src="/images/profile.jpg"
-                alt=""
-                width={768}
-                height={552}
-                className="profile-img"
-              />
-              <p>Marcus Otunba</p>
-              <Image src="/svgs/caret_down.svg" alt="" width={15} height={15} />
-            </div>
-          </div>
-        </div>
+        <DashboardHeader />
 
         <div className="section">
           <div className="intro-welcome">

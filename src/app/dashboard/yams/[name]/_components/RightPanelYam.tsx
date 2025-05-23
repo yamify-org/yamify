@@ -1,3 +1,4 @@
+import DashboardHeader from "@/app/dashboard/_components/DashboardHeader";
 import "@/styles/RightPanelDashboard.css";
 import "@/styles/RightPanelDashboardYamPage.css";
 import Image from "next/image";
@@ -65,7 +66,7 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
         setYam(data);
       }
     });
-  }, [yamData]);
+  }, [slug, yamData]);
 
   return (
     <div
@@ -75,29 +76,7 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
     >
       <div className="dummy-panel"></div>
       <div className="main-panel">
-        <div className="header">
-          <div className="wrap">
-            <div className="notification">
-              <Image
-                src="/svgs/notification.svg"
-                alt=""
-                width={15}
-                height={15}
-              />
-            </div>
-            <div className="profile-contain">
-              <Image
-                src="/images/profile.jpg"
-                alt=""
-                width={768}
-                height={552}
-                className="profile-img"
-              />
-              <p>Marcus Otunba</p>
-              <Image src="/svgs/caret_down.svg" alt="" width={15} height={15} />
-            </div>
-          </div>
-        </div>
+        <DashboardHeader />
 
         <div className="section-yam">
           <nav>
