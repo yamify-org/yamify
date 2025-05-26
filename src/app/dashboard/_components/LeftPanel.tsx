@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "@/styles/LeftPanelDashboard.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,6 +21,28 @@ const LeftPanel = ({
   const [collapseWallet, setCollapseWallet] = useState(false);
   const [collapseYam, setCollapseYam] = useState(true);
   const [dropDownWorkspace, setDropDownWorkspace] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !(dropdownRef.current as HTMLElement).contains(event.target as Node)
+      ) {
+        setDropDownWorkspace(false);
+      }
+    };
+
+    if (dropDownWorkspace) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropDownWorkspace]);
 
   const pathname = usePathname();
 
@@ -111,7 +133,7 @@ const LeftPanel = ({
           </div>
 
           <div className="workspace-container">
-            <div className="workspace-link">
+            <div className="workspace-link" ref={dropdownRef}>
               <div className="wrap">
                 <Image
                   src="/svgs/user_green.svg"
@@ -128,53 +150,61 @@ const LeftPanel = ({
                 alt=""
                 width={15}
                 height={15}
-                onClick={() => setDropDownWorkspace(!dropDownWorkspace)}
+                onClick={() => setDropDownWorkspace((prev) => !prev)}
               />
 
-              {dropDownWorkspace && (
-                <div className="drop-down">
-                  <div className="workspace-row">
-                    <div className="wr">
-                      <Image
-                        src="/svgs/user_green.svg"
-                        alt=""
-                        width={18}
-                        height={18}
-                      />
-                      <p> Marcus’s Workspace</p>
-                    </div>
+              <AnimatePresence>
+                {dropDownWorkspace && (
+                  <motion.div
+                    className="drop-down"
+                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                  >
+                    <div className="workspace-row">
+                      <div className="wr">
+                        <Image
+                          src="/svgs/user_green.svg"
+                          alt=""
+                          width={18}
+                          height={18}
+                        />
+                        <p>Marcus’s Workspace</p>
+                      </div>
 
-                    <Image
-                      src="/svgs/checkmark.svg"
-                      className="checkmark"
-                      alt=""
-                      width={15}
-                      height={15}
-                      onClick={() => setDropDownWorkspace(!dropDownWorkspace)}
-                    />
-                  </div>
-
-                  <div className="workspace-end">
-                    <div
-                      className="wr"
-                      onClick={() => {
-                        if (setShowWorkspaceDialog) {
-                          setShowWorkspaceDialog(true);
-                          setDropDownWorkspace(false);
-                        }
-                      }}
-                    >
                       <Image
-                        src="/svgs/plus.svg"
+                        src="/svgs/checkmark.svg"
+                        className="checkmark"
                         alt=""
                         width={15}
                         height={15}
+                        onClick={() => setDropDownWorkspace(false)}
                       />
-                      <p>Create new workspace</p>
                     </div>
-                  </div>
-                </div>
-              )}
+
+                    <div className="workspace-end">
+                      <div
+                        className="wr"
+                        onClick={() => {
+                          if (setShowWorkspaceDialog) {
+                            setShowWorkspaceDialog(true);
+                            setDropDownWorkspace(false);
+                          }
+                        }}
+                      >
+                        <Image
+                          src="/svgs/plus.svg"
+                          alt=""
+                          width={15}
+                          height={15}
+                        />
+                        <p>Create new workspace</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <Link
               href={routes.dashboard.yams.all}

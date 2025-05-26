@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "@/styles/DashboardHeader.css";
 import CircularProgress from "./CircularProgress";
 import Link from "next/link";
@@ -23,6 +23,29 @@ const dropDownVariants = {
 const DashboardHeader = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
 
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !(dropdownRef.current as HTMLElement).contains(event.target as Node)
+      ) {
+        setShowProfileModal(false);
+      }
+    };
+
+    if (showProfileModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showProfileModal]);
+
   const handleLogout = () => {};
 
   return (
@@ -31,7 +54,7 @@ const DashboardHeader = () => {
         <div className="notification">
           <Image src="/svgs/notification.svg" alt="" width={15} height={15} />
         </div>
-        <div className="profile-contain">
+        <div className="profile-contain" ref={dropdownRef}>
           <div
             className="profile-wrap"
             onClick={() => setShowProfileModal(!showProfileModal)}
