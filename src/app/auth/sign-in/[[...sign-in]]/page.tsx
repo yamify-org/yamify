@@ -1,43 +1,36 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import AuthHeader from "../_components/AuthHeader";
+import React, { useState } from "react";
+import AuthHeader from "../../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
 import Link from "next/link";
+import { OAuthStrategy } from '@clerk/types'
+import { useSignIn } from '@clerk/nextjs'
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
+  const { signIn } = useSignIn()
 
-  // useEffect hook example
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const res = await fetch(
-          "https://yamify-backend.onrender.com/api/v1/user/me",
-          {
-            method: "GET",
-            credentials: "include", // important! sends cookies
-          }
-        );
+  if (!signIn) return null
 
-        if (!res.ok) throw new Error("Failed to fetch user");
-
-        const data = await res.json();
-        console.log("User data:", data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    getUser();
-  }, []);
-
-  const handleGitHubLogin = () => {
-    const githubAuthUrl =
-      "https://yamify-backend.onrender.com/api/v1/auth/github";
-    window.location.href = githubAuthUrl;
-  };
+  const signInWithSocial = (strategy: OAuthStrategy) => {
+    return signIn
+      .authenticateWithRedirect({
+        strategy,
+        redirectUrl: '/auth/sign-in/sso-callback',
+        redirectUrlComplete: '/dashboard',
+      })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        // See https://clerk.com/docs/custom-flows/error-handling
+        // for more info on error handling
+        console.log(err.errors)
+        console.error(err, null, 2)
+      })
+  }
 
   return (
     <div className="auth-section">
@@ -47,11 +40,11 @@ export default function SignIn() {
           <h1>Sign in</h1>
 
           <div className="auth-btns">
-            <div className="btn" onClick={handleGitHubLogin}>
+            <div className="btn" onClick={() => signInWithSocial('oauth_github')}>
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
-            <div className="btn">
+            <div className="btn" onClick={() => signInWithSocial('oauth_github')}>
               <Image src="/svgs/google.svg" alt="" height={20} width={20} />
               Continue with Google
             </div>
