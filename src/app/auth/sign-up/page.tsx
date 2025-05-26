@@ -5,6 +5,7 @@ import AuthHeader from "../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
 import { countries } from "@/utils/data";
+import Alert from "@/ui/alert/Alert";
 
 export default function SignUp() {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,6 +75,14 @@ export default function SignUp() {
           </div>
 
           <form action="">
+            <Alert
+              variant="error"
+              title="Account Creation Failed"
+              message={
+                "There was an error creating your account. Please try again."
+              }
+              showLink={false}
+            />
             <div className="label">
               <div className="left">
                 <label htmlFor="">Country</label>
