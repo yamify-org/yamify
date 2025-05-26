@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React, { useState } from "react";
 import "@/styles/DashboardHeader.css";
@@ -5,6 +7,7 @@ import CircularProgress from "./CircularProgress";
 import Link from "next/link";
 import routes from "@/libs/routes";
 import { motion, AnimatePresence } from "framer-motion";
+import { useClerk, useUser } from "@clerk/nextjs";
 
 const dropDownVariants = {
   hidden: { opacity: 0, y: -30 },
@@ -21,9 +24,11 @@ const dropDownVariants = {
 };
 
 const DashboardHeader = () => {
+  const { user } = useUser()
+  const { signOut } = useClerk()
   const [showProfileModal, setShowProfileModal] = useState(false);
 
-  const handleLogout = () => {};
+  const handleLogout = () => {signOut({ redirectUrl: '/' })};
 
   return (
     <div className="header">
@@ -37,13 +42,13 @@ const DashboardHeader = () => {
             onClick={() => setShowProfileModal(!showProfileModal)}
           >
             <Image
-              src="/images/profile.jpg"
+              src={user?.imageUrl ?? "/images/profile.jpg"}
               alt=""
               width={768}
               height={552}
               className="profile-img"
             />
-            <p>Marcus Otunba</p>
+            <p>{user?.fullName}</p>
             <Image src="/svgs/caret_down.svg" alt="" width={15} height={15} />
           </div>
 
@@ -81,13 +86,13 @@ const DashboardHeader = () => {
                 <div className="right">
                   <div className="content">
                     <Image
-                      src="/images/profile.jpg"
+                      src={user?.imageUrl ?? "/images/profile.jpg"}
                       alt=""
                       width={768}
                       height={552}
                     />
-                    <h2>Marcus Otunba</h2>
-                    <p>Marcusotunba@gmail.com</p>
+                    <h2>{user?.fullName}</h2>
+                    <p>{user?.emailAddresses[0].emailAddress}</p>
                   </div>
 
                   <div className="actions">

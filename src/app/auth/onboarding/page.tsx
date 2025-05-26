@@ -6,11 +6,15 @@ import "@/styles/AuthPage.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import CreateAnimation from "@/components/CreateAnimation";
+import { completeOnboarding } from "./_actions";
+import { useUser } from "@clerk/nextjs";
 // import Image from "next/image";
 
 export default function OnboardingWorkpace() {
   const [createYam, setCreateYam] = useState(false);
   const [successBool, setSuccessBool] = useState(false);
+  const [error, setError] = React.useState('')
+  const { user } = useUser()
 
   const [workspaceName, setWorkspaceName] = useState("");
   const [displayValue, setDisplayValue] = useState(""); // Temporary value for display while focused
@@ -46,12 +50,49 @@ export default function OnboardingWorkpace() {
     setCreateYam(true);
   };
 
-  const handleCreateWorkspace = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleCreateWorkspace = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setSuccessBool(true);
 
-    // router.push("/dashboard");
-    setSuccessBool(true);
-  };
+  try {
+    const res = await completeOnboarding({
+      workspaceName, createYam
+    });
+
+    // Check if res is a Response object (error case)
+    if (res instanceof Response) {
+      const data = await res.json();
+      if (data.error) {
+        setError(data.error);
+        setSuccessBool(false);
+        return;
+      }
+    }
+
+    // Check for error in direct object response
+    if ('error' in res && res.error) {
+      setError(res.error);
+      setSuccessBool(false);
+      return;
+    }
+
+    // Success case
+    if ('message' in res && res.message) {
+      await user?.reload();
+      router.push('/dashboard');
+      return;
+    }
+
+    // Fallback error handling
+    setError('Unexpected response format');
+    setSuccessBool(false);
+
+  } catch (error) {
+    console.error('Error creating workspace:', error);
+    setError('An unexpected error occurred');
+    setSuccessBool(false);
+  }
+};
 
   const loadingTxts = [
     "Welcome to Yamify—your reliable, affordable cloud.",
@@ -145,6 +186,8 @@ export default function OnboardingWorkpace() {
                     <span className="hover-text">Launch my workspace</span>
                   </div>
                 </button>
+
+                {error && <p className="error">{error}</p>}
               </form>
             </>
           ) : (

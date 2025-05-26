@@ -132,6 +132,9 @@ sync:
       console.log('✅ vCluster is ready');
       return;
     } catch (err) {
+      if( err instanceof Error ) {
+      console.error(`❌ vCluster not ready yet: ${err}`);
+      }
       console.log(`⏳ Waiting for vCluster to be ready... (${attempt}/${maxRetries})`);
       await new Promise((res) => setTimeout(res, delayMs));
     }
