@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from "react";
 import "@/styles/LeftPanelDashboard.css";
 import Image from "next/image";
@@ -5,6 +7,7 @@ import Link from "next/link";
 import routes from "@/libs/routes";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 type Props = {
   setExpandRightPanel: (Callback: boolean) => void;
@@ -21,6 +24,7 @@ const LeftPanel = ({
   const [collapseWallet, setCollapseWallet] = useState(false);
   const [collapseYam, setCollapseYam] = useState(true);
   const [dropDownWorkspace, setDropDownWorkspace] = useState(false);
+  const { user } = useUser();
 
   const pathname = usePathname();
 
@@ -114,7 +118,7 @@ const LeftPanel = ({
             <div className="workspace-link">
               <div className="wrap">
                 <Image
-                  src="/svgs/user_green.svg"
+                  src={user?.imageUrl ?? "/svgs/user_green.svg"}
                   alt=""
                   width={18}
                   height={18}
@@ -136,7 +140,7 @@ const LeftPanel = ({
                   <div className="workspace-row">
                     <div className="wr">
                       <Image
-                        src="/svgs/user_green.svg"
+                        src={user?.imageUrl ?? "/svgs/user_green.svg"}
                         alt=""
                         width={18}
                         height={18}
