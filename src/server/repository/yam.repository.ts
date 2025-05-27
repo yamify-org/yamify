@@ -11,6 +11,7 @@ export const yamRepository = {
       data: {
         domain,
       },
-    }),     
+    }),
+  getByName: (name: string) => prisma.yam.findFirst({ where: { name } }),
   delete: (id: string) => prisma.yam.delete({ where: { id } }),
 };

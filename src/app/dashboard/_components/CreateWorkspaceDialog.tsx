@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "@/styles/CreateYamDialog.css";
 import Image from "next/image";
 import CreateAnimation from "@/components/CreateAnimation";
+import { createWorkspaceAction } from "../_actions";
+import { useRouter } from "next/navigation";
 
 type Props = {
   setShowYamDialog: (Callback: boolean) => void;
@@ -13,6 +15,7 @@ const CreateWorkspaceDialog = ({ setShowYamDialog, loadingTxts }: Props) => {
   const [createYam, setCreateYam] = useState(false);
   const [workspaceName, setWorkspaceName] = useState("");
   const [displayValue, setDisplayValue] = useState(""); // Temporary value for display while focused
+  const router = useRouter();
 
   const handleFocus = () => {
     // On focus, remove -workspace for editing
@@ -44,10 +47,22 @@ const CreateWorkspaceDialog = ({ setShowYamDialog, loadingTxts }: Props) => {
     setCreateYam(true);
   };
 
-  const handleCreateWorkspace = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateWorkspace = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setSuccessBool(true);
+
+    try {
+      const res = await createWorkspaceAction({
+        namespace: workspaceName,
+        createYam: createYam,
+      });
+
+      console.log({res})
+      router.refresh()
+    } catch(e) {
+      console.log(e)
+      setSuccessBool(true);
+    }
   };
 
   return (

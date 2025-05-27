@@ -248,5 +248,87 @@ persistence:
   }
 
   return `https://${host}`;
+},
+
+deployWordpress: async (
+  kubeconfig: string,
+  subdomain: string,
+  namespace: string
+): Promise<string> => {
+  const host = `${subdomain}.aiscaler.ai`;
+
+  const kubeconfigPath = join(tmpdir(), `kubeconfig-${subdomain}.yaml`);
+  const valuesPath = join(tmpdir(), `values-${subdomain}.yaml`);
+  await fs.writeFile(kubeconfigPath, kubeconfig);
+
+  const values = `
+wordpressUsername: user
+wordpressPassword: "password"
+
+ingress:
+  enabled: true
+  pathType: ImplementationSpecific
+  ingressClassName: nginx
+  hostname: ${host}
+  path: /
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: ${host}
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  tls: true
+  extraTls:
+    - hosts:
+        - ${host}
+      secretName: ${subdomain}-tls-cert
+`;
+
+  await fs.writeFile(valuesPath, values);
+
+  try {
+    // Wait until vCluster API is reachable
+    await kube.waitForVCluster(kubeconfigPath);
+
+    // Create namespace (if needed)
+    await execa('kubectl', [
+      '--kubeconfig',
+      kubeconfigPath,
+      'create',
+      'namespace',
+      namespace,
+    ]).catch((err) => {
+      if (!err.stderr?.includes('AlreadyExists')) throw err;
+    });
+
+    // Install code-server via Helm
+    await execa('helm', [
+      'install',
+      'wordpress',
+      'oci://registry-1.docker.io/bitnamicharts/wordpress',
+      '--namespace',
+      namespace,
+      '-f',
+      valuesPath,
+      '--kubeconfig',
+      kubeconfigPath,
+      '--debug',
+    ]);
+
+    // Wait for pod to be ready (timeout in 120s)
+    await execa('kubectl', [
+      '--kubeconfig',
+      kubeconfigPath,
+      'wait',
+      '--namespace',
+      namespace,
+      '--for=condition=Ready',
+      'pod',
+      '-l=app.kubernetes.io/name=wordpress',
+      '--timeout=120s',
+    ]);
+  } finally {
+    await fs.unlink(kubeconfigPath);
+    await fs.unlink(valuesPath);
+  }
+
+  return `https://${host}`;
 }
 };

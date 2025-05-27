@@ -6,7 +6,7 @@ import RightPanel from "./_components/RightPanel";
 import { useEffect, useState } from "react";
 import CreateYamDialog from "./_components/CreateYamDialog";
 import CreateWorkspaceDialog from "./_components/CreateWorkspaceDialog";
-import fetchWorkspaceList from "@/libs/query/fetch-workspace-list";
+import fetchWorkspaceList from "@/libs/queries/fetch-workspace-list";
 import { SelectWorkspace } from "@/types/server";
 
 export default function Dashboard() {
@@ -15,15 +15,19 @@ export default function Dashboard() {
   const [showWorkspaceDialog, setShowWorkspaceDialog] = useState(false);
   const [workspaces, setWorkspaces] = useState<SelectWorkspace[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getWorkspaces() {
+      setLoading(true)
       try {
         const data = await fetchWorkspaceList();
         setWorkspaces(data);
+        setLoading(false)
       } catch (err) {
         console.error(err);
         setError('Could not load workspaces. Please try again later.');
+        setLoading(false)
       }
     }
     getWorkspaces();
@@ -51,6 +55,7 @@ export default function Dashboard() {
     <div className="dashboard">
       {showYamDialog && (
         <CreateYamDialog
+          workspaces={workspaces}
           loadingTxts={loadingYamTxts}
           setShowYamDialog={setShowYamDialog}
         />
@@ -62,15 +67,16 @@ export default function Dashboard() {
         />
       )}
 
-      <section>
+      {!loading && <section>
         <LeftPanel
           expandRightPanel={expandRightPanel}
           setExpandRightPanel={setExpandRightPanel}
           setShowYamDialog={setShowYamDialog}
           setShowWorkspaceDialog={setShowWorkspaceDialog}
+          workspaces={workspaces}
         />
-        <RightPanel expandRightPanel={expandRightPanel} />
-      </section>
+        <RightPanel workspaces={workspaces} expandRightPanel={expandRightPanel} />
+      </section>}
     </div>
   );
 }

@@ -4,6 +4,8 @@ import { kube } from '../module/kube.module';
 export const yamService = {
   list: (workspaceId: string) => yamRepository.listByWorkspace(workspaceId),
 
+  getByName: (name: string) => yamRepository.getByName(name),
+
   createAndStoreVCluster: async (clusterName: string, namespace: string, workspaceId: string) => {
     const response = await kube.createVCluster(clusterName, namespace);
     const kubeconfig = await kube.retrieveKubeconfig(clusterName, namespace);

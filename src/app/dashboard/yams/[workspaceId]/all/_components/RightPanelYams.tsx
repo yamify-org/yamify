@@ -1,38 +1,67 @@
+"use client"
+
 import DashboardHeader from "@/app/dashboard/_components/DashboardHeader";
+import fetchYams from "@/libs/queries/fetch-yam";
 import "@/styles/RightPanelDashboard.css";
 import "@/styles/RightPanelDashboardYam.css";
+import { SelectYam } from "@/types/server";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type Props = {
   expandRightPanel: boolean;
   setShowYamDialog: (Callback: boolean) => void;
 };
 
-const yamData = [
-  {
-    name: "default yam",
-    ip: "123.46.789.21",
-    created: "just now",
-    type: "GPU",
-    gpus: "8 GPU / 2 TB",
-    workspace: "marcus' workspace",
-  },
-  {
-    name: "marcus's yam",
-    ip: "987.65.432.10",
-    created: "5 minutes ago",
-    type: "GPU",
-    gpus: "16 GPU / 4 TB",
-    workspace: "marcus' workspace",
-  },
-];
+// const yamData = [
+//   {
+//     name: "default yam",
+//     ip: "123.46.789.21",
+//     created: "just now",
+//     type: "GPU",
+//     gpus: "8 GPU / 2 TB",
+//     workspace: "marcus' workspace",
+//   },
+//   {
+//     name: "marcus's yam",
+//     ip: "987.65.432.10",
+//     created: "5 minutes ago",
+//     type: "GPU",
+//     gpus: "16 GPU / 4 TB",
+//     workspace: "marcus' workspace",
+//   },
+// ];
 
 const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
+  const [yams, setYams] = useState<SelectYam[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const params = useParams<{ workspaceId: string; }>()
   const router = useRouter();
 
+  useEffect(() => {
+    async function getWorkspaces() {
+      setLoading(true)
+      try {
+        const data = await fetchYams({
+          workspaceId: params.workspaceId
+        });
+        setYams(data);
+        setLoading(false)
+      } catch (err) {
+        console.error(err);
+        setError('Could not load workspaces. Please try again later.');
+        setLoading(false)
+      }
+    }
+    getWorkspaces();
+  }, [params.workspaceId]);
+
+  console.error(error);
+
   const handleRedirect = (name: string) => {
-    router.push(`/dashboard/yams/${name}`);
+    router.push(`/dashboard/yams/${params.workspaceId}/${name}`);
   };
   return (
     <div
@@ -60,7 +89,7 @@ const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
             </button>
           </nav>
 
-          <div className="yam-table">
+          {!loading && <div className="yam-table">
             <table>
               <thead>
                 <tr>
@@ -72,7 +101,7 @@ const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
                 </tr>
               </thead>
               <tbody>
-                {yamData.map((yam, index) => (
+                {yams.map((yam, index) => (
                   <tr key={index} onClick={() => handleRedirect(yam.name)}>
                     <td>
                       <div className="yam-name">
@@ -86,7 +115,7 @@ const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
                           <div className="title">{yam.name}</div>
                         </span>
                         <span className="meta">
-                          {yam.gpus} • <span className="status">Active</span>{" "}
+                          yam.gpus • <span className="status">Active</span>{" "}
                           <span className="workspace">
                             <Image
                               src="/svgs/user.svg"
@@ -94,7 +123,7 @@ const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
                               height={15}
                               width={15}
                             />{" "}
-                            {yam.workspace}
+                            {yam.namespace}
                           </span>
                           <span className="workspace">
                             <Image
@@ -108,17 +137,17 @@ const RightPanelYams = ({ expandRightPanel, setShowYamDialog }: Props) => {
                         </span>
                       </div>
                     </td>
-                    <td className="td">{yam.ip}</td>
-                    <td className="td">{yam.created}</td>
-                    <td className="td">{yam.type}</td>
+                    <td className="td">{yam.domain}</td>
+                    <td className="td">{new Date(yam.createdAt).toDateString()}</td>
+                    <td className="td">GPU</td>
                     <td>
                       <button className="action-btn">⋮</button>
                     </td>
                   </tr>
-                ))}
+                ))}              
               </tbody>
             </table>
-          </div>
+          </div>}
         </div>
       </div>
     </div>

@@ -11,8 +11,8 @@ const routes = {
   dashboard: {
     overview: "/dashboard",
     yams: {
-      all: "/dashboard/yams/all",
-      single: (name: string) => `/dashboard/yams/${name}`,
+      all: (dashboardId: string) => `/dashboard/yams/${dashboardId}/all`,
+      single: (name: string, dashboardId: string) => `/dashboard/yams/${dashboardId}/${name}`,
     },
     users: {
       list: "/dashboard/users/list",

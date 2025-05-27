@@ -8,25 +8,32 @@ import routes from "@/libs/routes";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import { SelectWorkspace } from "@/types/server";
 
 type Props = {
   setExpandRightPanel: (Callback: boolean) => void;
   setShowYamDialog: (Callback: boolean) => void;
   setShowWorkspaceDialog?: (Callback: boolean) => void;
   expandRightPanel: boolean;
+  workspaces: SelectWorkspace[]
 };
 const LeftPanel = ({
   expandRightPanel,
   setExpandRightPanel,
   setShowYamDialog,
   setShowWorkspaceDialog,
+  workspaces
 }: Props) => {
+  const [selectedWorkspace, setSelectedWorkspace] = useState<SelectWorkspace>(workspaces[0]);
   const [collapseWallet, setCollapseWallet] = useState(false);
   const [collapseYam, setCollapseYam] = useState(true);
   const [dropDownWorkspace, setDropDownWorkspace] = useState(false);
   const { user } = useUser();
 
+  
   const pathname = usePathname();
+  
+  if(!user) return
 
   return (
     <div className={`left-panel ${expandRightPanel && "not-expand"}`}>
@@ -123,7 +130,7 @@ const LeftPanel = ({
                   width={18}
                   height={18}
                 />
-                <p> Marcus’s Workspace</p>
+                <p>{selectedWorkspace?.name}</p>
               </div>
 
               <Image
@@ -145,7 +152,7 @@ const LeftPanel = ({
                         width={18}
                         height={18}
                       />
-                      <p> Marcus’s Workspace</p>
+                      <p>{selectedWorkspace.name}</p>
                     </div>
 
                     <Image
@@ -157,6 +164,20 @@ const LeftPanel = ({
                       onClick={() => setDropDownWorkspace(!dropDownWorkspace)}
                     />
                   </div>
+
+                  {workspaces && workspaces.filter(workspace => workspace.id !== selectedWorkspace.id).map(workspace => (
+                    <div className="workspace-row" key={workspace.id} onClick={() => setSelectedWorkspace(workspace)}>
+                      <div className="wr">
+                        <Image
+                          src={user?.imageUrl ?? "/svgs/user_green.svg"}
+                          alt=""
+                          width={18}
+                          height={18}
+                        />
+                        <p>{workspace.name}</p>
+                      </div>
+                    </div>
+                  ))}
 
                   <div className="workspace-end">
                     <div
@@ -180,9 +201,9 @@ const LeftPanel = ({
               )}
             </div>
             <Link
-              href={routes.dashboard.yams.all}
+              href={routes.dashboard.yams.all(selectedWorkspace.id)}
               className={`link ${
-                pathname === routes.dashboard.yams.all && "active"
+                pathname === routes.dashboard.yams.all(selectedWorkspace.id) && "active"
               }`}
             >
               <Image src="/svgs/cluster.svg" alt="" width={15} height={15} />

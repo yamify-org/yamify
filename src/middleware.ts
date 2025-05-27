@@ -20,6 +20,12 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.redirect(onboardingUrl)
   }
 
+  // if user is signed in and is on auth routes, redirect to dashboard
+  if (userId && isPublicRoute(req)) {
+    const dashboardUrl = new URL('/dashboard', req.url)
+    return NextResponse.redirect(dashboardUrl)
+  }
+
   // If the user is logged in and the route is protected, let them view.
   if (userId && !isPublicRoute(req)) return NextResponse.next()
 });

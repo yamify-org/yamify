@@ -2,26 +2,55 @@ import React, { useState } from "react";
 import "@/styles/CreateYamDialog.css";
 import Image from "next/image";
 import CreateAnimation from "@/components/CreateAnimation";
+import { createYamAction } from "../_actions";
+import { SelectWorkspace } from "@/types/server";
+import { useRouter } from "next/navigation";
 
 type Props = {
   setShowYamDialog: (Callback: boolean) => void;
   loadingTxts: string[];
+  workspaces: SelectWorkspace[]
 };
 
-const CreateYamDialog = ({ setShowYamDialog, loadingTxts }: Props) => {
-  const [selected, setSelected] = useState("Select workspace");
+const CreateYamDialog = ({ setShowYamDialog, loadingTxts, workspaces }: Props) => {
+  const [selectedWorkspace, setSelectedWorkspace] = useState<SelectWorkspace>();
   const [open, setOpen] = useState(false);
   const [privacy, setPrivacy] = useState<string | null>(null);
   const [successBool, setSuccessBool] = useState(false);
+  const [yamName, setYamName] = useState("");
+  const [displayYamValue, setDisplayYamValue] = useState("");
+  const router = useRouter()
 
   const togglePrivacy = (service: string) => {
     setPrivacy((prev) => (prev === service ? null : service));
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if(!selectedWorkspace) return
+
     setSuccessBool(true);
+
+    try {
+      const res = await createYamAction({
+        workspace: selectedWorkspace.name,
+        workspaceId: selectedWorkspace.id,
+        yam: yamName
+      });
+
+      console.log({res})
+      router.push('/dashboard');
+    } catch(e) {
+      console.log(e)
+      setSuccessBool(true);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Update display value in lowercase while typing
+    setDisplayYamValue(e.target.value.toLowerCase());
+    setYamName(e.target.value.toLowerCase());
   };
 
   return (
@@ -69,7 +98,7 @@ const CreateYamDialog = ({ setShowYamDialog, loadingTxts }: Props) => {
                           className="selected"
                           onClick={() => setOpen(!open)}
                         >
-                          {selected}
+                          {selectedWorkspace?.name}
                           <span className="arrow">
                             <Image
                               src="/svgs/caret_down.svg"
@@ -82,15 +111,15 @@ const CreateYamDialog = ({ setShowYamDialog, loadingTxts }: Props) => {
 
                         {open && (
                           <ul className="options">
-                            {["Marcus's Workspace"].map((opt) => (
+                            {workspaces.map((workspace) => (
                               <li
-                                key={opt}
+                                key={workspace.id}
                                 onClick={() => {
-                                  setSelected(opt);
+                                  setSelectedWorkspace(workspace);
                                   setOpen(false);
                                 }}
                               >
-                                {opt}
+                                {workspace.name}
                               </li>
                             ))}
                           </ul>
@@ -107,6 +136,8 @@ const CreateYamDialog = ({ setShowYamDialog, loadingTxts }: Props) => {
                         type="text"
                         name="yamName"
                         placeholder="Enter yam’s name"
+                        value={displayYamValue}
+                        onChange={handleChange}
                         required
                       />
                     </div>
