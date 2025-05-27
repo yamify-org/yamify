@@ -1,20 +1,18 @@
 
 import { SelectYam } from "@/types/server";
 
-async function fetchYams({ workspaceId }: { workspaceId: string }) {
-    const response = await fetch(`/api/yams/${workspaceId}`, {
+async function fetchYams({ name }: { name: string }) {
+    const response = await fetch(`/api/yams/get/${name}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     });
     if (!response.ok) {
-        throw new Error('Failed to fetch yams');
+        throw new Error('Failed to fetch yam');
     }
-    const data: SelectYam[] = await response.json();
-    if (!Array.isArray(data)) {
-        throw new Error('Invalid response format');
-    }
+    const data: SelectYam = await response.json();
+
     return data;
 }
 

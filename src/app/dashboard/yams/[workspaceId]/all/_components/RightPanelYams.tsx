@@ -1,7 +1,7 @@
 "use client"
 
 import DashboardHeader from "@/app/dashboard/_components/DashboardHeader";
-import fetchYams from "@/libs/queries/fetch-yam";
+import fetchYams from "@/libs/queries/fetch-yams";
 import "@/styles/RightPanelDashboard.css";
 import "@/styles/RightPanelDashboardYam.css";
 import { SelectYam } from "@/types/server";

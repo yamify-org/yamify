@@ -143,15 +143,15 @@ sync:
   throw new Error('❌ Timed out waiting for vCluster to become ready.');
 },
   deployCodeServer: async (
-  kubeconfig: string,
-  subdomain: string,
+  vclusterKubeconfig: string,
+  appName: string, // This should be unique across all apps
   namespace: string
 ): Promise<string> => {
-  const host = `${subdomain}.aiscaler.ai`;
+  const host = `${appName}.aiscaler.ai`;
 
-  const kubeconfigPath = join(tmpdir(), `kubeconfig-${subdomain}.yaml`);
-  const valuesPath = join(tmpdir(), `values-${subdomain}.yaml`);
-  await fs.writeFile(kubeconfigPath, kubeconfig);
+  const kubeconfigPath = join(tmpdir(), `kubeconfig-${appName}.yaml`);
+  const valuesPath = join(tmpdir(), `values-${appName}.yaml`);
+  await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
 
   const values = `
 image:
@@ -186,7 +186,7 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: ${subdomain}-tls-cert
+    - secretName: ${appName}-tls-cert
       hosts:
         - ${host}
 
@@ -205,38 +205,30 @@ persistence:
     // Wait until vCluster API is reachable
     await kube.waitForVCluster(kubeconfigPath);
 
-    // Create namespace (if needed)
+    // Create namespace inside vCluster (if needed)
     await execa('kubectl', [
-      '--kubeconfig',
-      kubeconfigPath,
-      'create',
-      'namespace',
-      namespace,
+      '--kubeconfig', kubeconfigPath,
+      'create', 'namespace', namespace,
     ]).catch((err) => {
       if (!err.stderr?.includes('AlreadyExists')) throw err;
     });
 
-    // Install code-server via Helm
+    // Install code-server via Helm inside the vCluster
     await execa('helm', [
       'install',
       'codeserver',
       'nicholaswilde/code-server',
-      '--namespace',
-      namespace,
-      '-f',
-      valuesPath,
-      '--kubeconfig',
-      kubeconfigPath,
+      '--namespace', namespace,
+      '-f', valuesPath,
+      '--kubeconfig', kubeconfigPath,
       '--debug',
     ]);
 
     // Wait for pod to be ready (timeout in 120s)
     await execa('kubectl', [
-      '--kubeconfig',
-      kubeconfigPath,
+      '--kubeconfig', kubeconfigPath,
       'wait',
-      '--namespace',
-      namespace,
+      '--namespace', namespace,
       '--for=condition=Ready',
       'pod',
       '-l=app.kubernetes.io/name=code-server',
@@ -250,18 +242,19 @@ persistence:
   return `https://${host}`;
 },
 
-deployWordpress: async (
-  kubeconfig: string,
-  subdomain: string,
-  namespace: string
-): Promise<string> => {
-  const host = `${subdomain}.aiscaler.ai`;
+  // Modified to work with app deployments inside vClusters
+  deployWordpress: async (
+    vclusterKubeconfig: string,
+    appName: string, // This should be unique across all apps
+    namespace: string
+  ): Promise<{url: string, user: string, password: string}> => {
+    const host = `${appName}.aiscaler.ai`;
 
-  const kubeconfigPath = join(tmpdir(), `kubeconfig-${subdomain}.yaml`);
-  const valuesPath = join(tmpdir(), `values-${subdomain}.yaml`);
-  await fs.writeFile(kubeconfigPath, kubeconfig);
+    const kubeconfigPath = join(tmpdir(), `kubeconfig-${appName}.yaml`);
+    const valuesPath = join(tmpdir(), `values-${appName}.yaml`);
+    await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
 
-  const values = `
+    const values = `
 wordpressUsername: user
 wordpressPassword: "password"
 
@@ -278,57 +271,54 @@ ingress:
   extraTls:
     - hosts:
         - ${host}
-      secretName: ${subdomain}-tls-cert
+      secretName: ${appName}-tls-cert
 `;
 
-  await fs.writeFile(valuesPath, values);
+    await fs.writeFile(valuesPath, values);
 
-  try {
-    // Wait until vCluster API is reachable
-    await kube.waitForVCluster(kubeconfigPath);
+    try {
+      // Wait until vCluster API is reachable
+      await kube.waitForVCluster(kubeconfigPath);
 
-    // Create namespace (if needed)
-    await execa('kubectl', [
-      '--kubeconfig',
-      kubeconfigPath,
-      'create',
-      'namespace',
-      namespace,
-    ]).catch((err) => {
-      if (!err.stderr?.includes('AlreadyExists')) throw err;
-    });
+      // Create namespace inside vCluster
+      await execa('kubectl', [
+        '--kubeconfig', kubeconfigPath,
+        'create', 'namespace', namespace,
+      ]).catch((err) => {
+        if (!err.stderr?.includes('AlreadyExists')) throw err;
+      });
 
-    // Install code-server via Helm
-    await execa('helm', [
-      'install',
-      'wordpress',
-      'oci://registry-1.docker.io/bitnamicharts/wordpress',
-      '--namespace',
-      namespace,
-      '-f',
-      valuesPath,
-      '--kubeconfig',
-      kubeconfigPath,
-      '--debug',
-    ]);
+      // Install WordPress inside the vCluster
+      await execa('helm', [
+        'install',
+        'wordpress',
+        'oci://registry-1.docker.io/bitnamicharts/wordpress',
+        '--namespace', namespace,
+        '-f', valuesPath,
+        '--kubeconfig', kubeconfigPath,
+        '--debug',
+      ]);
 
-    // Wait for pod to be ready (timeout in 120s)
-    await execa('kubectl', [
-      '--kubeconfig',
-      kubeconfigPath,
-      'wait',
-      '--namespace',
-      namespace,
-      '--for=condition=Ready',
-      'pod',
-      '-l=app.kubernetes.io/name=wordpress',
-      '--timeout=120s',
-    ]);
-  } finally {
-    await fs.unlink(kubeconfigPath);
-    await fs.unlink(valuesPath);
-  }
+      // Wait for pod to be ready
+      await execa('kubectl', [
+        '--kubeconfig', kubeconfigPath,
+        'wait',
+        '--namespace', namespace,
+        '--for=condition=Ready',
+        'pod',
+        '-l=app.kubernetes.io/name=wordpress',
+        '--timeout=120s',
+      ]);
 
-  return `https://${host}`;
-}
+    } finally {
+      await fs.unlink(kubeconfigPath);
+      await fs.unlink(valuesPath);
+    }
+
+    return {
+      url: `https://${host}`,
+      user: 'user',
+      password: 'password',
+    };
+  },
 };

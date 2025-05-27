@@ -4,6 +4,7 @@ import { auth, currentUser } from '@clerk/nextjs/server'
 import { yamModule } from '@/server/module/yam.module';
 import { workspaceModule } from '@/server/module/workspace.module';
 import { kube } from '@/server/module/kube.module';
+import { projectModule } from '@/server/module/project.module';
 
 interface CreateYamData {
     workspace: string;
@@ -93,28 +94,76 @@ export const createWorkspaceAction = async ({namespace, createYam}: CreateWorksp
   }
 }
 
-interface CreateWordpressData {
+interface DeployCodeServerProjectData {
+  name: string;
   namespace: string;
+  yamId: string;
+  workspaceId: string;
 }
 
-export const deployWordpressAction = async ({namespace}: CreateWordpressData) => {
+export const deployCodeServerProjectAction = async ({name, namespace, yamId, workspaceId}: DeployCodeServerProjectData) => {
   const { userId } = await auth()
   const user = await currentUser()
 
   if (!user || !userId) {
-    return { message: 'No Logged In User' }
+    return { error: 'No Logged In User' }
   }
 
   try {
-    const kubeconfig = await kube.retrieveKubeconfig(namespace, namespace);
-    const createWordpressDeployment = await kube.deployWordpress(kubeconfig, `wordpress-${namespace}`, `wordpress-${namespace}`);
-    console.log('Wordpress deployment created', createWordpressDeployment)
+    const project = await projectModule.service.create({
+      name,
+      type: 'code-server',
+      namespace,
+      workspaceId,
+      yamId
+    });
+
+    console.log('Code Server project created:', project)
+    return { success: true, project }
 
   } catch(e) {
     console.log(e)
     if(e instanceof Error){
       console.log(e.message)
+      return { error: e.message }
     }
-    return new Response('Error creating wordpress deployment', { status: 500 })
+    return { error: 'Error deploying Code Server' }
+  }
+}
+
+interface DeployWordpressProjectData {
+  name: string;
+  namespace: string;
+  yamId: string;
+  workspaceId: string;
+}
+
+export const deployWordpressProjectAction = async ({name, namespace, yamId, workspaceId}: DeployWordpressProjectData) => {
+  const { userId } = await auth()
+  const user = await currentUser()
+
+  if (!user || !userId) {
+    return { error: 'No Logged In User' }
+  }
+
+  try {
+    const project = await projectModule.service.create({
+      name,
+      type: 'wordpress',
+      namespace,
+      workspaceId,
+      yamId
+    });
+
+    console.log('WordPress project created:', project)
+    return { success: true, project }
+
+  } catch(e) {
+    console.log(e)
+    if(e instanceof Error){
+      console.log(e.message)
+      return { error: e.message }
+    }
+    return { error: 'Error deploying WordPress' }
   }
 }

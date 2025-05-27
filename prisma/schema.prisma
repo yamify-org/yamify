@@ -51,11 +51,16 @@ model Project {
   name          String
   type          String
   namespace     String
-  chart         String
-  valuesYaml    String
+  chart         String?
+  valuesYaml    String?
   workspaceId   String
   yamId         String
+  url           String?
+  username      String?
+  password      String?
+  status        String   @default("pending")
   createdAt     DateTime @default(now())
 
   yam           Yam @relation(fields: [yamId], references: [id])
+  @@unique([name, yamId])
 }
