@@ -1,4 +1,5 @@
 import DashboardHeader from "@/app/dashboard/_components/DashboardHeader";
+import { deployCodeServerProjectAction, deployWordpressProjectAction } from "@/app/dashboard/_actions/index";
 import fetchYam from "@/libs/queries/fetch-yam";
 import "@/styles/RightPanelDashboard.css";
 import "@/styles/RightPanelDashboardYamPage.css";
@@ -43,6 +44,14 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
   const [yam, setYam] = useState<SelectYam>();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  // Add this state for deployment loading (add after existing useState declarations)
+  const [deploymentLoading, setDeploymentLoading] = useState<{
+    wordpress: boolean;
+    codeserver: boolean;
+  }>({
+    wordpress: false,
+    codeserver: false
+  });
 
   const params = useParams();
   const yamName = params.name as string;
@@ -90,6 +99,57 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
     window.URL.revokeObjectURL(url);
   };
 
+  const handleDeployWordPress = async () => {
+  if (!yam) return;
+  
+  setDeploymentLoading(prev => ({ ...prev, wordpress: true }));
+  
+  try {
+    const result = await deployWordpressProjectAction({
+      name: `wordpress-${Date.now()}`,
+      namespace: yam.namespace,
+      yamId: yam.id,
+      workspaceId: yam.workspaceId
+    });
+    
+    if (result.success) {
+      alert("WordPress deployment created successfully!");
+    } else {
+      alert(result.error || "Failed to deploy WordPress");
+    }
+  } catch (error) {
+    console.error("Failed to deploy WordPress:", error);
+    alert("Failed to deploy WordPress. Please try again.");
+  } finally {
+    setDeploymentLoading(prev => ({ ...prev, wordpress: false }));
+  }
+};
+
+const handleDeployCodeServer = async () => {
+  if (!yam) return;
+  
+  setDeploymentLoading(prev => ({ ...prev, codeserver: true }));
+  
+  try {
+    const result = await deployCodeServerProjectAction({
+      name: `codeserver-${Date.now()}`,
+      namespace: yam.namespace,
+      yamId: yam.id,
+      workspaceId: yam.workspaceId
+    });
+    
+    if (result.success) {
+      alert("CodeServer deployment created successfully!");
+    } else {
+      alert(result.error || "Failed to deploy CodeServer");
+    }
+  } catch (error) {
+    console.error("Failed to deploy CodeServer:", error);
+    alert("Failed to deploy CodeServer. Please try again.");
+  } finally {
+    setDeploymentLoading(prev => ({ ...prev, codeserver: false }));
+  }
+};
 
   return (
     <div
@@ -282,7 +342,18 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
               <div className="card">
                 <h4>No deployed project</h4>
                 <p>Once you deploy a project, you can access it here.</p>
-                <button>Deploy a project</button>
+                <button 
+                  onClick={handleDeployWordPress}
+                  disabled={deploymentLoading.wordpress}
+                >
+                  {deploymentLoading.wordpress ? "Deploying..." : "Deploy a wordpress project"}
+                </button>
+                <button 
+                  onClick={handleDeployCodeServer}
+                  disabled={deploymentLoading.codeserver}
+                >
+                  {deploymentLoading.codeserver ? "Deploying..." : "Deploy a codeserver project"}
+                </button>
               </div>
             </div>
           </div>

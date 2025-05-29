@@ -81,7 +81,7 @@ controlPlane:
     enabled: false
   proxy:
     extraSANs:
-      - ${name}.aiscaler.ai
+      - ${namespace}.aiscaler.ai
 sync:
   toHost:
     ingresses:
@@ -117,7 +117,7 @@ sync:
       '-n',
       namespace,
       '--print',
-      `--server=https://${clusterName}.aiscaler.ai`,
+      `--server=https://${namespace}.aiscaler.ai`,
     ]);
 
     return stdout;
@@ -144,13 +144,13 @@ sync:
 },
   deployCodeServer: async (
   vclusterKubeconfig: string,
-  appName: string, // This should be unique across all apps
+  yamNamespace: string, // This should be unique across all apps
   namespace: string
 ): Promise<string> => {
-  const host = `${appName}.aiscaler.ai`;
+  const host = `${yamNamespace}.aiscaler.ai`;
 
-  const kubeconfigPath = join(tmpdir(), `kubeconfig-${appName}.yaml`);
-  const valuesPath = join(tmpdir(), `values-${appName}.yaml`);
+  const kubeconfigPath = join(tmpdir(), `kubeconfig-${yamNamespace}.yaml`);
+  const valuesPath = join(tmpdir(), `values-${yamNamespace}.yaml`);
   await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
 
   const values = `
@@ -186,7 +186,7 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: ${appName}-tls-cert
+    - secretName: ${yamNamespace}-tls-cert
       hosts:
         - ${host}
 
@@ -245,13 +245,15 @@ persistence:
   // Modified to work with app deployments inside vClusters
   deployWordpress: async (
     vclusterKubeconfig: string,
-    appName: string, // This should be unique across all apps
+    yamNamespace: string, // This should be unique across all apps
     namespace: string
   ): Promise<{url: string, user: string, password: string}> => {
-    const host = `${appName}.aiscaler.ai`;
+    const host = `${yamNamespace}.aiscaler.ai`;
 
-    const kubeconfigPath = join(tmpdir(), `kubeconfig-${appName}.yaml`);
-    const valuesPath = join(tmpdir(), `values-${appName}.yaml`);
+    console.log({host, yamNamespace})
+
+    const kubeconfigPath = join(tmpdir(), `kubeconfig-${yamNamespace}.yaml`);
+    const valuesPath = join(tmpdir(), `values-${yamNamespace}.yaml`);
     await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
 
     const values = `
@@ -271,12 +273,20 @@ ingress:
   extraTls:
     - hosts:
         - ${host}
-      secretName: ${appName}-tls-cert
+      secretName: ${yamNamespace}-tls-cert
 `;
 
     await fs.writeFile(valuesPath, values);
 
     try {
+      // Check if helm is available
+      // try {
+      //   await execa('helm', ['version']);
+      // } catch (error) {
+      //   console.error(error)
+      //   throw new Error('Helm is not installed or not available in PATH. Please install Helm first.');
+      // }
+
       // Wait until vCluster API is reachable
       await kube.waitForVCluster(kubeconfigPath);
 
@@ -310,6 +320,8 @@ ingress:
         '--timeout=120s',
       ]);
 
+    } catch(error) {
+      console.error('Error deploying WordPress:', error);
     } finally {
       await fs.unlink(kubeconfigPath);
       await fs.unlink(valuesPath);

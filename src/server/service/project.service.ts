@@ -40,10 +40,10 @@ export const projectService = {
       // Deploy the app inside the vCluster
       switch (params.type) {
         case 'wordpress':
-          deploymentResult = await projectService.deployWordpressInVCluster(record, yam.kubeConfig);
+          deploymentResult = await projectService.deployWordpressInVCluster(record, yam.kubeConfig, yam.namespace);
           break;
         case 'code-server':
-          deploymentResult = await projectService.deployCodeServerInVCluster(record, yam.kubeConfig);
+          deploymentResult = await projectService.deployCodeServerInVCluster(record, yam.kubeConfig, yam.namespace);
           break;
         default:
           throw new Error(`Unsupported app type: ${params.type}`);
@@ -61,11 +61,12 @@ export const projectService = {
       throw error;
     }
   },
-  deployWordpressInVCluster: async (project: { name: string; yamId: string; namespace: string }, vclusterKubeconfig: string) => {
+  deployWordpressInVCluster: async (project: { name: string; yamId: string; namespace: string }, vclusterKubeconfig: string, yamName: string) => {
     // Use the existing kube.deployWordpress but with the vCluster's kubeconfig
+    console.log({ project, vclusterKubeconfig, yamName });
     const result = await kube.deployWordpress(
       vclusterKubeconfig,
-      `${project.name}-${project.yamId}`, // Ensure unique subdomain
+      yamName, // Ensure unique subdomain
       project.namespace
     );
 
@@ -75,10 +76,10 @@ export const projectService = {
       password: result.password
     };
   },
-  deployCodeServerInVCluster: async (project: { name: string; yamId: string; namespace: string }, vclusterKubeconfig: string) => {
+  deployCodeServerInVCluster: async (project: { name: string; yamId: string; namespace: string }, vclusterKubeconfig: string, yamName: string) => {
     const url = await kube.deployCodeServer(
       vclusterKubeconfig,
-      `${project.name}-${project.yamId}`, // Ensure unique subdomain
+      yamName, // Ensure unique subdomain
       project.namespace
     );
 
