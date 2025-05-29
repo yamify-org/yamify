@@ -25,7 +25,7 @@ export const kube = {
       namespace: name,
       body: {
         metadata: {
-          name: 'ingress',
+          name: `${name}-ingress`,
           annotations: {
             'kubernetes.io/ingress.class': 'nginx',
             'nginx.ingress.kubernetes.io/backend-protocol': 'HTTPS',
@@ -147,7 +147,7 @@ sync:
   yamNamespace: string, // This should be unique across all apps
   namespace: string
 ): Promise<string> => {
-  const host = `${yamNamespace}.aiscaler.ai`;
+  const host = `${yamNamespace}-codeserver.aiscaler.ai`;
 
   const kubeconfigPath = join(tmpdir(), `kubeconfig-${yamNamespace}.yaml`);
   const valuesPath = join(tmpdir(), `values-${yamNamespace}.yaml`);
@@ -186,7 +186,7 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: ${yamNamespace}-tls-cert
+    - secretName: ${yamNamespace}-codeserver-tls-cert
       hosts:
         - ${host}
 
@@ -212,6 +212,20 @@ persistence:
     ]).catch((err) => {
       if (!err.stderr?.includes('AlreadyExists')) throw err;
     });
+
+    // Add Helm repository
+    await execa('helm', [
+      'repo',
+      'add',
+      'nicholaswilde',
+      'https://nicholaswilde.github.io/helm-charts/'
+    ]);
+
+    // Update Helm repositories
+    await execa('helm', [
+      'repo',
+      'update'
+    ]);
 
     // Install code-server via Helm inside the vCluster
     await execa('helm', [
@@ -248,7 +262,7 @@ persistence:
     yamNamespace: string, // This should be unique across all apps
     namespace: string
   ): Promise<{url: string, user: string, password: string}> => {
-    const host = `${yamNamespace}.aiscaler.ai`;
+    const host = `${yamNamespace}-wordpress.aiscaler.ai`;
 
     console.log({host, yamNamespace})
 
@@ -273,7 +287,7 @@ ingress:
   extraTls:
     - hosts:
         - ${host}
-      secretName: ${yamNamespace}-tls-cert
+      secretName: ${yamNamespace}-wordpress-tls-cert
 `;
 
     await fs.writeFile(valuesPath, values);
