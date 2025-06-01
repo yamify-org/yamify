@@ -1,0 +1,800 @@
+---
+title: Form Components - Yamify
+---
+
+# Form Components
+
+This page documents the form components available in the Yamify application. These components are designed to create consistent, accessible, and user-friendly forms throughout the application.
+
+## FormControl
+
+The FormControl component provides context and accessibility attributes for form elements.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | auto-generated | ID for the form control |
+| `isRequired` | `boolean` | `false` | Whether the form control is required |
+| `isInvalid` | `boolean` | `false` | Whether the form control has an error |
+| `isDisabled` | `boolean` | `false` | Whether the form control is disabled |
+| `isReadOnly` | `boolean` | `false` | Whether the form control is read-only |
+| `label` | `string` | `undefined` | Label text for the form control |
+| `helperText` | `ReactNode` | `undefined` | Helper text displayed below the form control |
+| `errorText` | `ReactNode` | `undefined` | Error message displayed when isInvalid is true |
+
+### Examples
+
+```tsx
+// Basic usage
+<FormControl id="email" label="Email Address" isRequired>
+  <Input type="email" placeholder="Enter your email" />
+</FormControl>
+
+// With helper text
+<FormControl 
+  id="password" 
+  label="Password" 
+  helperText="Password must be at least 8 characters long."
+>
+  <Input type="password" />
+</FormControl>
+
+// With error state
+<FormControl 
+  id="username" 
+  label="Username" 
+  isInvalid={!!errors.username}
+  errorText={errors.username}
+>
+  <Input value={username} onChange={(e) => setUsername(e.target.value)} />
+</FormControl>
+```
+
+## FormLabel
+
+The FormLabel component renders a label for form controls.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `htmlFor` | `string` | `undefined` | ID of the form element the label is for |
+| `isRequired` | `boolean` | `false` | Whether to show a required indicator |
+
+### Examples
+
+```tsx
+// Basic usage
+<FormLabel htmlFor="name">Full Name</FormLabel>
+<Input id="name" />
+
+// Required field
+<FormLabel htmlFor="email" isRequired>Email Address</FormLabel>
+<Input id="email" type="email" required />
+```
+
+## Input
+
+The Input component renders an HTML input element with Yamify styling.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | `undefined` | Unique ID for the input |
+| `name` | `string` | `undefined` | Name attribute for the input |
+| `type` | `'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'color' | 'file' | 'search'` | `'text'` | Type of input |
+| `value` | `string | number` | `undefined` | Current value of the input |
+| `defaultValue` | `string | number` | `undefined` | Default value of the input |
+| `placeholder` | `string` | `''` | Placeholder text |
+| `onChange` | `(e: ChangeEvent<HTMLInputElement>) => void` | `undefined` | Function called when the input value changes |
+| `onBlur` | `(e: FocusEvent<HTMLInputElement>) => void` | `undefined` | Function called when the input loses focus |
+| `onFocus` | `(e: FocusEvent<HTMLInputElement>) => void` | `undefined` | Function called when the input gains focus |
+| `isDisabled` | `boolean` | `false` | Whether the input is disabled |
+| `isReadOnly` | `boolean` | `false` | Whether the input is read-only |
+| `isRequired` | `boolean` | `false` | Whether the input is required |
+| `isInvalid` | `boolean` | `false` | Whether the input has an error |
+| `autoComplete` | `string` | `undefined` | Autocomplete attribute |
+| `autoFocus` | `boolean` | `false` | Whether the input should be focused automatically |
+| `size` | `'sm' | 'md' | 'lg'` | `'md'` | Size of the input |
+| `leftIcon` | `ReactNode` | `undefined` | Icon to display on the left side of the input |
+| `rightIcon` | `ReactNode` | `undefined` | Icon to display on the right side of the input |
+
+### Examples
+
+```tsx
+// Basic text input
+<Input 
+  id="firstName"
+  name="firstName"
+  placeholder="Enter your first name"
+  value={firstName}
+  onChange={(e) => setFirstName(e.target.value)}
+/>
+
+// Email input with validation
+<Input 
+  type="email"
+  id="email"
+  name="email"
+  placeholder="Enter your email"
+  value={email}
+  onChange={handleEmailChange}
+  isInvalid={!isValidEmail}
+  autoComplete="email"
+/>
+
+// Password input with icon
+<Input 
+  type="password"
+  id="password"
+  name="password"
+  placeholder="Enter your password"
+  value={password}
+  onChange={handlePasswordChange}
+  rightIcon={
+    <button onClick={togglePasswordVisibility}>
+      {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+    </button>
+  }
+/>
+
+// Disabled input
+<Input 
+  value="Read-only value"
+  isDisabled
+/>
+
+// Input with left icon
+<Input 
+  placeholder="Search..."
+  leftIcon={<SearchIcon />}
+/>
+
+// Input with left icon
+<Input 
+  placeholder="Search..."
+  leftIcon={<SearchIcon />}
+/>
+
+// Disabled input
+<Input 
+  value="Read-only value"
+  isDisabled
+/>
+
+// Input with left icon
+<Input 
+  placeholder="Search..."
+  leftIcon={<SearchIcon />}
+/>
+```
+
+## Textarea
+
+The Textarea component renders a multi-line text input control.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | `undefined` | Unique ID for the textarea |
+| `name` | `string` | `undefined` | Name attribute for the textarea |
+| `value` | `string` | `undefined` | Current value of the textarea |
+| `defaultValue` | `string` | `undefined` | Default value of the textarea |
+| `placeholder` | `string` | `''` | Placeholder text |
+| `onChange` | `(e: ChangeEvent<HTMLTextAreaElement>) => void` | `undefined` | Function called when the textarea value changes |
+| `onBlur` | `(e: FocusEvent<HTMLTextAreaElement>) => void` | `undefined` | Function called when the textarea loses focus |
+| `onFocus` | `(e: FocusEvent<HTMLTextAreaElement>) => void` | `undefined` | Function called when the textarea gains focus |
+| `isDisabled` | `boolean` | `false` | Whether the textarea is disabled |
+| `isReadOnly` | `boolean` | `false` | Whether the textarea is read-only |
+| `isRequired` | `boolean` | `false` | Whether the textarea is required |
+| `isInvalid` | `boolean` | `false` | Whether the textarea has an error |
+| `autoFocus` | `boolean` | `false` | Whether the textarea should be focused automatically |
+| `rows` | `number` | `3` | Number of visible text lines |
+| `resize` | `'none' | 'vertical' | 'horizontal' | 'both'` | `'vertical'` | Whether and how the textarea can be resized |
+| `size` | `'sm' | 'md' | 'lg'` | `'md'` | Size of the textarea |
+
+### Examples
+
+```tsx
+// Basic textarea
+<Textarea 
+  id="message"
+  name="message"
+  placeholder="Enter your message"
+  value={message}
+  onChange={(e) => setMessage(e.target.value)}
+  rows={5}
+/>
+
+// Textarea with fixed size
+<Textarea 
+  placeholder="This textarea cannot be resized"
+  resize="none"
+/>
+
+// Textarea in a form
+<FormControl id="feedback" label="Your Feedback" isRequired>
+  <Textarea 
+    placeholder="Tell us what you think..."
+    rows={4}
+  />
+</FormControl>
+```
+
+## Select
+
+The Select component renders a dropdown selection control.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | `undefined` | Unique ID for the select |
+| `name` | `string` | `undefined` | Name attribute for the select |
+| `value` | `string` | `undefined` | Current value of the select |
+| `defaultValue` | `string` | `undefined` | Default value of the select |
+| `onChange` | `(e: ChangeEvent<HTMLSelectElement>) => void` | `undefined` | Function called when the select value changes |
+| `onBlur` | `(e: FocusEvent<HTMLSelectElement>) => void` | `undefined` | Function called when the select loses focus |
+| `onFocus` | `(e: FocusEvent<HTMLSelectElement>) => void` | `undefined` | Function called when the select gains focus |
+| `isDisabled` | `boolean` | `false` | Whether the select is disabled |
+| `isRequired` | `boolean` | `false` | Whether the select is required |
+| `isInvalid` | `boolean` | `false` | Whether the select has an error |
+| `placeholder` | `string` | `undefined` | Placeholder text shown before a selection is made |
+| `size` | `'sm' | 'md' | 'lg'` | `'md'` | Size of the select |
+| `icon` | `ReactNode` | `<ChevronDownIcon />` | Icon to display in the select |
+| `children` | `ReactNode` | Required | Option elements |
+
+### Examples
+
+```tsx
+// Basic select
+<Select
+  id="country"
+  name="country"
+  value={country}
+  onChange={(e) => setCountry(e.target.value)}
+>
+  <option value="">Select a country</option>
+  <option value="us">United States</option>
+  <option value="ca">Canada</option>
+  <option value="uk">United Kingdom</option>
+  <option value="au">Australia</option>
+</Select>
+
+// Select in a form control
+<FormControl id="role" label="User Role" isRequired>
+  <Select>
+    <option value="">Select role</option>
+    <option value="admin">Administrator</option>
+    <option value="editor">Editor</option>
+    <option value="viewer">Viewer</option>
+  </Select>
+</FormControl>
+
+// Disabled select
+<Select isDisabled>
+  <option>This select is disabled</option>
+</Select>
+```
+
+## Checkbox
+
+The Checkbox component renders a custom styled checkbox input.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | `undefined` | Unique ID for the checkbox |
+| `name` | `string` | `undefined` | Name attribute for the checkbox |
+| `value` | `string` | `undefined` | Value attribute of the checkbox |
+| `checked` | `boolean` | `undefined` | Whether the checkbox is checked |
+| `defaultChecked` | `boolean` | `undefined` | Whether the checkbox is initially checked |
+| `onChange` | `(e: ChangeEvent<HTMLInputElement>) => void` | `undefined` | Function called when the checkbox state changes |
+| `isDisabled` | `boolean` | `false` | Whether the checkbox is disabled |
+| `isRequired` | `boolean` | `false` | Whether the checkbox is required |
+| `isInvalid` | `boolean` | `false` | Whether the checkbox has an error |
+| `isIndeterminate` | `boolean` | `false` | Whether the checkbox is in an indeterminate state |
+| `colorScheme` | `string` | `'blue'` | Color scheme for the checkbox when checked |
+| `size` | `'sm' | 'md' | 'lg'` | `'md'` | Size of the checkbox |
+
+### Examples
+
+```tsx
+// Basic checkbox
+<Checkbox
+  id="terms"
+  name="terms"
+  checked={isChecked}
+  onChange={(e) => setIsChecked(e.target.checked)}
+>
+  I agree to the terms and conditions
+</Checkbox>
+
+// Checkbox with error state
+<Checkbox
+  isInvalid={!isChecked && isSubmitted}
+  isRequired
+>
+  You must agree to continue
+</Checkbox>
+
+// Checkbox group
+<Stack spacing={2}>
+  <Checkbox name="hobbies" value="reading">Reading</Checkbox>
+  <Checkbox name="hobbies" value="sports">Sports</Checkbox>
+  <Checkbox name="hobbies" value="cooking">Cooking</Checkbox>
+  <Checkbox name="hobbies" value="gaming">Gaming</Checkbox>
+</Stack>
+
+// Indeterminate checkbox (e.g., for "Select All" functionality)
+<Checkbox
+  isIndeterminate={someChecked && !allChecked}
+  checked={allChecked}
+  onChange={toggleAll}
+>
+  Select All
+</Checkbox>
+```
+
+## Radio
+
+The Radio component renders a custom styled radio button input.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | `undefined` | Unique ID for the radio button |
+| `name` | `string` | `undefined` | Name attribute for the radio button |
+| `value` | `string` | Required | Value attribute of the radio button |
+| `checked` | `boolean` | `undefined` | Whether the radio button is checked |
+| `defaultChecked` | `boolean` | `undefined` | Whether the radio button is initially checked |
+| `onChange` | `(e: ChangeEvent<HTMLInputElement>) => void` | `undefined` | Function called when the radio button state changes |
+| `isDisabled` | `boolean` | `false` | Whether the radio button is disabled |
+| `isRequired` | `boolean` | `false` | Whether the radio button is required |
+| `isInvalid` | `boolean` | `false` | Whether the radio button has an error |
+| `colorScheme` | `string` | `'blue'` | Color scheme for the radio button when checked |
+| `size` | `'sm' | 'md' | 'lg'` | `'md'` | Size of the radio button |
+
+### Examples
+
+```tsx
+// Basic radio button
+<Radio 
+  name="option"
+  value="option1"
+  checked={selectedOption === 'option1'}
+  onChange={(e) => setSelectedOption(e.target.value)}
+>
+  Option 1
+</Radio>
+
+// Radio group
+<FormControl as="fieldset">
+  <FormLabel as="legend">Notification Preference</FormLabel>
+  <Stack spacing={2}>
+    <Radio name="notifications" value="all">
+      All notifications
+    </Radio>
+    <Radio name="notifications" value="important">
+      Important only
+    </Radio>
+    <Radio name="notifications" value="none">
+      No notifications
+    </Radio>
+  </Stack>
+</FormControl>
+```
+
+## RadioGroup
+
+The RadioGroup component manages a group of radio buttons.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | Required | Name attribute for all radio buttons in the group |
+| `value` | `string` | `undefined` | Currently selected value |
+| `defaultValue` | `string` | `undefined` | Initially selected value |
+| `onChange` | `(value: string) => void` | `undefined` | Function called when selection changes |
+| `isDisabled` | `boolean` | `false` | Whether the entire group is disabled |
+| `isRequired` | `boolean` | `false` | Whether selection is required |
+| `isInvalid` | `boolean` | `false` | Whether the group has an error |
+| `children` | `ReactNode` | Required | Radio components |
+
+### Examples
+
+```tsx
+// Basic radio group
+<RadioGroup 
+  name="favoriteColor"
+  value={favoriteColor}
+  onChange={setFavoriteColor}
+>
+  <Stack spacing={2} direction="row">
+    <Radio value="red">Red</Radio>
+    <Radio value="green">Green</Radio>
+    <Radio value="blue">Blue</Radio>
+  </Stack>
+</RadioGroup>
+
+// Radio group in a form
+<FormControl isRequired>
+  <FormLabel>Subscription Plan</FormLabel>
+  <RadioGroup name="plan" defaultValue="monthly">
+    <Stack spacing={4}>
+      <Radio value="monthly">
+        Monthly ($9.99/month)
+      </Radio>
+      <Radio value="annual">
+        Annual ($99.99/year)
+      </Radio>
+      <Radio value="lifetime">
+        Lifetime ($299.99)
+      </Radio>
+    </Stack>
+  </RadioGroup>
+</FormControl>
+```
+
+## Switch
+
+The Switch component is used as an alternative to the Checkbox for toggling between two states.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | `undefined` | Unique ID for the switch |
+| `name` | `string` | `undefined` | Name attribute for the switch |
+| `checked` | `boolean` | `undefined` | Whether the switch is on |
+| `defaultChecked` | `boolean` | `undefined` | Whether the switch is initially on |
+| `onChange` | `(e: ChangeEvent<HTMLInputElement>) => void` | `undefined` | Function called when the switch state changes |
+| `isDisabled` | `boolean` | `false` | Whether the switch is disabled |
+| `isRequired` | `boolean` | `false` | Whether the switch is required |
+| `isInvalid` | `boolean` | `false` | Whether the switch has an error |
+| `colorScheme` | `string` | `'blue'` | Color scheme for the switch when on |
+| `size` | `'sm' | 'md' | 'lg'` | `'md'` | Size of the switch |
+
+### Examples
+
+```tsx
+// Basic switch
+<Switch
+  id="notifications"
+  checked={notificationsEnabled}
+  onChange={(e) => setNotificationsEnabled(e.target.checked)}
+>
+  Enable notifications
+</Switch>
+
+// Switches in a group
+<Stack spacing={3}>
+  <Switch colorScheme="green" defaultChecked>Email notifications</Switch>
+  <Switch colorScheme="blue">SMS notifications</Switch>
+  <Switch colorScheme="purple">Push notifications</Switch>
+</Stack>
+
+// Different sizes
+<Stack direction="row" spacing={4} align="center">
+  <Switch size="sm" />  
+  <Switch size="md" /> 
+  <Switch size="lg" />
+</Stack>
+```
+
+## Slider
+
+The Slider component is used to select a value from a range.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | `undefined` | Current value of the slider |
+| `defaultValue` | `number` | `0` | Initial value of the slider |
+| `min` | `number` | `0` | Minimum value of the slider |
+| `max` | `number` | `100` | Maximum value of the slider |
+| `step` | `number` | `1` | Step size of the slider |
+| `onChange` | `(value: number) => void` | `undefined` | Function called when the slider value changes |
+| `onChangeEnd` | `(value: number) => void` | `undefined` | Function called when the user stops dragging the slider |
+| `isDisabled` | `boolean` | `false` | Whether the slider is disabled |
+| `isReadOnly` | `boolean` | `false` | Whether the slider is read-only |
+| `orientation` | `'horizontal' | 'vertical'` | `'horizontal'` | Orientation of the slider |
+| `size` | `'sm' | 'md' | 'lg'` | `'md'` | Size of the slider |
+| `colorScheme` | `string` | `'blue'` | Color scheme for the slider |
+| `showTooltip` | `boolean` | `false` | Whether to show a tooltip with the current value |
+
+### Examples
+
+```tsx
+// Basic slider
+<Slider
+  value={volume}
+  onChange={setVolume}
+  min={0}
+  max={100}
+  step={1}
+>
+  <SliderTrack>
+    <SliderFilledTrack />
+  </SliderTrack>
+  <SliderThumb />
+</Slider>
+
+// Slider with tooltip and marks
+<Slider
+  defaultValue={25}
+  min={0}
+  max={100}
+  step={25}
+  showTooltip
+>
+  <SliderTrack>
+    <SliderFilledTrack />
+  </SliderTrack>
+  <SliderThumb />
+  <SliderMark value={0}>0%</SliderMark>
+  <SliderMark value={25}>25%</SliderMark>
+  <SliderMark value={50}>50%</SliderMark>
+  <SliderMark value={75}>75%</SliderMark>
+  <SliderMark value={100}>100%</SliderMark>
+</Slider>
+```
+
+## Form Validation
+
+Yamify's form components are designed to work with various form validation libraries. Here's an example using React Hook Form:
+
+```tsx
+import { useForm } from 'react-hook-form';
+
+function SignupForm() {
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors, isSubmitting } 
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    // Submit form data
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing={4}>
+        <FormControl isInvalid={!!errors.name}>
+          <FormLabel>Full Name</FormLabel>
+          <Input
+            {...register('name', {
+              required: 'Name is required',
+              minLength: { value: 2, message: 'Name must be at least 2 characters' }
+            })}
+          />
+          {errors.name && (
+            <div className="text-red-500 text-sm mt-1">{errors.name.message}</div>
+          )}
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.email}>
+          <FormLabel>Email Address</FormLabel>
+          <Input
+            type="email"
+            {...register('email', {
+              required: 'Email is required',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Invalid email address'
+              }
+            })}
+          />
+          {errors.email && (
+            <div className="text-red-500 text-sm mt-1">{errors.email.message}</div>
+          )}
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.password}>
+          <FormLabel>Password</FormLabel>
+          <Input
+            type="password"
+            {...register('password', {
+              required: 'Password is required',
+              minLength: {
+                value: 8,
+                message: 'Password must be at least 8 characters'
+              }
+            })}
+          />
+          {errors.password && (
+            <div className="text-red-500 text-sm mt-1">{errors.password.message}</div>
+          )}
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.terms}>
+          <Checkbox
+            {...register('terms', {
+              required: 'You must agree to the terms'
+            })}
+          >
+            I agree to the terms and conditions
+          </Checkbox>
+          {errors.terms && (
+            <div className="text-red-500 text-sm mt-1">{errors.terms.message}</div>
+          )}
+        </FormControl>
+
+        <Button type="submit" isLoading={isSubmitting} isFullWidth>
+          Sign Up
+        </Button>
+      </Stack>
+    </form>
+  );
+}
+```
+
+## Building Complex Forms
+
+Complex forms can be built by combining various form components. Here's an example of a user profile form:
+
+```tsx
+function UserProfileForm({ user, onSubmit }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    try {
+      // Form submission logic
+      await onSubmit(formData);
+      toast.success('Profile updated successfully');
+    } catch (error) {
+      toast.error('Failed to update profile');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Stack spacing={6}>
+        {/* Personal Information Section */}
+        <Box>
+          <Heading size="md" mb={4}>Personal Information</Heading>
+          
+          <Grid columns={{ sm: 1, md: 2 }} gap={4}>
+            <FormControl>
+              <FormLabel>First Name</FormLabel>
+              <Input defaultValue={user.firstName} name="firstName" />
+            </FormControl>
+            
+            <FormControl>
+              <FormLabel>Last Name</FormLabel>
+              <Input defaultValue={user.lastName} name="lastName" />
+            </FormControl>
+            
+            <FormControl gridColumn={{ md: '1 / 3' }}>
+              <FormLabel>Email Address</FormLabel>
+              <Input 
+                type="email" 
+                defaultValue={user.email} 
+                name="email" 
+                isReadOnly 
+              />
+              <div className="text-sm text-gray-500 mt-1">
+                Contact support to change your email address
+              </div>
+            </FormControl>
+          </Grid>
+        </Box>
+        
+        {/* Preferences Section */}
+        <Box>
+          <Heading size="md" mb={4}>Preferences</Heading>
+          
+          <Stack spacing={4}>
+            <FormControl as="fieldset">
+              <FormLabel as="legend">Theme</FormLabel>
+              <RadioGroup defaultValue={user.theme || 'system'}>
+                <Stack direction="row" spacing={4}>
+                  <Radio value="light">Light</Radio>
+                  <Radio value="dark">Dark</Radio>
+                  <Radio value="system">System</Radio>
+                </Stack>
+              </RadioGroup>
+            </FormControl>
+            
+            <FormControl>
+              <FormLabel>Language</FormLabel>
+              <Select defaultValue={user.language || 'en'}>
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="es">Spanish</option>
+              </Select>
+            </FormControl>
+            
+            <Stack spacing={2}>
+              <FormLabel>Notifications</FormLabel>
+              <Switch defaultChecked={user.emailNotifications}>
+                Email Notifications
+              </Switch>
+              <Switch defaultChecked={user.pushNotifications}>
+                Push Notifications
+              </Switch>
+            </Stack>
+          </Stack>
+        </Box>
+        
+        {/* Bio Section */}
+        <Box>
+          <Heading size="md" mb={4}>Biography</Heading>
+          
+          <FormControl>
+            <FormLabel>Bio</FormLabel>
+            <Textarea 
+              defaultValue={user.bio} 
+              name="bio"
+              placeholder="Tell us about yourself"
+              rows={5}
+            />
+            <div className="text-sm text-gray-500 mt-1">
+              This will be displayed on your public profile
+            </div>
+          </FormControl>
+        </Box>
+        
+        {/* Form Actions */}
+        <Flex justify="end" gap={4}>
+          <Button variant="tertiary" type="button">
+            Cancel
+          </Button>
+          <Button type="submit" isLoading={isLoading}>
+            Save Changes
+          </Button>
+        </Flex>
+      </Stack>
+    </form>
+  );
+}
+```
+
+## Accessibility Considerations
+
+All form components in Yamify are built with accessibility in mind:
+
+- All form controls have proper labeling and ARIA attributes
+- Error states are properly communicated to screen readers
+- Form controls can be navigated and operated using only the keyboard
+- Focus states are clearly visible
+- Color contrast meets WCAG 2.1 AA standards
+
+## Best Practices
+
+1. **Always use labels**: Every form control should have a visible label that clearly describes its purpose.
+
+2. **Provide helpful error messages**: Error messages should be clear, specific, and suggest how to fix the issue.
+
+3. **Group related fields**: Use `<fieldset>` and `<legend>` (via FormControl) to group related form controls.
+
+4. **Show validation in real-time**: Validate fields as users complete them rather than waiting for form submission.
+
+5. **Use appropriate input types**: Use specialized input types like `email`, `tel`, and `number` to provide the best user experience.
+
+6. **Maintain a consistent layout**: Keep form layouts consistent across your application.
+
+7. **Mark required fields**: Clearly indicate which fields are required using the `isRequired` prop.
+
+8. **Provide context**: Use helper text to provide additional information or instructions.
+
+## Related Information
+
+- For UI components that aren't specifically form controls, see [UI Components](/components/ui-components)
+- For layout components that help structure forms, see [Layout Components](/components/layout-components)
+- For information on API requests related to form submissions, see [API Endpoints](/api-docs/endpoints)

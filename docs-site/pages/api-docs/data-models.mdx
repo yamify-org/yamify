@@ -1,0 +1,281 @@
+---
+title: Data Models - Yamify API
+---
+
+# Data Models
+
+This page documents the core data models used in the Yamify API. Understanding these models is essential for effectively working with the API endpoints.
+
+## User
+
+The User model represents a registered user in the system.
+
+```typescript
+interface User {
+  id: string;           // Unique identifier for the user
+  username: string;     // User's username
+  email: string;        // User's email address
+  name?: string;        // User's full name (optional)
+  avatar?: string;      // URL to user's avatar image (optional)
+  role: 'user' | 'admin'; // User's role in the system
+  createdAt: string;    // ISO date string of when the user was created
+  updatedAt: string;    // ISO date string of when the user was last updated
+}
+```
+
+### Example
+
+```json
+{
+  "id": "usr_12345",
+  "username": "johndoe",
+  "email": "john@example.com",
+  "name": "John Doe",
+  "avatar": "https://example.com/avatars/johndoe.jpg",
+  "role": "user",
+  "createdAt": "2023-01-15T08:30:00Z",
+  "updatedAt": "2023-05-20T14:15:30Z"
+}
+```
+
+## Project
+
+The Project model represents a user project within Yamify.
+
+```typescript
+interface Project {
+  id: string;             // Unique identifier for the project
+  name: string;           // Project name
+  description?: string;   // Project description (optional)
+  ownerId: string;        // ID of the user who owns the project
+  collaborators: string[]; // Array of user IDs who are collaborators
+  status: 'active' | 'archived' | 'deleted'; // Project status
+  settings: ProjectSettings; // Project-specific settings
+  createdAt: string;      // ISO date string of when the project was created
+  updatedAt: string;      // ISO date string of when the project was last updated
+}
+
+interface ProjectSettings {
+  theme: 'light' | 'dark' | 'system'; // Project UI theme
+  visibility: 'public' | 'private'; // Project visibility
+  notifications: boolean; // Whether notifications are enabled
+  // Additional project-specific settings
+}
+```
+
+### Example
+
+```json
+{
+  "id": "prj_67890",
+  "name": "Marketing Website Redesign",
+  "description": "Project to redesign the company marketing website",
+  "ownerId": "usr_12345",
+  "collaborators": ["usr_54321", "usr_98765"],
+  "status": "active",
+  "settings": {
+    "theme": "light",
+    "visibility": "private",
+    "notifications": true
+  },
+  "createdAt": "2023-06-01T10:00:00Z",
+  "updatedAt": "2023-06-15T16:45:20Z"
+}
+```
+
+## Task
+
+The Task model represents an individual task within a project.
+
+```typescript
+interface Task {
+  id: string;              // Unique identifier for the task
+  projectId: string;       // ID of the project this task belongs to
+  title: string;           // Task title
+  description?: string;    // Task description (optional)
+  status: 'todo' | 'in_progress' | 'review' | 'done'; // Task status
+  priority: 'low' | 'medium' | 'high' | 'urgent'; // Task priority
+  assigneeId?: string;     // ID of the user assigned to the task (optional)
+  creatorId: string;       // ID of the user who created the task
+  dueDate?: string;        // ISO date string of when the task is due (optional)
+  tags: string[];          // Array of tags associated with the task
+  attachments: Attachment[]; // Array of attachments
+  createdAt: string;       // ISO date string of when the task was created
+  updatedAt: string;       // ISO date string of when the task was last updated
+}
+
+interface Attachment {
+  id: string;              // Unique identifier for the attachment
+  filename: string;        // Original filename
+  url: string;             // URL to access the file
+  size: number;            // File size in bytes
+  mimeType: string;        // MIME type of the file
+  uploadedAt: string;      // ISO date string of when the file was uploaded
+  uploadedBy: string;      // ID of the user who uploaded the file
+}
+```
+
+### Example
+
+```json
+{
+  "id": "tsk_54321",
+  "projectId": "prj_67890",
+  "title": "Design new homepage layout",
+  "description": "Create a modern, responsive design for the homepage following the new brand guidelines",
+  "status": "in_progress",
+  "priority": "high",
+  "assigneeId": "usr_54321",
+  "creatorId": "usr_12345",
+  "dueDate": "2023-06-30T23:59:59Z",
+  "tags": ["design", "homepage", "responsive"],
+  "attachments": [
+    {
+      "id": "att_11111",
+      "filename": "design_mockup_v1.psd",
+      "url": "https://example.com/files/design_mockup_v1.psd",
+      "size": 15728640,
+      "mimeType": "application/photoshop",
+      "uploadedAt": "2023-06-10T14:30:00Z",
+      "uploadedBy": "usr_12345"
+    }
+  ],
+  "createdAt": "2023-06-05T09:15:00Z",
+  "updatedAt": "2023-06-12T11:30:45Z"
+}
+```
+
+## Comment
+
+The Comment model represents a comment on a task.
+
+```typescript
+interface Comment {
+  id: string;           // Unique identifier for the comment
+  taskId: string;       // ID of the task this comment belongs to
+  authorId: string;     // ID of the user who wrote the comment
+  content: string;      // Comment text content
+  attachments: Attachment[]; // Array of attachments
+  mentions: string[];   // Array of user IDs mentioned in the comment
+  createdAt: string;    // ISO date string of when the comment was created
+  updatedAt: string;    // ISO date string of when the comment was last updated
+  edited: boolean;      // Whether the comment has been edited
+}
+```
+
+### Example
+
+```json
+{
+  "id": "cmt_98765",
+  "taskId": "tsk_54321",
+  "authorId": "usr_12345",
+  "content": "I've completed the first draft of the design. @usr_54321 could you please review it?",
+  "attachments": [
+    {
+      "id": "att_22222",
+      "filename": "homepage_draft1.jpg",
+      "url": "https://example.com/files/homepage_draft1.jpg",
+      "size": 2097152,
+      "mimeType": "image/jpeg",
+      "uploadedAt": "2023-06-15T10:45:00Z",
+      "uploadedBy": "usr_12345"
+    }
+  ],
+  "mentions": ["usr_54321"],
+  "createdAt": "2023-06-15T10:45:30Z",
+  "updatedAt": "2023-06-15T10:45:30Z",
+  "edited": false
+}
+```
+
+## Activity
+
+The Activity model represents an activity or event that occurred in the system.
+
+```typescript
+interface Activity {
+  id: string;           // Unique identifier for the activity
+  type: ActivityType;   // Type of activity
+  actorId: string;      // ID of the user who performed the action
+  resourceType: 'project' | 'task' | 'comment'; // Type of resource affected
+  resourceId: string;   // ID of the affected resource
+  metadata: Record<string, any>; // Additional data about the activity
+  timestamp: string;    // ISO date string of when the activity occurred
+}
+
+type ActivityType = 
+  | 'created'
+  | 'updated'
+  | 'deleted'
+  | 'commented'
+  | 'assigned'
+  | 'status_changed'
+  | 'completed';
+```
+
+### Example
+
+```json
+{
+  "id": "act_44444",
+  "type": "status_changed",
+  "actorId": "usr_54321",
+  "resourceType": "task",
+  "resourceId": "tsk_54321",
+  "metadata": {
+    "previousStatus": "todo",
+    "newStatus": "in_progress"
+  },
+  "timestamp": "2023-06-12T11:30:45Z"
+}
+```
+
+## Error Responses
+
+Error responses from the API follow a standardized format:
+
+```typescript
+interface ErrorResponse {
+  status: 'error';
+  error: {
+    code: string;       // Error code
+    message: string;    // Human-readable error message
+    details?: any;      // Additional error details (optional)
+  };
+}
+```
+
+### Example
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "Authentication required to access this resource"
+  }
+}
+```
+
+## Common Query Parameters
+
+Many API endpoints that return collections support the following query parameters:
+
+```typescript
+interface PaginationParams {
+  page?: number;         // Page number (1-based)
+  limit?: number;        // Number of items per page
+  sortBy?: string;       // Field to sort by
+  sortOrder?: 'asc' | 'desc'; // Sort direction
+}
+
+interface FilterParams {
+  [key: string]: string | number | boolean | string[];
+}
+```
+
+## Related Information
+
+- For details on how to use these models with API endpoints, see the [API Endpoints](/api-docs/endpoints) page.
+- For authentication information, see the [Authentication](/api-docs/authentication) page.

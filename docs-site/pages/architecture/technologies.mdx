@@ -1,0 +1,168 @@
+---
+title: Technologies - Yamify
+---
+
+# Technologies
+
+Yamify is built on a modern tech stack that emphasizes performance, developer experience, and maintainability. This page provides an overview of the core technologies used in the project.
+
+## Frontend Framework
+
+### Next.js
+
+<div className="flex items-center space-x-2 mb-4">
+  <img src="https://nextjs.org/static/favicon/favicon-32x32.png" alt="Next.js logo" className="w-6 h-6" />
+  <span className="font-semibold">Version: 15.3.2</span>
+</div>
+
+Next.js serves as the foundation of Yamify, providing:
+
+- **App Router**: Utilizing the latest App Router architecture for file-based routing
+- **Server Components**: Leveraging React Server Components for improved performance
+- **API Routes**: Handling backend functionality within the same codebase
+- **Built-in Image Optimization**: Through the Next.js Image component
+- **Automatic Code Splitting**: For optimized page loading
+
+[Next.js Documentation](https://nextjs.org/docs)
+
+## UI Library
+
+### React
+
+<div className="flex items-center space-x-2 mb-4">
+  <img src="https://reactjs.org/favicon.ico" alt="React logo" className="w-6 h-6" />
+  <span className="font-semibold">Version: 19.0.0</span>
+</div>
+
+React provides the component-based architecture for Yamify:
+
+- **Hooks**: Leveraging React Hooks for state management and side effects
+- **Functional Components**: Using modern functional component patterns
+- **Suspense & Concurrent Features**: Taking advantage of React 19's performance improvements
+
+[React Documentation](https://react.dev/)
+
+## Styling
+
+### TailwindCSS
+
+<div className="flex items-center space-x-2 mb-4">
+  <img src="https://tailwindcss.com/favicons/favicon-32x32.png" alt="TailwindCSS logo" className="w-6 h-6" />
+  <span className="font-semibold">Version: 4.0.0</span>
+</div>
+
+TailwindCSS is used for styling throughout the application:
+
+- **Utility-First Approach**: Composing designs directly in markup
+- **JIT Compiler**: Just-in-time compilation for optimized CSS output
+- **Responsive Design**: Built-in responsive utilities
+- **Dark Mode Support**: Native dark mode implementation
+- **Custom Configuration**: Extended with project-specific design tokens
+
+[TailwindCSS Documentation](https://tailwindcss.com/docs)
+
+## Language
+
+### TypeScript
+
+<div className="flex items-center space-x-2 mb-4">
+  <img src="https://www.typescriptlang.org/favicon-32x32.png" alt="TypeScript logo" className="w-6 h-6" />
+  <span className="font-semibold">Version: 5.x</span>
+</div>
+
+TypeScript provides type safety and improved developer experience:
+
+- **Static Type Checking**: Catching errors at compile time
+- **Enhanced IDE Support**: Improved autocompletion and documentation
+- **Interface Definitions**: Clear contracts between components
+- **Type Inference**: Reducing boilerplate while maintaining type safety
+
+[TypeScript Documentation](https://www.typescriptlang.org/docs/)
+
+## Animation
+
+### Framer Motion
+
+<div className="flex items-center space-x-2 mb-4">
+  <span className="font-semibold">Version: 12.9.2</span>
+</div>
+
+Framer Motion powers the animations in Yamify:
+
+- **Declarative Animations**: Simple API for complex animations
+- **Gestures**: Support for drag, tap, and hover interactions
+- **Variants**: Coordinated animations across components
+- **AnimatePresence**: Animate components when they're removed from the DOM
+
+[Framer Motion Documentation](https://www.framer.com/motion/)
+
+## UI Components
+
+### React Toastify
+
+<div className="flex items-center space-x-2 mb-4">
+  <span className="font-semibold">Version: 11.0.5</span>
+</div>
+
+React Toastify is used for notification toasts:
+
+- **Customizable Notifications**: Configurable appearance and behavior
+- **Multiple Toast Types**: Success, error, warning, and info variants
+- **Position Control**: Flexible positioning around the interface
+
+[React Toastify Documentation](https://fkhadra.github.io/react-toastify/introduction)
+
+## Development Tools
+
+### ESLint
+
+<div className="flex items-center space-x-2 mb-4">
+  <span className="font-semibold">Version: 9.x</span>
+</div>
+
+ESLint ensures code quality and consistency:
+
+- **Custom Rule Configuration**: Tailored to project needs
+- **TypeScript Integration**: Type-aware linting
+- **Next.js Plugin**: Framework-specific best practices
+
+### Development Workflow
+
+The development workflow is powered by:
+
+- **npm/yarn**: Package management
+- **Turbopack**: Fast development builds through Next.js
+- **Git**: Version control
+
+## Architecture Decisions
+
+The technology choices for Yamify were guided by these principles:
+
+1. **Performance First**: Optimizing for user experience and load times
+2. **Developer Experience**: Tools that improve productivity and code quality
+3. **Type Safety**: Reducing runtime errors through static typing
+4. **Component Reusability**: Designing for maximum reuse and consistency
+5. **Modern Patterns**: Embracing the latest best practices in web development
+
+## Version Compatibility
+
+The table below shows the compatibility matrix for major dependencies:
+
+| Dependency | Version | Compatible With |
+| ---------- | ------- | --------------- |
+| Next.js    | 15.3.2  | React 19.0.0    |
+| React      | 19.0.0  | Next.js 15.x    |
+| TypeScript | 5.x     | All dependencies |
+| TailwindCSS| 4.x     | Next.js 15.x    |
+| ESLint     | 9.x     | TypeScript 5.x  |
+
+## Future Considerations
+
+The Yamify team is continuously evaluating new technologies. Some areas being explored for future adoption include:
+
+- Server Actions for form submissions
+- Enhanced image and font optimization
+- Streaming server rendering
+- Partial prerendering
+
+For more information about specific implementation patterns, see the [Design Patterns](/architecture/design-patterns) page.

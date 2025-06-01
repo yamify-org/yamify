@@ -1,0 +1,168 @@
+---
+title: Coding Guidelines - Yamify
+---
+
+# Coding Guidelines
+
+This document outlines the coding standards and best practices for the Yamify project to ensure consistency and maintainability across the codebase.
+
+## TypeScript Guidelines
+
+### Type Safety
+
+- Always use proper TypeScript types instead of `any`
+- Create interfaces or types for component props and function parameters
+- Use TypeScript's utility types when appropriate (e.g., `Partial<T>`, `Pick<T>`, `Omit<T>`)
+
+```tsx
+// Good
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+  variant?: 'primary' | 'secondary' | 'tertiary';
+}
+
+// Avoid
+const Button = (props: any) => { /* ... */ }
+```
+
+### Naming Conventions
+
+- Use PascalCase for components, interfaces, and type names
+- Use camelCase for variables, functions, and methods
+- Use ALL_CAPS for constants
+- Prefix interface names with 'I' is discouraged
+
+```tsx
+// Component naming
+const UserProfile = () => { /* ... */ };
+
+// Interface naming
+interface UserData {
+  id: string;
+  username: string;
+}
+
+// Constants
+const API_BASE_URL = 'https://api.example.com';
+```
+
+## React Component Guidelines
+
+### Component Structure
+
+- Use functional components with hooks rather than class components
+- Keep components small and focused on a single responsibility
+- Extract reusable logic into custom hooks
+
+```tsx
+// Preferred approach
+const UserProfile = ({ userId }: { userId: string }) => {
+  const { user, isLoading } = useUser(userId);
+  
+  if (isLoading) return <LoadingSpinner />;
+  
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <p>{user.email}</p>
+    </div>
+  );
+};
+```
+
+### State Management
+
+- Use React's built-in state management (useState, useReducer) for component-level state
+- Avoid prop drilling by using context where appropriate
+- Keep state as local as possible
+
+## File Organization
+
+### Naming and Structure
+
+- Use descriptive file names that reflect their purpose
+- Group related files in appropriate directories
+- For components with multiple files, use an index.ts file to export the main component
+
+```
+Button/
+u251cu2500u2500 Button.tsx        # Main component
+u251cu2500u2500 Button.test.tsx   # Tests
+u251cu2500u2500 types.ts          # Type definitions
+u2514u2500u2500 index.ts          # Export file
+```
+
+## Code Formatting and Linting
+
+- The project uses ESLint and Prettier for code formatting
+- Run linting before committing code
+- Ensure your editor respects the project's `.eslintrc` and `.prettierrc` configuration
+
+```bash
+# Check for linting issues
+npm run lint
+
+# Fix auto-fixable issues
+npm run lint:fix
+```
+
+## CSS and Styling
+
+- Use TailwindCSS utility classes for styling
+- For complex components, consider using composition of smaller components
+- Avoid using inline styles unless necessary
+
+```tsx
+// Preferred approach
+<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+  Click me
+</button>
+
+// Avoid
+<button style={{ backgroundColor: 'blue', color: 'white', padding: '8px 16px' }}>
+  Click me
+</button>
+```
+
+## Performance Considerations
+
+- Use React.memo for components that render often but with the same props
+- Avoid unnecessary re-renders by properly using dependency arrays in hooks
+- Implement code-splitting for large components or routes
+
+```tsx
+// Lazy loading components
+const LazyComponent = React.lazy(() => import('./HeavyComponent'));
+
+// Proper dependencies in useEffect
+useEffect(() => {
+  fetchData(userId);
+}, [userId]); // Only re-run if userId changes
+```
+
+## Comments and Documentation
+
+- Use JSDoc comments for functions and components
+- Include descriptions for complex logic
+- Document props for components
+
+```tsx
+/**
+ * UserProfile component displays user information
+ * @param {Object} props - Component props
+ * @param {string} props.userId - The ID of the user to display
+ * @returns {JSX.Element} The rendered component
+ */
+const UserProfile = ({ userId }: { userId: string }): JSX.Element => {
+  // ...
+};
+```
+
+## Git Workflow
+
+- Follow conventional commits for commit messages
+- Create feature branches from the main branch
+- Submit pull requests for code reviews before merging
+
+For more detailed information about our development workflow, see the [Development Workflow](/development/workflow) page.
