@@ -1,0 +1,730 @@
+---
+title: Advanced Usage - Yamify
+---
+
+# Advanced Usage
+
+This guide covers advanced techniques and patterns for developing with Yamify. Once you're comfortable with the basics, these strategies will help you build more sophisticated, performant, and maintainable applications.
+
+## Server Components Strategy
+
+Yamify fully embraces React Server Components (RSC) in Next.js App Router. Understanding the distinction between Server and Client Components is crucial for optimal performance.
+
+### Component Segmentation
+
+Strategically divide your components into server and client components:
+
+```tsx
+// Server Component (default in App Router)
+// app/projects/page.tsx
+import { fetchProjects } from '@/lib/data';
+import ProjectsList from '@/components/ProjectsList';
+
+export default async function ProjectsPage() {
+  // Data fetching happens on the server
+  const projects = await fetchProjects();
+  
+  return (
+    <div className="container mx-auto py-8">
+      <h1 className="text-2xl font-bold mb-6">Projects</h1>
+      <ProjectsList initialProjects={projects} />
+    </div>
+  );
+}
+```
+
+```tsx
+// Client Component
+// components/ProjectsList.tsx
+'use client';
+
+import { useState } from 'react';
+import { Project } from '@/types';
+
+export default function ProjectsList({ initialProjects }) {
+  const [projects, setProjects] = useState(initialProjects);
+  const [filter, setFilter] = useState('all');
+  
+  // Client-side filtering
+  const filteredProjects = projects.filter(project => {
+    if (filter === 'all') return true;
+    return project.status === filter;
+  });
+  
+  return (
+    <div>
+      <div className="mb-4">
+        <select 
+          value={filter} 
+          onChange={(e) => setFilter(e.target.value)}
+          className="rounded border p-2"
+        >
+          <option value="all">All Projects</option>
+          <option value="active">Active</option>
+          <option value="archived">Archived</option>
+        </select>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {filteredProjects.map(project => (
+          <div key={project.id} className="border rounded p-4">
+            <h2 className="text-lg font-semibold">{project.name}</h2>
+            <p className="text-gray-600">{project.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+### Data Fetching Patterns
+
+Yamify supports multiple data fetching strategies:
+
+#### Server-Side Data Fetching
+
+```tsx
+// In a Server Component
+async function fetchServerData() {
+  const res = await fetch('https://api.example.com/data', {
+    cache: 'no-store' // Don't cache this request
+  });
+  return res.json();
+}
+```
+
+#### Incremental Static Regeneration
+
+```tsx
+// In a Server Component
+async function fetchRevalidatedData() {
+  const res = await fetch('https://api.example.com/data', {
+    next: { revalidate: 60 } // Revalidate every 60 seconds
+  });
+  return res.json();
+}
+```
+
+#### Client-Side Data Fetching
+
+```tsx
+// In a Client Component
+import { useEffect, useState } from 'react';
+import { fetchApi } from '@yamify/core';
+
+function useClientData() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const result = await fetchApi('/endpoint');
+        setData(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchData();
+  }, []);
+  
+  return { data, loading, error };
+}
+```
+
+## Advanced State Management
+
+Yamify provides patterns for managing complex state:
+
+### Context API with Reducers
+
+```tsx
+// contexts/ProjectContext.tsx
+'use client';
+
+import { createContext, useContext, useReducer } from 'react';
+
+// Define state and actions
+type Project = { id: string; name: string; /* other fields */ };
+type State = { projects: Project[]; loading: boolean; error: any };
+type Action = 
+  | { type: 'FETCH_START' }
+  | { type: 'FETCH_SUCCESS'; payload: Project[] }
+  | { type: 'FETCH_ERROR'; payload: any }
+  | { type: 'ADD_PROJECT'; payload: Project }
+  | { type: 'UPDATE_PROJECT'; payload: Project }
+  | { type: 'DELETE_PROJECT'; payload: string };
+
+// Create reducer
+function projectReducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'FETCH_START':
+      return { ...state, loading: true, error: null };
+    case 'FETCH_SUCCESS':
+      return { projects: action.payload, loading: false, error: null };
+    case 'FETCH_ERROR':
+      return { ...state, loading: false, error: action.payload };
+    case 'ADD_PROJECT':
+      return { ...state, projects: [...state.projects, action.payload] };
+    case 'UPDATE_PROJECT':
+      return {
+        ...state,
+        projects: state.projects.map(p => 
+          p.id === action.payload.id ? action.payload : p
+        )
+      };
+    case 'DELETE_PROJECT':
+      return {
+        ...state,
+        projects: state.projects.filter(p => p.id !== action.payload)
+      };
+    default:
+      return state;
+  }
+}
+
+// Create context
+const ProjectContext = createContext<{
+  state: State;
+  dispatch: React.Dispatch<Action>;
+}>({ 
+  state: { projects: [], loading: false, error: null },
+  dispatch: () => {}
+});
+
+// Create provider component
+export function ProjectProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(projectReducer, {
+    projects: [],
+    loading: false,
+    error: null
+  });
+  
+  return (
+    <ProjectContext.Provider value={{ state, dispatch }}>
+      {children}
+    </ProjectContext.Provider>
+  );
+}
+
+// Create hook for consuming context
+export function useProjects() {
+  return useContext(ProjectContext);
+}
+```
+
+### Usage in Components
+
+```tsx
+'use client';
+
+import { useEffect } from 'react';
+import { useProjects } from '@/contexts/ProjectContext';
+import { fetchApi } from '@yamify/core';
+
+export default function ProjectManager() {
+  const { state, dispatch } = useProjects();
+  
+  useEffect(() => {
+    async function loadProjects() {
+      dispatch({ type: 'FETCH_START' });
+      try {
+        const data = await fetchApi('/projects');
+        dispatch({ type: 'FETCH_SUCCESS', payload: data.projects });
+      } catch (error) {
+        dispatch({ type: 'FETCH_ERROR', payload: error });
+      }
+    }
+    
+    loadProjects();
+  }, [dispatch]);
+  
+  // Render UI using state
+  return (
+    <div>
+      {state.loading && <p>Loading...</p>}
+      {state.error && <p>Error: {state.error.message}</p>}
+      <ul>
+        {state.projects.map(project => (
+          <li key={project.id}>{project.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+## Advanced Routing Techniques
+
+### Parallel Routes
+
+Parallel routes allow you to simultaneously show UI from multiple routes:
+
+```tsx
+// app/dashboard/layout.tsx
+export default function DashboardLayout({ 
+  children,
+  stats,
+  notifications 
+}: { 
+  children: React.ReactNode;
+  stats: React.ReactNode;
+  notifications: React.ReactNode;
+}) {
+  return (
+    <div className="dashboard-layout">
+      <div className="main-content">{children}</div>
+      <div className="sidebar">
+        <div className="stats-panel">{stats}</div>
+        <div className="notifications-panel">{notifications}</div>
+      </div>
+    </div>
+  );
+}
+```
+
+Create corresponding slot files:
+- `app/dashboard/@stats/page.tsx`
+- `app/dashboard/@notifications/page.tsx`
+
+### Intercepting Routes
+
+Intercepting routes are useful for modal patterns:
+
+```tsx
+// app/projects/[id]/page.tsx - Full project page
+
+// app/projects/@modal/[id]/page.tsx - Modal view of the same project
+// This will intercept when navigating to /projects/123 from certain origins
+```
+
+## Performance Optimization
+
+### React Suspense for Loading States
+
+```tsx
+import { Suspense } from 'react';
+import Loading from './loading';
+import ProjectData from './ProjectData';
+
+export default function Page() {
+  return (
+    <div>
+      <h1>Project Dashboard</h1>
+      <Suspense fallback={<Loading />}>
+        <ProjectData />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+### Route Handlers for API Optimization
+
+```tsx
+// app/api/projects/route.ts
+import { NextResponse } from 'next/server';
+import { getProjects } from '@/lib/data';
+
+export async function GET(request: Request) {
+  // Parse URL and query parameters
+  const { searchParams } = new URL(request.url);
+  const status = searchParams.get('status');
+  
+  // Get data with filtering
+  const projects = await getProjects({ status });
+  
+  // Return optimized response
+  return NextResponse.json({
+    data: projects,
+    timestamp: new Date().toISOString(),
+  });
+}
+```
+
+### Image Optimization
+
+```tsx
+import Image from 'next/image';
+
+export default function OptimizedImage() {
+  return (
+    <Image
+      src="/large-image.jpg"
+      alt="Description"
+      width={1200}
+      height={600}
+      placeholder="blur"
+      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHCAkIBgoJCAkLCwoMDxkQDw4ODx8WFxIZJCAmJSMgIyIoLToxKCs2KyIjMkQzNjs9QEFAJzBHTEY/Szo/QD7/2wBDAQsLCw8NDx0QEB0+KSMpPj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj7/wgARCAACAAMDASIAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAAAP/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAVT/AP/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAQUCf//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Bf//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIBAT8Bf//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEABj8Cf//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8hf//aAAwDAQACAAMAAAAQD//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Qf//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIBAT8Qf//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8Qf//Z"
+      priority
+      className="rounded-lg shadow-lg"
+    />
+  );
+}
+```
+
+## Error Handling Strategies
+
+### Custom Error Boundaries
+
+```tsx
+'use client';
+
+import { useEffect } from 'react';
+
+export default function ErrorBoundary({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error('Unhandled error:', error);
+  }, [error]);
+
+  return (
+    <div className="error-container p-4 bg-red-50 rounded-lg">
+      <h2 className="text-xl font-bold text-red-800">Something went wrong!</h2>
+      <p className="text-red-600 mt-2">{error.message || 'An unexpected error occurred'}</p>
+      <button
+        onClick={reset}
+        className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+      >
+        Try again
+      </button>
+    </div>
+  );
+}
+```
+
+### Global Error Handling
+
+```tsx
+// app/error.tsx
+'use client';
+
+import { useEffect } from 'react';
+import { Button } from '@yamify/ui';
+
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    // Log to error reporting service
+    console.error('Global error:', error);
+  }, [error]);
+
+  return (
+    <html>
+      <body>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+            <h1 className="text-2xl font-bold text-red-600 mb-4">Application Error</h1>
+            <p className="text-gray-700 mb-6">
+              We're sorry, but something went wrong. Our team has been notified.
+            </p>
+            <div className="text-sm text-gray-500 bg-gray-50 p-3 rounded mb-6">
+              Error details: {error.message}
+              {error.digest && <span className="block mt-1">ID: {error.digest}</span>}
+            </div>
+            <Button onClick={reset} variant="solid" colorScheme="primary" className="w-full">
+              Try Again
+            </Button>
+          </div>
+        </div>
+      </body>
+    </html>
+  );
+}
+```
+
+## Testing Strategies
+
+### Component Testing with React Testing Library
+
+```tsx
+// components/Button.test.tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Button } from '@yamify/ui';
+
+describe('Button component', () => {
+  test('renders correctly', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByText('Click me')).toBeInTheDocument();
+  });
+
+  test('calls onClick handler when clicked', () => {
+    const handleClick = jest.fn();
+    render(<Button onClick={handleClick}>Click me</Button>);
+    fireEvent.click(screen.getByText('Click me'));
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  test('renders correctly with different variants', () => {
+    const { rerender } = render(<Button variant="solid">Solid Button</Button>);
+    expect(screen.getByText('Solid Button')).toHaveClass('bg-primary-500');
+
+    rerender(<Button variant="outline">Outline Button</Button>);
+    expect(screen.getByText('Outline Button')).toHaveClass('border-primary-500');
+  });
+});
+```
+
+### API Mocking
+
+```tsx
+// __tests__/api.test.ts
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+import { fetchProjects } from '@/lib/api';
+
+// Setup mock server
+const server = setupServer(
+  rest.get('https://api.example.com/projects', (req, res, ctx) => {
+    return res(ctx.json({
+      data: [
+        { id: '1', name: 'Project 1' },
+        { id: '2', name: 'Project 2' },
+      ]
+    }));
+  })
+);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+describe('API functions', () => {
+  test('fetchProjects returns projects data', async () => {
+    const projects = await fetchProjects();
+    expect(projects).toHaveLength(2);
+    expect(projects[0].name).toBe('Project 1');
+  });
+
+  test('fetchProjects handles errors', async () => {
+    server.use(
+      rest.get('https://api.example.com/projects', (req, res, ctx) => {
+        return res(ctx.status(500), ctx.json({ error: 'Server error' }));
+      })
+    );
+
+    await expect(fetchProjects()).rejects.toThrow('Failed to fetch projects');
+  });
+});
+```
+
+## Internationalization (i18n)
+
+Yamify supports internationalization using the built-in Next.js i18n features:
+
+### Setup
+
+```tsx
+// middleware.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { match } from '@formatjs/intl-localematcher';
+
+// List of supported locales
+const locales = ['en', 'fr', 'es', 'de', 'ja'];
+
+// Get the preferred locale from request headers
+function getLocale(request: NextRequest) {
+  const acceptLanguage = request.headers.get('accept-language') ?? 'en';
+  return match(acceptLanguage, locales, 'en');
+}
+
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  
+  // Skip for static files and API routes
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/static')
+  ) {
+    return NextResponse.next();
+  }
+  
+  // Get locale
+  const locale = getLocale(request);
+  const pathnameHasLocale = locales.some(
+    (loc) => pathname.startsWith(`/${loc}/`) || pathname === `/${loc}`
+  );
+  
+  // Redirect if locale missing
+  if (!pathnameHasLocale) {
+    const url = new URL(`/${locale}${pathname}`, request.url);
+    return NextResponse.redirect(url);
+  }
+  
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ['/((?!api|_next/static|favicon.ico).*)'],
+};
+```
+
+### Translation Files
+
+```json
+// messages/en.json
+{
+  "home": {
+    "title": "Welcome to Yamify",
+    "subtitle": "The modern web application framework"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "settings": "Settings"
+  }
+}
+```
+
+### Usage in Components
+
+```tsx
+import { useTranslations } from 'next-intl';
+
+export default function HomePage() {
+  const t = useTranslations('home');
+  
+  return (
+    <div>
+      <h1>{t('title')}</h1>
+      <p>{t('subtitle')}</p>
+    </div>
+  );
+}
+```
+
+## Advanced Authentication Patterns
+
+### Role-Based Access Control
+
+```tsx
+// middleware.ts (add to existing middleware)
+import { getSession } from '@/lib/auth';
+
+function checkAccess(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const session = getSession(request);
+  
+  // Admin routes
+  if (pathname.startsWith('/admin') && session?.user?.role !== 'admin') {
+    return NextResponse.redirect(new URL('/unauthorized', request.url));
+  }
+  
+  // Protected routes
+  if (
+    (pathname.startsWith('/dashboard') || 
+     pathname.startsWith('/projects')) && 
+    !session?.user
+  ) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+  
+  return null;
+}
+
+export function middleware(request: NextRequest) {
+  // Existing i18n logic...
+  
+  // Access control
+  const accessResult = checkAccess(request);
+  if (accessResult) return accessResult;
+  
+  return NextResponse.next();
+}
+```
+
+### Custom Auth Hooks
+
+```tsx
+'use client';
+
+import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@yamify/ui';
+
+export function useAuth() {
+  const router = useRouter();
+  const toast = useToast();
+  
+  const login = useCallback(async (email: string, password: string) => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Authentication failed');
+      }
+      
+      router.push('/dashboard');
+      router.refresh(); // Refresh server components
+      toast({
+        title: 'Login successful',
+        status: 'success',
+      });
+      
+      return await response.json();
+    } catch (error) {
+      toast({
+        title: 'Login failed',
+        description: error.message,
+        status: 'error',
+      });
+      throw error;
+    }
+  }, [router, toast]);
+  
+  const logout = useCallback(async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      router.push('/');
+      router.refresh();
+      toast({
+        title: 'Logged out successfully',
+        status: 'success',
+      });
+    } catch (error) {
+      toast({
+        title: 'Logout failed',
+        status: 'error',
+      });
+    }
+  }, [router, toast]);
+  
+  return { login, logout };
+}
+```
+
+## Conclusion
+
+These advanced techniques will help you build more sophisticated Yamify applications. Remember to apply these patterns judiciously based on your specific requirements.
+
+As you explore these advanced features, you may want to reference the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev/)
+- [TailwindCSS Documentation](https://tailwindcss.com/docs)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+
+If you have specific questions about implementing these advanced patterns, please [contact our support team](/support/contact).

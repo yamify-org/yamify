@@ -1,0 +1,11 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/": "pages/index.js",
+  "/getting-started": "pages/getting-started.js",
+  "/getting-started/installation": "pages/getting-started/installation.js",
+  "/architecture/project-structure": "pages/architecture/project-structure.js",
+  "/api-docs/overview": "pages/api-docs/overview.js",
+  "/api-docs/data-models": "pages/api-docs/data-models.js"
+}

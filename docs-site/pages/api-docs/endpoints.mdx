@@ -1,0 +1,847 @@
+---
+title: API Endpoints - Yamify
+---
+
+# API Endpoints
+
+This page documents all available API endpoints in the Yamify platform. Each endpoint includes information about request methods, URL parameters, request body format, response format, and example usage.
+
+## Authentication
+
+Most API endpoints require authentication. See the [Authentication](/api-docs/authentication) page for details on how to authenticate with the API.
+
+## Base URL
+
+All API URLs referenced in this documentation have the following base:
+
+```
+https://api.yamify.com/v1
+```
+
+For local development:
+
+```
+http://localhost:3000/api/v1
+```
+
+## User Endpoints
+
+### Get Current User
+
+Retrieve information about the authenticated user.
+
+```http
+GET /users/me
+```
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "user": {
+      "id": "usr_12345",
+      "username": "johndoe",
+      "email": "john@example.com",
+      "name": "John Doe",
+      "avatar": "https://example.com/avatars/johndoe.jpg",
+      "role": "user",
+      "createdAt": "2023-01-15T08:30:00Z",
+      "updatedAt": "2023-05-20T14:15:30Z"
+    }
+  }
+}
+```
+
+### Update User Profile
+
+Update the authenticated user's profile information.
+
+```http
+PATCH /users/me
+```
+
+#### Request Body
+
+```json
+{
+  "name": "John Smith",
+  "avatar": "https://example.com/avatars/johnsmith.jpg"
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "user": {
+      "id": "usr_12345",
+      "username": "johndoe",
+      "email": "john@example.com",
+      "name": "John Smith",
+      "avatar": "https://example.com/avatars/johnsmith.jpg",
+      "role": "user",
+      "createdAt": "2023-01-15T08:30:00Z",
+      "updatedAt": "2023-06-01T09:45:30Z"
+    }
+  }
+}
+```
+
+### Get User by ID
+
+Retrieve information about a specific user by their ID.
+
+```http
+GET /users/{userId}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| userId | string | The ID of the user to retrieve |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "user": {
+      "id": "usr_54321",
+      "username": "janedoe",
+      "name": "Jane Doe",
+      "avatar": "https://example.com/avatars/janedoe.jpg",
+      "role": "user",
+      "createdAt": "2023-02-10T14:20:00Z",
+      "updatedAt": "2023-05-15T11:10:30Z"
+    }
+  }
+}
+```
+
+## Project Endpoints
+
+### List Projects
+
+Retrieve a list of projects for the authenticated user.
+
+```http
+GET /projects
+```
+
+#### Query Parameters
+
+| Name | Type | Description | Default |
+|------|------|-------------|---------|
+| page | number | Page number | 1 |
+| limit | number | Number of items per page | 20 |
+| status | string | Filter by status (active, archived, deleted) | active |
+| sortBy | string | Field to sort by | createdAt |
+| sortOrder | string | Sort direction (asc, desc) | desc |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "projects": [
+      {
+        "id": "prj_67890",
+        "name": "Marketing Website Redesign",
+        "description": "Project to redesign the company marketing website",
+        "ownerId": "usr_12345",
+        "collaborators": ["usr_54321", "usr_98765"],
+        "status": "active",
+        "settings": {
+          "theme": "light",
+          "visibility": "private",
+          "notifications": true
+        },
+        "createdAt": "2023-06-01T10:00:00Z",
+        "updatedAt": "2023-06-15T16:45:20Z"
+      },
+      // Additional projects...
+    ]
+  },
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 3,
+    "total_items": 42,
+    "items_per_page": 20
+  }
+}
+```
+
+### Create Project
+
+Create a new project.
+
+```http
+POST /projects
+```
+
+#### Request Body
+
+```json
+{
+  "name": "New Product Launch",
+  "description": "Project for coordinating the Q3 product launch",
+  "collaborators": ["usr_54321"],
+  "settings": {
+    "theme": "dark",
+    "visibility": "private",
+    "notifications": true
+  }
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "project": {
+      "id": "prj_12345",
+      "name": "New Product Launch",
+      "description": "Project for coordinating the Q3 product launch",
+      "ownerId": "usr_12345",
+      "collaborators": ["usr_54321"],
+      "status": "active",
+      "settings": {
+        "theme": "dark",
+        "visibility": "private",
+        "notifications": true
+      },
+      "createdAt": "2023-06-20T08:30:00Z",
+      "updatedAt": "2023-06-20T08:30:00Z"
+    }
+  }
+}
+```
+
+### Get Project
+
+Retrieve details of a specific project.
+
+```http
+GET /projects/{projectId}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| projectId | string | The ID of the project to retrieve |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "project": {
+      "id": "prj_67890",
+      "name": "Marketing Website Redesign",
+      "description": "Project to redesign the company marketing website",
+      "ownerId": "usr_12345",
+      "collaborators": ["usr_54321", "usr_98765"],
+      "status": "active",
+      "settings": {
+        "theme": "light",
+        "visibility": "private",
+        "notifications": true
+      },
+      "createdAt": "2023-06-01T10:00:00Z",
+      "updatedAt": "2023-06-15T16:45:20Z"
+    }
+  }
+}
+```
+
+### Update Project
+
+Update a specific project.
+
+```http
+PATCH /projects/{projectId}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| projectId | string | The ID of the project to update |
+
+#### Request Body
+
+```json
+{
+  "name": "Marketing Website Redesign 2023",
+  "status": "archived",
+  "settings": {
+    "visibility": "public"
+  }
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "project": {
+      "id": "prj_67890",
+      "name": "Marketing Website Redesign 2023",
+      "description": "Project to redesign the company marketing website",
+      "ownerId": "usr_12345",
+      "collaborators": ["usr_54321", "usr_98765"],
+      "status": "archived",
+      "settings": {
+        "theme": "light",
+        "visibility": "public",
+        "notifications": true
+      },
+      "createdAt": "2023-06-01T10:00:00Z",
+      "updatedAt": "2023-06-20T11:30:45Z"
+    }
+  }
+}
+```
+
+### Delete Project
+
+Delete a specific project (marks as deleted).
+
+```http
+DELETE /projects/{projectId}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| projectId | string | The ID of the project to delete |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "message": "Project deleted successfully"
+}
+```
+
+## Task Endpoints
+
+### List Tasks
+
+Retrieve a list of tasks for a specific project.
+
+```http
+GET /projects/{projectId}/tasks
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| projectId | string | The ID of the project |
+
+#### Query Parameters
+
+| Name | Type | Description | Default |
+|------|------|-------------|---------|
+| page | number | Page number | 1 |
+| limit | number | Number of items per page | 20 |
+| status | string | Filter by status | all |
+| assignee | string | Filter by assignee ID | all |
+| priority | string | Filter by priority | all |
+| sortBy | string | Field to sort by | createdAt |
+| sortOrder | string | Sort direction (asc, desc) | desc |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "tasks": [
+      {
+        "id": "tsk_54321",
+        "projectId": "prj_67890",
+        "title": "Design new homepage layout",
+        "description": "Create a modern, responsive design for the homepage following the new brand guidelines",
+        "status": "in_progress",
+        "priority": "high",
+        "assigneeId": "usr_54321",
+        "creatorId": "usr_12345",
+        "dueDate": "2023-06-30T23:59:59Z",
+        "tags": ["design", "homepage", "responsive"],
+        "attachments": [...],
+        "createdAt": "2023-06-05T09:15:00Z",
+        "updatedAt": "2023-06-12T11:30:45Z"
+      },
+      // Additional tasks...
+    ]
+  },
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 2,
+    "total_items": 25,
+    "items_per_page": 20
+  }
+}
+```
+
+### Create Task
+
+Create a new task in a project.
+
+```http
+POST /projects/{projectId}/tasks
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| projectId | string | The ID of the project |
+
+#### Request Body
+
+```json
+{
+  "title": "Implement user authentication",
+  "description": "Add login, registration, and password reset functionality",
+  "status": "todo",
+  "priority": "high",
+  "assigneeId": "usr_54321",
+  "dueDate": "2023-07-15T23:59:59Z",
+  "tags": ["authentication", "security"]
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "task": {
+      "id": "tsk_98765",
+      "projectId": "prj_67890",
+      "title": "Implement user authentication",
+      "description": "Add login, registration, and password reset functionality",
+      "status": "todo",
+      "priority": "high",
+      "assigneeId": "usr_54321",
+      "creatorId": "usr_12345",
+      "dueDate": "2023-07-15T23:59:59Z",
+      "tags": ["authentication", "security"],
+      "attachments": [],
+      "createdAt": "2023-06-20T13:45:00Z",
+      "updatedAt": "2023-06-20T13:45:00Z"
+    }
+  }
+}
+```
+
+### Get Task
+
+Retrieve details of a specific task.
+
+```http
+GET /tasks/{taskId}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| taskId | string | The ID of the task to retrieve |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "task": {
+      "id": "tsk_54321",
+      "projectId": "prj_67890",
+      "title": "Design new homepage layout",
+      "description": "Create a modern, responsive design for the homepage following the new brand guidelines",
+      "status": "in_progress",
+      "priority": "high",
+      "assigneeId": "usr_54321",
+      "creatorId": "usr_12345",
+      "dueDate": "2023-06-30T23:59:59Z",
+      "tags": ["design", "homepage", "responsive"],
+      "attachments": [...],
+      "createdAt": "2023-06-05T09:15:00Z",
+      "updatedAt": "2023-06-12T11:30:45Z"
+    }
+  }
+}
+```
+
+### Update Task
+
+Update a specific task.
+
+```http
+PATCH /tasks/{taskId}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| taskId | string | The ID of the task to update |
+
+#### Request Body
+
+```json
+{
+  "status": "done",
+  "priority": "medium",
+  "tags": ["design", "homepage", "responsive", "completed"]
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "task": {
+      "id": "tsk_54321",
+      "projectId": "prj_67890",
+      "title": "Design new homepage layout",
+      "description": "Create a modern, responsive design for the homepage following the new brand guidelines",
+      "status": "done",
+      "priority": "medium",
+      "assigneeId": "usr_54321",
+      "creatorId": "usr_12345",
+      "dueDate": "2023-06-30T23:59:59Z",
+      "tags": ["design", "homepage", "responsive", "completed"],
+      "attachments": [...],
+      "createdAt": "2023-06-05T09:15:00Z",
+      "updatedAt": "2023-06-21T15:20:30Z"
+    }
+  }
+}
+```
+
+### Delete Task
+
+Delete a specific task.
+
+```http
+DELETE /tasks/{taskId}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| taskId | string | The ID of the task to delete |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "message": "Task deleted successfully"
+}
+```
+
+## Comment Endpoints
+
+### List Comments
+
+Retrieve comments for a specific task.
+
+```http
+GET /tasks/{taskId}/comments
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| taskId | string | The ID of the task |
+
+#### Query Parameters
+
+| Name | Type | Description | Default |
+|------|------|-------------|---------|
+| page | number | Page number | 1 |
+| limit | number | Number of items per page | 20 |
+| sortOrder | string | Sort direction (asc, desc) | asc |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "comments": [
+      {
+        "id": "cmt_98765",
+        "taskId": "tsk_54321",
+        "authorId": "usr_12345",
+        "content": "I've completed the first draft of the design. @usr_54321 could you please review it?",
+        "attachments": [...],
+        "mentions": ["usr_54321"],
+        "createdAt": "2023-06-15T10:45:30Z",
+        "updatedAt": "2023-06-15T10:45:30Z",
+        "edited": false
+      },
+      // Additional comments...
+    ]
+  },
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 1,
+    "total_items": 5,
+    "items_per_page": 20
+  }
+}
+```
+
+### Create Comment
+
+Create a new comment on a task.
+
+```http
+POST /tasks/{taskId}/comments
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| taskId | string | The ID of the task |
+
+#### Request Body
+
+```json
+{
+  "content": "I've reviewed the design and it looks great! Just a few minor suggestions:
+1. Increase the contrast of the hero text
+2. Add more padding to the mobile menu
+
+@usr_12345 what do you think?",
+  "mentions": ["usr_12345"]
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "comment": {
+      "id": "cmt_12345",
+      "taskId": "tsk_54321",
+      "authorId": "usr_54321",
+      "content": "I've reviewed the design and it looks great! Just a few minor suggestions:
+1. Increase the contrast of the hero text
+2. Add more padding to the mobile menu
+
+@usr_12345 what do you think?",
+      "attachments": [],
+      "mentions": ["usr_12345"],
+      "createdAt": "2023-06-21T09:30:00Z",
+      "updatedAt": "2023-06-21T09:30:00Z",
+      "edited": false
+    }
+  }
+}
+```
+
+### Update Comment
+
+Update a specific comment.
+
+```http
+PATCH /comments/{commentId}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| commentId | string | The ID of the comment to update |
+
+#### Request Body
+
+```json
+{
+  "content": "I've reviewed the design and it looks great! Just a few minor suggestions:
+1. Increase the contrast of the hero text
+2. Add more padding to the mobile menu
+3. Consider a different font for headings
+
+@usr_12345 what do you think?",
+  "mentions": ["usr_12345"]
+}
+```
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "comment": {
+      "id": "cmt_12345",
+      "taskId": "tsk_54321",
+      "authorId": "usr_54321",
+      "content": "I've reviewed the design and it looks great! Just a few minor suggestions:
+1. Increase the contrast of the hero text
+2. Add more padding to the mobile menu
+3. Consider a different font for headings
+
+@usr_12345 what do you think?",
+      "attachments": [],
+      "mentions": ["usr_12345"],
+      "createdAt": "2023-06-21T09:30:00Z",
+      "updatedAt": "2023-06-21T09:45:15Z",
+      "edited": true
+    }
+  }
+}
+```
+
+### Delete Comment
+
+Delete a specific comment.
+
+```http
+DELETE /comments/{commentId}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| commentId | string | The ID of the comment to delete |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "message": "Comment deleted successfully"
+}
+```
+
+## Activity Endpoints
+
+### List Activities
+
+Retrieve activity logs for a project.
+
+```http
+GET /projects/{projectId}/activities
+```
+
+#### Parameters
+
+| Name | Type | Description |
+|------|------|-------------|
+| projectId | string | The ID of the project |
+
+#### Query Parameters
+
+| Name | Type | Description | Default |
+|------|------|-------------|---------|
+| page | number | Page number | 1 |
+| limit | number | Number of items per page | 20 |
+| type | string | Filter by activity type | all |
+| actorId | string | Filter by actor ID | all |
+| resourceType | string | Filter by resource type | all |
+
+#### Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    "activities": [
+      {
+        "id": "act_44444",
+        "type": "status_changed",
+        "actorId": "usr_54321",
+        "resourceType": "task",
+        "resourceId": "tsk_54321",
+        "metadata": {
+          "previousStatus": "todo",
+          "newStatus": "in_progress"
+        },
+        "timestamp": "2023-06-12T11:30:45Z"
+      },
+      // Additional activities...
+    ]
+  },
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 5,
+    "total_items": 87,
+    "items_per_page": 20
+  }
+}
+```
+
+## Error Codes
+
+The API uses the following error codes:
+
+| Code | Description |
+|------|-------------|
+| UNAUTHORIZED | Authentication is required or has failed |
+| FORBIDDEN | The authenticated user does not have permission |
+| NOT_FOUND | The requested resource was not found |
+| VALIDATION_ERROR | The request contains invalid data |
+| RATE_LIMIT_EXCEEDED | Too many requests have been made |
+| INTERNAL_SERVER_ERROR | An unexpected error occurred on the server |
+
+## Rate Limiting
+
+The API enforces rate limits to prevent abuse. Current limits are:
+
+- 100 requests per minute for authenticated users
+- 20 requests per minute for unauthenticated users
+
+Rate limit information is included in the response headers:
+
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 99
+X-RateLimit-Reset: 1625097601
+```
+
+## Versioning
+
+API versioning is done through the URL path. The current version is `v1`. When we make backwards-incompatible changes, we will increment the version number.
+
+```
+https://api.yamify.com/v1/resource
+```
+
+## Related Information
+
+- For more details on authentication, see the [Authentication](/api-docs/authentication) page.
+- For information about data models, see the [Data Models](/api-docs/data-models) page.

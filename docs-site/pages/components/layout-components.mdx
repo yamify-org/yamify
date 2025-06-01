@@ -1,0 +1,526 @@
+---
+title: Layout Components - Yamify
+---
+
+# Layout Components
+
+This page documents the layout components used in Yamify to structure the application interface. These components handle page layout, spacing, and organization of content.
+
+## Container
+
+The Container component provides consistent max-width and padding for page content.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' | 'md' | 'lg' | 'xl' | 'full'` | `'lg'` | Maximum width of the container |
+| `padding` | `boolean` | `true` | Whether to apply padding |
+| `center` | `boolean` | `true` | Whether to center the container horizontally |
+
+### Examples
+
+```tsx
+// Default container
+<Container>
+  <h1>Page Content</h1>
+  <p>This content will have a max-width and horizontal padding.</p>
+</Container>
+
+// Small container without padding
+<Container size="sm" padding={false}>
+  <div className="p-4 bg-gray-100 rounded">
+    <p>Custom padded content inside a small container.</p>
+  </div>
+</Container>
+
+// Full width container
+<Container size="full">
+  <div className="bg-blue-500 text-white p-4">
+    <p>This will span the full width of the parent.</p>
+  </div>
+</Container>
+```
+
+## Grid
+
+The Grid component provides a flexible grid layout system based on CSS Grid.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `columns` | `number | { sm?: number, md?: number, lg?: number, xl?: number }` | `1` | Number of columns in the grid |
+| `gap` | `number | string` | `4` | Gap between grid items (in Tailwind spacing units or CSS value) |
+| `rowGap` | `number | string` | Same as `gap` | Gap between rows |
+| `columnGap` | `number | string` | Same as `gap` | Gap between columns |
+
+### Examples
+
+```tsx
+// Basic grid with 3 columns
+<Grid columns={3} gap={6}>
+  <div className="bg-gray-100 p-4 rounded">Item 1</div>
+  <div className="bg-gray-100 p-4 rounded">Item 2</div>
+  <div className="bg-gray-100 p-4 rounded">Item 3</div>
+  <div className="bg-gray-100 p-4 rounded">Item 4</div>
+  <div className="bg-gray-100 p-4 rounded">Item 5</div>
+</Grid>
+
+// Responsive grid
+<Grid 
+  columns={{ 
+    sm: 1,    // 1 column on small screens
+    md: 2,    // 2 columns on medium screens
+    lg: 3,    // 3 columns on large screens
+    xl: 4     // 4 columns on extra large screens
+  }} 
+  gap={4}
+>
+  {items.map((item, index) => (
+    <Card key={index}>{item.content}</Card>
+  ))}
+</Grid>
+
+// Different row and column gaps
+<Grid columns={2} rowGap={8} columnGap={4}>
+  <div className="bg-gray-100 p-4 rounded">Item 1</div>
+  <div className="bg-gray-100 p-4 rounded">Item 2</div>
+  <div className="bg-gray-100 p-4 rounded">Item 3</div>
+  <div className="bg-gray-100 p-4 rounded">Item 4</div>
+</Grid>
+```
+
+## Flex
+
+The Flex component is a wrapper around CSS Flexbox with commonly used props.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `direction` | `'row' | 'column' | 'row-reverse' | 'column-reverse'` | `'row'` | Direction of the flex container |
+| `wrap` | `'nowrap' | 'wrap' | 'wrap-reverse'` | `'nowrap'` | Whether items should wrap |
+| `justify` | `'start' | 'end' | 'center' | 'between' | 'around' | 'evenly'` | `'start'` | Horizontal alignment of items |
+| `align` | `'start' | 'end' | 'center' | 'baseline' | 'stretch'` | `'start'` | Vertical alignment of items |
+| `gap` | `number | string` | `0` | Gap between flex items |
+
+### Examples
+
+```tsx
+// Row with items centered
+<Flex justify="center" align="center" gap={4}>
+  <Button>Button 1</Button>
+  <Button>Button 2</Button>
+  <Button>Button 3</Button>
+</Flex>
+
+// Column layout
+<Flex direction="column" gap={2}>
+  <h2>Title</h2>
+  <p>Description text goes here.</p>
+  <Button>Action</Button>
+</Flex>
+
+// Space between items
+<Flex justify="between" align="center">
+  <div>Left content</div>
+  <div>Right content</div>
+</Flex>
+```
+
+## Stack
+
+The Stack component is a convenience wrapper around Flex that defaults to column direction and provides consistent spacing.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `spacing` | `number | string` | `4` | Gap between stack items |
+| `direction` | `'row' | 'column'` | `'column'` | Direction of the stack |
+| `align` | `'start' | 'end' | 'center' | 'baseline' | 'stretch'` | `'stretch'` | Alignment of items |
+| `divider` | `ReactNode` | `undefined` | Element to render between items |
+
+### Examples
+
+```tsx
+// Basic vertical stack
+<Stack spacing={4}>
+  <h1>Heading</h1>
+  <p>Paragraph text</p>
+  <Button>Action</Button>
+</Stack>
+
+// Horizontal stack with alignment
+<Stack direction="row" spacing={6} align="center">
+  <Avatar src="/avatar.jpg" />
+  <div>
+    <h3>John Doe</h3>
+    <p>Frontend Developer</p>
+  </div>
+</Stack>
+
+// Stack with dividers
+<Stack divider={<Divider />}>
+  <div>Section 1</div>
+  <div>Section 2</div>
+  <div>Section 3</div>
+</Stack>
+```
+
+## Divider
+
+The Divider component renders a horizontal or vertical separator line.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `'horizontal' | 'vertical'` | `'horizontal'` | Orientation of the divider |
+| `thickness` | `number | string` | `1` | Thickness of the divider line |
+| `color` | `string` | `'gray.200'` | Color of the divider |
+| `my` | `number | string` | `4` | Vertical margin (for horizontal dividers) |
+| `mx` | `number | string` | `4` | Horizontal margin (for vertical dividers) |
+
+### Examples
+
+```tsx
+// Basic horizontal divider
+<div>
+  <p>Content above the divider</p>
+  <Divider />
+  <p>Content below the divider</p>
+</div>
+
+// Custom divider
+<div>
+  <p>Section 1</p>
+  <Divider thickness={2} color="blue.500" my={8} />
+  <p>Section 2</p>
+</div>
+
+// Vertical divider in a flex container
+<Flex align="center" height="100px">
+  <div>Left content</div>
+  <Divider orientation="vertical" mx={4} />
+  <div>Right content</div>
+</Flex>
+```
+
+## Box
+
+The Box component is a basic layout component that serves as a wrapper for other components.
+
+### Props
+
+The Box component accepts all HTML div attributes plus:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `as` | `ElementType` | `'div'` | HTML element to render as |
+
+### Examples
+
+```tsx
+// Basic usage
+<Box p={4} bg="gray.100" borderRadius="md">
+  <p>Content inside a box</p>
+</Box>
+
+// As another element
+<Box as="section" p={6} bg="blue.50" borderRadius="lg">
+  <h2>Section Title</h2>
+  <p>Section content</p>
+</Box>
+
+// With responsive styling
+<Box 
+  p={{ base: 2, md: 4, lg: 6 }}
+  bg="white" 
+  boxShadow="md"
+  borderRadius="lg"
+>
+  <p>Responsive padding based on screen size</p>
+</Box>
+```
+
+## AspectRatio
+
+The AspectRatio component is used to maintain a consistent width-to-height ratio for its content.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `ratio` | `number` | `1` | Aspect ratio (width/height) |
+| `maxWidth` | `string | number` | `'100%'` | Maximum width of the container |
+
+### Examples
+
+```tsx
+// 16:9 aspect ratio for a video
+<AspectRatio ratio={16 / 9}>
+  <iframe 
+    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+    title="YouTube video"
+    allowFullScreen
+  />
+</AspectRatio>
+
+// 1:1 aspect ratio for an image (square)
+<AspectRatio ratio={1} maxWidth="300px">
+  <img 
+    src="/product-image.jpg"
+    alt="Product"
+    style={{ objectFit: 'cover' }}
+  />
+</AspectRatio>
+
+// 4:3 aspect ratio for a map
+<AspectRatio ratio={4 / 3}>
+  <div className="bg-gray-200 p-4 flex items-center justify-center">
+    Map placeholder
+  </div>
+</AspectRatio>
+```
+
+## Main Layout Components
+
+These components are specific to Yamify's application layout structure.
+
+### AppLayout
+
+The AppLayout component is the main layout wrapper for authenticated pages.
+
+```tsx
+interface AppLayoutProps {
+  children: React.ReactNode;
+  sidebar?: React.ReactNode;
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+}
+```
+
+#### Example
+
+```tsx
+<AppLayout
+  sidebar={<Sidebar />}
+  header={<Header />}
+  footer={<Footer />}
+>
+  <main>
+    {/* Page content */}
+  </main>
+</AppLayout>
+```
+
+### Sidebar
+
+The Sidebar component renders the main navigation sidebar used in the dashboard.
+
+```tsx
+interface SidebarProps {
+  isCollapsed?: boolean;
+  onToggleCollapse?: () => void;
+  items: Array<{
+    label: string;
+    icon: React.ReactNode;
+    href: string;
+    isActive?: boolean;
+  }>;
+}
+```
+
+#### Example
+
+```tsx
+<Sidebar
+  isCollapsed={isSidebarCollapsed}
+  onToggleCollapse={toggleSidebar}
+  items={[
+    { label: 'Dashboard', icon: <DashboardIcon />, href: '/dashboard', isActive: true },
+    { label: 'Projects', icon: <ProjectsIcon />, href: '/projects' },
+    { label: 'Tasks', icon: <TasksIcon />, href: '/tasks' },
+    { label: 'Settings', icon: <SettingsIcon />, href: '/settings' }
+  ]}
+/>
+```
+
+### Header
+
+The Header component renders the top navigation bar used in the dashboard.
+
+```tsx
+interface HeaderProps {
+  user?: {
+    name: string;
+    avatar?: string;
+  };
+  onLogout?: () => void;
+  title?: string;
+}
+```
+
+#### Example
+
+```tsx
+<Header
+  user={{
+    name: 'John Doe',
+    avatar: '/avatars/john.jpg'
+  }}
+  onLogout={handleLogout}
+  title="Dashboard"
+/>
+```
+
+## Responsive Layout Patterns
+
+Yamify implements several responsive layout patterns that can be used throughout the application.
+
+### Responsive Two-Column Layout
+
+```tsx
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div className="bg-white p-6 rounded-lg shadow">
+    {/* Left column content */}
+  </div>
+  <div className="bg-white p-6 rounded-lg shadow">
+    {/* Right column content */}
+  </div>
+</div>
+```
+
+### Dashboard Layout with Collapsible Sidebar
+
+```tsx
+<div className="flex h-screen overflow-hidden">
+  {/* Sidebar */}
+  <div className={`bg-gray-800 text-white ${isSidebarOpen ? 'w-64' : 'w-20'} transition-width duration-300 ease-in-out`}>
+    {/* Sidebar content */}
+  </div>
+  
+  {/* Main content */}
+  <div className="flex-1 flex flex-col overflow-hidden">
+    {/* Header */}
+    <header className="bg-white border-b h-16 flex items-center justify-between px-6">
+      {/* Header content */}
+    </header>
+    
+    {/* Content area */}
+    <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
+      {/* Page content */}
+    </main>
+  </div>
+</div>
+```
+
+### Content with Sticky Sidebar
+
+```tsx
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  {/* Main content - takes 2/3 of the space on large screens */}
+  <div className="lg:col-span-2">
+    {/* Content goes here */}
+  </div>
+  
+  {/* Sidebar - takes 1/3 of the space and sticks to the top */}
+  <div className="lg:sticky lg:top-6 h-fit">
+    <div className="bg-white p-6 rounded-lg shadow">
+      {/* Sidebar content */}
+    </div>
+  </div>
+</div>
+```
+
+## Best Practices
+
+### Layout Component Usage
+
+1. **Consistency**: Use the same layout components throughout the application for a consistent user experience.
+
+2. **Responsiveness**: Always design with mobile-first in mind, using responsive layout components that adapt to different screen sizes.
+
+3. **Composition**: Compose layout components together rather than creating deeply nested custom layouts.
+
+4. **Spacing**: Use consistent spacing throughout the application by leveraging the Stack and Flex components.
+
+5. **Performance**: Be mindful of layout components that might cause performance issues, especially when nested deeply or used with many children.
+
+### Layout Examples
+
+#### Form Layout
+
+```tsx
+<Stack spacing={6} maxWidth="600px" mx="auto">
+  <Heading as="h1">Create Project</Heading>
+  
+  <FormControl>
+    <FormLabel htmlFor="name">Project Name</FormLabel>
+    <Input id="name" placeholder="Enter project name" />
+  </FormControl>
+  
+  <FormControl>
+    <FormLabel htmlFor="description">Description</FormLabel>
+    <Textarea id="description" placeholder="Enter project description" />
+  </FormControl>
+  
+  <Flex justify="end" gap={4}>
+    <Button variant="tertiary">Cancel</Button>
+    <Button>Create Project</Button>
+  </Flex>
+</Stack>
+```
+
+#### Dashboard Card Layout
+
+```tsx
+<Grid columns={{ sm: 1, md: 2, lg: 3 }} gap={6}>
+  <Card>
+    <CardBody>
+      <Stack spacing={4}>
+        <Flex justify="between" align="center">
+          <Heading size="md">Total Users</Heading>
+          <UserIcon size={24} />
+        </Flex>
+        <Heading size="xl">1,234</Heading>
+        <Text color="green.500">+12% from last month</Text>
+      </Stack>
+    </CardBody>
+  </Card>
+  
+  <Card>
+    <CardBody>
+      <Stack spacing={4}>
+        <Flex justify="between" align="center">
+          <Heading size="md">Active Projects</Heading>
+          <ProjectIcon size={24} />
+        </Flex>
+        <Heading size="xl">42</Heading>
+        <Text color="green.500">+7% from last month</Text>
+      </Stack>
+    </CardBody>
+  </Card>
+  
+  <Card>
+    <CardBody>
+      <Stack spacing={4}>
+        <Flex justify="between" align="center">
+          <Heading size="md">Completed Tasks</Heading>
+          <TaskIcon size={24} />
+        </Flex>
+        <Heading size="xl">789</Heading>
+        <Text color="green.500">+23% from last month</Text>
+      </Stack>
+    </CardBody>
+  </Card>
+</Grid>
+```
+
+## Related Information
+
+- For individual UI components, see [UI Components](/components/ui-components)
+- For form-specific layout components, see [Form Components](/components/form-components)
+- For the overall application structure, see [Project Structure](/architecture/project-structure)

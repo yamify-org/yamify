@@ -1,0 +1,123 @@
+---
+title: API Overview - Yamify
+---
+
+# API Overview
+
+This section provides comprehensive documentation for Yamify's APIs. Whether you're integrating with Yamify or developing new features, this guide will help you understand our API structure, authentication mechanisms, and available endpoints.
+
+## API Architecture
+
+Yamify implements a RESTful API architecture, with endpoints organized around resources. The API follows these principles:
+
+- Uses standard HTTP methods (GET, POST, PUT, DELETE)
+- Returns JSON responses
+- Uses consistent error handling patterns
+- Implements proper status codes
+- Requires authentication via JWT tokens
+
+## Base URL
+
+All API requests should be made to the following base URL:
+
+```
+https://api.yamify.com/v1
+```
+
+For development and testing, you can use:
+
+```
+http://localhost:3000/api/v1
+```
+
+## Request Format
+
+Requests with a body should be sent with the Content-Type header set to `application/json` and the body formatted as JSON.
+
+```http
+POST /api/v1/resource HTTP/1.1
+Host: api.yamify.com
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "key": "value"
+}
+```
+
+## Response Format
+
+All responses are returned in JSON format with the following structure:
+
+```json
+{
+  "status": "success",
+  "data": {
+    // Response data here
+  },
+  "message": "Optional message"
+}
+```
+
+For error responses:
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Error message"
+  }
+}
+```
+
+## Rate Limiting
+
+The API implements rate limiting to protect against abuse. The current limits are:
+
+- 100 requests per minute for authenticated users
+- 20 requests per minute for unauthenticated users
+
+Rate limit information is included in the response headers:
+
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 99
+X-RateLimit-Reset: 1625097601
+```
+
+## Pagination
+
+For endpoints that return multiple items, pagination is supported through the following query parameters:
+
+- `page`: Page number (default: 1)
+- `limit`: Number of items per page (default: 20, max: 100)
+
+Paginated responses include metadata:
+
+```json
+{
+  "status": "success",
+  "data": [...],
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 5,
+    "total_items": 100,
+    "items_per_page": 20
+  }
+}
+```
+
+## API Versioning
+
+The Yamify API is versioned to ensure backward compatibility. The current version is `v1`.
+
+API versions are specified in the URL path (e.g., `/api/v1/resource`).
+
+## Next Steps
+
+Explore the following sections to learn more about specific aspects of the Yamify API:
+
+- [API Endpoints](/api-docs/endpoints)
+- [Data Models](/api-docs/data-models)
+- [Authentication](/api-docs/authentication)
