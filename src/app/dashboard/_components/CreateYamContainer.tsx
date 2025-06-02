@@ -3,14 +3,38 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "@/styles/CreateYamContainer.css";
 import LoadingAnimation from "@/components/LoadingAnimation";
+import { SelectWorkspace } from "@/types/server";
+import { createYamAction } from "../_actions";
+import { useRouter } from "next/navigation";
 
-const CreateYamContainer = () => {
-  const [selected, setSelected] = useState("Select workspace");
+type Props = {
+  workspaces: SelectWorkspace[]
+};
+
+const CreateYamContainer = ({workspaces}: Props) => {
+  const [selectedWorkspace, setSelectedWorkspace] = useState<SelectWorkspace>();
   const [open, setOpen] = useState(false);
   const [privacy, setPrivacy] = useState<string | null>(null);
   const [successBool, setSuccessBool] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [barWidth, setBarWidth] = useState(0);
+  const [yamName, setYamName] = useState("");
+  const [displayYamValue, setDisplayYamValue] = useState("");
+  const router = useRouter()
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Update display value in lowercase while typing
+    setDisplayYamValue(e.target.value.toLowerCase());
+    setYamName(e.target.value.toLowerCase());
+  };
+
+  const loadingTxts = [
+    "Creating your cluster with optimized defaults…",
+    "Auto-scaling and security being configured in the backgrpimd.",
+    "We’re applying AI-powered enhancements for smooth performance.",
+    "You’ll be ready to build in just a moment.",
+  ];
 
   useEffect(() => {
     if (successBool) {
@@ -29,23 +53,32 @@ const CreateYamContainer = () => {
 
       return () => clearInterval(interval);
     }
-  }, [successBool]);
+  }, [loadingTxts.length, successBool]);
 
   const togglePrivacy = (service: string) => {
     setPrivacy((prev) => (prev === service ? null : service));
   };
 
-  const loadingTxts = [
-    "Creating your cluster with optimized defaults…",
-    "Auto-scaling and security being configured in the backgrpimd.",
-    "We’re applying AI-powered enhancements for smooth performance.",
-    "You’ll be ready to build in just a moment.",
-  ];
-
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if(!selectedWorkspace) return
+
     setSuccessBool(true);
+
+    try {
+      const res = await createYamAction({
+        workspace: selectedWorkspace.name,
+        workspaceId: selectedWorkspace.id,
+        yam: yamName
+      });
+
+      console.log({res})
+      router.push('/dashboard');
+    } catch(e) {
+      console.log(e)
+      setSuccessBool(true);
+    }
   };
 
   return (
@@ -72,6 +105,8 @@ const CreateYamContainer = () => {
                   type="text"
                   name="yamName"
                   placeholder="Enter yam’s name"
+                  value={displayYamValue}
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -83,7 +118,7 @@ const CreateYamContainer = () => {
               <div className="right">
                 <div className="workspace-select">
                   <div className="selected" onClick={() => setOpen(!open)}>
-                    {selected}
+                    {selectedWorkspace?.name}
                     <span className="arrow">
                       <Image
                         src="/svgs/caret_down.svg"
@@ -96,15 +131,15 @@ const CreateYamContainer = () => {
 
                   {open && (
                     <ul className="options">
-                      {["Marcus's Workspace"].map((opt) => (
+                      {workspaces.map((workspace) => (
                         <li
-                          key={opt}
+                          key={workspace.id}
                           onClick={() => {
-                            setSelected(opt);
+                            setSelectedWorkspace(workspace);
                             setOpen(false);
                           }}
                         >
-                          {opt}
+                          {workspace.name}
                         </li>
                       ))}
                     </ul>

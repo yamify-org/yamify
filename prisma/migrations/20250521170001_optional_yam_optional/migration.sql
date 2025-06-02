@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Yam" ALTER COLUMN "domain" DROP NOT NULL;

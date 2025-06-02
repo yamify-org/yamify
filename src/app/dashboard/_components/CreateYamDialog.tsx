@@ -1,55 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "@/styles/CreateYamDialog.css";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
-import LoadingAnimation from "@/components/LoadingAnimation";
+import CreateAnimation from "@/components/CreateAnimation";
+import { createYamAction } from "../_actions";
+import { SelectWorkspace } from "@/types/server";
+import { useRouter } from "next/navigation";
 
 type Props = {
   setShowYamDialog: (Callback: boolean) => void;
+  loadingTxts: string[];
+  workspaces: SelectWorkspace[]
 };
 
-const CreateYamDialog = ({ setShowYamDialog }: Props) => {
-  const [selected, setSelected] = useState("Select workspace");
+const CreateYamDialog = ({ setShowYamDialog, loadingTxts, workspaces }: Props) => {
+  const [selectedWorkspace, setSelectedWorkspace] = useState<SelectWorkspace>();
   const [open, setOpen] = useState(false);
   const [privacy, setPrivacy] = useState<string | null>(null);
   const [successBool, setSuccessBool] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [barWidth, setBarWidth] = useState(0);
-
-  useEffect(() => {
-    if (successBool) {
-      const interval = setInterval(() => {
-        setCurrentIndex((prev) => {
-          const next = prev + 1;
-          if (next < loadingTxts.length) {
-            setBarWidth((next / loadingTxts.length) * 100);
-            return next;
-          } else {
-            clearInterval(interval);
-            return prev;
-          }
-        });
-      }, 2500);
-
-      return () => clearInterval(interval);
-    }
-  }, [successBool]);
+  const [yamName, setYamName] = useState("");
+  const [displayYamValue, setDisplayYamValue] = useState("");
+  const router = useRouter()
 
   const togglePrivacy = (service: string) => {
     setPrivacy((prev) => (prev === service ? null : service));
   };
 
-  const loadingTxts = [
-    "Creating your cluster with optimized defaults…",
-    "Auto-scaling and security being configured in the backgrpimd.",
-    "We’re applying AI-powered enhancements for smooth performance.",
-    "You’ll be ready to build in just a moment.",
-  ];
-
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if(!selectedWorkspace) return
+
     setSuccessBool(true);
+
+    try {
+      const res = await createYamAction({
+        workspace: selectedWorkspace.name,
+        workspaceId: selectedWorkspace.id,
+        yam: yamName
+      });
+
+      console.log({res})
+      router.push('/dashboard');
+    } catch(e) {
+      console.log(e)
+      setSuccessBool(true);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Update display value in lowercase while typing
+    setDisplayYamValue(e.target.value.toLowerCase());
+    setYamName(e.target.value.toLowerCase());
   };
 
   return (
@@ -76,12 +77,11 @@ const CreateYamDialog = ({ setShowYamDialog }: Props) => {
 
         <div className="yam-dialog-container">
           <form onSubmit={onSubmit}>
-            <div className="head">
-              <h1>Create a Yam</h1>
-            </div>
-
             {!successBool ? (
               <>
+                <div className="head">
+                  <h1>Create a Yam</h1>
+                </div>
                 <p>
                   Names must be in lowercase. They can between 3 and 45
                   characters long and may contain dashes.
@@ -98,7 +98,7 @@ const CreateYamDialog = ({ setShowYamDialog }: Props) => {
                           className="selected"
                           onClick={() => setOpen(!open)}
                         >
-                          {selected}
+                          {selectedWorkspace?.name}
                           <span className="arrow">
                             <Image
                               src="/svgs/caret_down.svg"
@@ -111,15 +111,15 @@ const CreateYamDialog = ({ setShowYamDialog }: Props) => {
 
                         {open && (
                           <ul className="options">
-                            {["Marcus's Workspace"].map((opt) => (
+                            {workspaces.map((workspace) => (
                               <li
-                                key={opt}
+                                key={workspace.id}
                                 onClick={() => {
-                                  setSelected(opt);
+                                  setSelectedWorkspace(workspace);
                                   setOpen(false);
                                 }}
                               >
-                                {opt}
+                                {workspace.name}
                               </li>
                             ))}
                           </ul>
@@ -136,6 +136,8 @@ const CreateYamDialog = ({ setShowYamDialog }: Props) => {
                         type="text"
                         name="yamName"
                         placeholder="Enter yam’s name"
+                        value={displayYamValue}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -186,40 +188,20 @@ const CreateYamDialog = ({ setShowYamDialog }: Props) => {
                   </div>
                 </div>
 
-                <button type="submit">Create</button>
+                <button type="submit">
+                  <div className="contain">
+                    <span>Create</span>
+                    <span className="hover-text">Create</span>
+                  </div>
+                </button>
               </>
             ) : (
-              <div className="success-container">
-                <LoadingAnimation />
-                <p>
-                  Your cloud environment is sprouting—built to scale, secure by
-                  default, and made just for you.
-                </p>
-
-                <div className="loading-details">
-                  <div className="loading-bar">
-                    <motion.div
-                      className="moving-bar"
-                      animate={{ width: `${barWidth * 2}px` }}
-                      transition={{ duration: 0.6, ease: "easeInOut" }}
-                    />
-                  </div>
-
-                  <div className="txt">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={currentIndex}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        {loadingTxts[currentIndex]}
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
-                </div>
-              </div>
+              <CreateAnimation
+                successBool={successBool}
+                loadingTxts={loadingTxts}
+                title=" Your cloud environment is sprouting—built to scale, secure by
+                  default, and made just for you."
+              />
             )}
           </form>
 

@@ -19,64 +19,6 @@
   display: flex;
   justify-content: flex-end;
 }
-.right-panel .main-panel .header {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: flex-end;
-  display: flex;
-  height: 40px;
-  padding: 10px;
-  align-items: center;
-  gap: 5px;
-  border: 1px solid var(--Default-Dark-Ash, #232323);
-  background: var(--Default-Light-Black, #1e1e1e);
-}
-.right-panel .main-panel .header .wrap {
-  display: flex;
-  align-items: center;
-}
-.right-panel .main-panel .header .wrap .notification {
-  padding: 0 20px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-  border-left: 1px solid var(--Default-Dark-Ash, #232323);
-  border-right: 1px solid var(--Default-Dark-Ash, #232323);
-  cursor: pointer;
-}
-.right-panel .main-panel .header .wrap .profile-contain {
-  display: flex;
-  height: 30px;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-.right-panel .main-panel .header .wrap .profile-contain:hover {
-  background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
-}
-.right-panel .main-panel .header .wrap .profile-contain img.profile-img {
-  width: 24px;
-  height: 24px;
-  -o-object-fit: cover;
-     object-fit: cover;
-  -o-object-position: center;
-     object-position: center;
-}
-.right-panel .main-panel .header .wrap .profile-contain p {
-  color: var(--Default-Light-grey, #e6e6e6);
-  font-family: Commissioner;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
 .right-panel .main-panel .section {
   width: 100%;
   max-width: 900px;
