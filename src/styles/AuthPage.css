@@ -7,45 +7,51 @@
   width: 100%;
   margin: 0 auto;
 }
-.auth-section section .header {
+.auth-section section .auth-header {
   width: 100%;
+  max-width: 1312px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 60px;
   font-family: "Commissioner", sans-serif;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1b1b1b;
 }
-.auth-section section .header .logo {
+.auth-section section .auth-header .logo {
   display: flex;
   align-items: center;
   gap: 15px;
 }
-.auth-section section .header .logo h1 {
+.auth-section section .auth-header .logo h1 {
   font-size: 18px;
   font-weight: 600;
   line-height: 100%;
 }
-.auth-section section .header .wrap {
+.auth-section section .auth-header .wrap {
   display: flex;
   align-items: center;
   gap: 4px;
 }
-.auth-section section .header .wrap p {
+.auth-section section .auth-header .wrap p {
   font-size: 13px;
   font-weight: 500;
   line-height: 100%;
 }
-.auth-section section .header .wrap a {
+.auth-section section .auth-header .wrap a {
   font-size: 13px;
   font-weight: 600;
   line-height: 100%;
 }
-.auth-section section .header .wrap a:hover {
+.auth-section section .auth-header .wrap a:hover {
   text-decoration: underline;
 }
 .auth-section section .container {
   margin: 0 auto;
-  margin-top: 122px;
+  margin-top: 182px;
   width: 400px;
 }
 .auth-section section .container .back-icon {
@@ -138,6 +144,34 @@
 .auth-section section .container form .label {
   width: 100%;
   display: flex;
+}
+.auth-section section .container form .label.password-checker-container .left {
+  border-right: none;
+}
+.auth-section section .container form .label.password-checker-container .right {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.auth-section section .container form .label.password-checker-container .right .wrap {
+  display: flex;
+  align-items: center;
+  width: -moz-fit-content;
+  width: fit-content;
+  gap: 8px;
+}
+.auth-section section .container form .label.password-checker-container .right .wrap svg {
+  width: 16px;
+  height: 16px;
+}
+.auth-section section .container form .label.password-checker-container .right .wrap p {
+  color: var(--Default-Ash, #4c4c4c);
+  font-family: "Commissioner", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 100%;
 }
 .auth-section section .container form .label:last-child {
   margin-bottom: 50px;

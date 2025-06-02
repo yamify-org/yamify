@@ -17,6 +17,13 @@ export default function SignUp() {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordValidations, setPasswordValidations] = useState({
+    hasMinLength: false,
+    hasNumber: false,
+    hasUppercase: false,
+    hasSpecialChar: false,
+  });
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,6 +47,16 @@ export default function SignUp() {
     };
   }, [isOpen]);
 
+  // Password validation logic
+  useEffect(() => {
+    setPasswordValidations({
+      hasMinLength: password.length >= 6,
+      hasNumber: /\d/.test(password),
+      hasUppercase: /[A-Z]/.test(password),
+      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    });
+  }, [password]);
+
   const filteredCountries = countries.filter((country) =>
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -49,6 +66,38 @@ export default function SignUp() {
       "https://yamify-backend.onrender.com/api/v1/auth/github";
     window.location.href = githubAuthUrl;
   };
+
+  const ValidSVG = () => (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M22 22L22 2L2 2L2 22L22 22Z" stroke="#4c4c4c" />
+      <rect width="14" height="14" transform="translate(5 5)" fill="#4c4c4c" />
+      <path
+        d="M16.6663 8.5L10.2497 14.9167L7.33301 12"
+        stroke="#1B1B1B"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+
+  const InvalidSVG = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path d="M22 22L22 2L2 2L2 22L22 22Z" stroke="#4c4c4c" />
+    </svg>
+  );
 
   return (
     <div className="auth-section">
@@ -97,7 +146,6 @@ export default function SignUp() {
                       height={100}
                       className="flag"
                     />
-                    {/* <div className="code">{country.dialCode}</div> */}
                     <div className="country-txt">{country.name}</div>
                   </div>
 
@@ -185,16 +233,56 @@ export default function SignUp() {
                     name="password"
                     placeholder="Set your password"
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <Image
                     onClick={() => setShowPassword((prev) => !prev)}
                     src={
-                      showPassword ? "/svgs/eyeopen.svg" : "/svgs/eyeopen.svg"
+                      showPassword ? "/svgs/eyeopen.svg" : "/svgs/eyeclosed.svg"
                     }
                     alt="Toggle password visibility"
                     height={15}
                     width={15}
                   />
+                </div>
+              </div>
+            </div>
+
+            <div className="password-checker-container label">
+              <div className="left"></div>
+              <div className="right">
+                <div className="wrap">
+                  {passwordValidations.hasMinLength ? (
+                    <ValidSVG />
+                  ) : (
+                    <InvalidSVG />
+                  )}
+                  <p>6 characters min</p>
+                </div>
+                <div className="wrap">
+                  {passwordValidations.hasNumber ? (
+                    <ValidSVG />
+                  ) : (
+                    <InvalidSVG />
+                  )}
+                  <p>A number</p>
+                </div>
+                <div className="wrap">
+                  {passwordValidations.hasUppercase ? (
+                    <ValidSVG />
+                  ) : (
+                    <InvalidSVG />
+                  )}
+                  <p>Upper case character</p>
+                </div>
+                <div className="wrap">
+                  {passwordValidations.hasSpecialChar ? (
+                    <ValidSVG />
+                  ) : (
+                    <InvalidSVG />
+                  )}
+                  <p>Special character</p>
                 </div>
               </div>
             </div>
