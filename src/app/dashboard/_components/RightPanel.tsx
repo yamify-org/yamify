@@ -4,14 +4,25 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import CreateYamContainer from "./CreateYamContainer";
 import Link from "next/link";
+import DashboardHeader from "./DashboardHeader";
+import { SelectWorkspace } from "@/types/server";
+import { useUser } from "@clerk/nextjs";
 
 type Props = {
   expandRightPanel: boolean;
+  workspaces: SelectWorkspace[]
 };
 
-const RightPanel = ({ expandRightPanel }: Props) => {
+const RightPanel = ({ expandRightPanel, workspaces }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mainInputRef = useRef<HTMLInputElement>(null);
+  const today = new Date();
+  const formattedToday = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',   // e.g. "Thursday"
+    month: 'long',     // e.g. "May"
+    day: 'numeric',    // e.g. "6"
+  }).format(today);
+  const { user } = useUser()
 
   const [roleCareer, setRoleCareer] = useState<string | null>(null);
   const [mainImage, setMainImage] = useState("");
@@ -76,44 +87,24 @@ const RightPanel = ({ expandRightPanel }: Props) => {
     return () => container.removeEventListener("scroll", syncScrollPosition);
   }, []);
 
+  if(!user) return
+
   return (
     <div className={`right-panel ${expandRightPanel && "not-expand"}`}>
       <div className="dummy-panel"></div>
       <div className="main-panel">
-        <div className="header">
-          <div className="wrap">
-            <div className="notification">
-              <Image
-                src="/svgs/notification.svg"
-                alt=""
-                width={15}
-                height={15}
-              />
-            </div>
-            <div className="profile-contain">
-              <Image
-                src="/images/profile.jpg"
-                alt=""
-                width={768}
-                height={552}
-                className="profile-img"
-              />
-              <p>Marcus Otunba</p>
-              <Image src="/svgs/caret_down.svg" alt="" width={15} height={15} />
-            </div>
-          </div>
-        </div>
+        <DashboardHeader />
 
         <div className="section">
           <div className="intro-welcome">
-            <div className="date">Thursday, May 6</div>
-            <h3>Good afternoon, Marcus.</h3>
+            <div className="date">{formattedToday}</div>
+            <h3>Good afternoon, {user.firstName}.</h3>
           </div>
 
           <div className="summary-wrap">
             <div className="row">
-              <h2>1</h2>
-              <p>Workspace</p>
+              <h2>{workspaces.length}</h2>
+              <p>Workspace (s)</p>
             </div>
             <div className="row">
               <h2>1</h2>
@@ -405,7 +396,7 @@ const RightPanel = ({ expandRightPanel }: Props) => {
               </motion.div>
             </div>
 
-            <CreateYamContainer />
+            <CreateYamContainer workspaces={workspaces} />
           </div>
         </div>
       </div>
