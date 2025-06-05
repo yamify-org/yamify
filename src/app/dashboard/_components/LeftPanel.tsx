@@ -215,6 +215,15 @@ const LeftPanel = ({
               <Image src="/svgs/cluster.svg" alt="" width={15} height={15} />
               <p>All Yams</p>
             </Link>
+            <Link
+              href={routes.dashboard.projects.all}
+              className={`link ${
+                pathname === routes.dashboard.projects.all && "active"
+              }`}
+            >
+              <Image src="/svgs/workflow.svg" alt="" width={15} height={15} />
+              <p>All Projects</p>
+            </Link>
             <Link href={routes.dashboard.overview} className="link">
               <Image src="/svgs/list.svg" alt="" width={15} height={15} />
               <p>Marketplace</p>

@@ -4,7 +4,7 @@ header {
   height: 60px;
   top: 0;
   z-index: 100;
-  background: var(--Default-Black, #1b1b1b);
+  background: var(--Default-Black, #111);
   transition: 0.3s all ease-in-out;
 }
 header.light-mode {
