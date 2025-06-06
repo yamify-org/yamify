@@ -5,11 +5,21 @@ import AuthHeader from "../../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
 import { countries } from "@/utils/data";
+import { OAuthStrategy } from '@clerk/types';
+import { useSignUp } from '@clerk/nextjs';
 
-import { OAuthStrategy } from '@clerk/types'
-import { useSignUp } from '@clerk/nextjs'
+type Country = {
+  name: string;
+  dialCode: string;
+  code: string;
+  flag: string;
+};
 
-export default function SignUp() {
+type SignUpPageProps = {
+  searchParams?: { redirect_url?: string };
+};
+
+export default function SignUp({ searchParams }: SignUpPageProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [country, setCountry] = useState({
     name: "Nigeria",
@@ -19,7 +29,12 @@ export default function SignUp() {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { signUp } = useSignUp()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { signUp, setActive } = useSignUp();
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -86,11 +101,7 @@ export default function SignUp() {
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
-<<<<<<< HEAD:src/app/auth/sign-up/page.tsx
-            <div className="btn" onClick={handleGoogleLogin}>
-=======
             <div className="btn" onClick={() => signUpWithSocial('oauth_google')}>
->>>>>>> 18406737a1bb3fca4a103e5b3a319cf72d6e7130:src/app/auth/sign-up/[[...sign-up]]/page.tsx
               <Image src="/svgs/google.svg" alt="" height={20} width={20} />
               Continue with Google
             </div>
@@ -102,7 +113,35 @@ export default function SignUp() {
             <div className="line"></div>
           </div>
 
-          <form action="">
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            setError(null);
+            setIsLoading(true);
+            
+            try {
+              await signUp.create({
+                emailAddress: email,
+                password,
+              });
+
+              await signUp.prepareEmailAddressVerification();
+              
+              // Rediriger vers la page de vérification
+              const redirectUrl = searchParams?.redirect_url || '/dashboard';
+              await setActive({ session: signUp.createdSessionId });
+              window.location.href = redirectUrl;
+            } catch (err: any) {
+              console.error('Error:', err);
+              setError(err.errors?.[0]?.message || 'Une erreur est survenue');
+            } finally {
+              setIsLoading(false);
+            }
+          }}>
+            {error && (
+              <div className="error-message">
+                {error}
+              </div>
+            )}
             <div className="label">
               <div className="left">
                 <label htmlFor="">Country</label>
@@ -186,10 +225,11 @@ export default function SignUp() {
                 <label htmlFor="">Email address</label>
               </div>
               <div className="right">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email address"
+                <input 
+                  type="email" 
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
@@ -202,8 +242,9 @@ export default function SignUp() {
                 <div className="wrap">
                   <input
                     type={showPassword ? "text" : "password"}
-                    name="password"
                     placeholder="Set your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <Image
@@ -219,12 +260,14 @@ export default function SignUp() {
               </div>
             </div>
 
-            <button type="submit">
-              <div className="contain">
-                <span>Create</span>
-                <span className="hover-text">Create</span>
-              </div>
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              className={isLoading ? 'loading' : ''}
+            >
+              {isLoading ? 'Creating account...' : 'Create account'}
             </button>
+
           </form>
 
           <div className="txt">
@@ -234,5 +277,6 @@ export default function SignUp() {
         </div>
       </section>
     </div>
+    
   );
 }
