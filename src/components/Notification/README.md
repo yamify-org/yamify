@@ -1,54 +1,54 @@
-# Composant de Notification
+# Notification Component
 
-Un système de notification personnalisable pour l'application Yamify, supportant différents types de notifications et le mode clair/sombre.
+A customizable notification system for the Yamify application, supporting different notification types and light/dark mode.
 
-## Fonctionnalités
+## Features
 
-- Affichage de notifications temporaires
-- Support de différents types : succès, erreur, avertissement, info
-- Intégration avec le thème clair/sombre de l'application
-- Fermeture manuelle ou automatique
-- Barre de progression visuelle
+- Display of temporary notifications
+- Support for different types: success, error, warning, info
+- Integration with the application's light/dark theme
+- Manual or automatic dismissal
+- Visual progress bar
 
 ## Installation
 
-Le composant est déjà inclus dans le layout principal de l'application. Aucune installation supplémentaire n'est nécessaire.
+The component is already included in the main application layout. No additional installation is required.
 
-## Utilisation
+## Usage
 
-### 1. Utilisation de base avec le hook useNotification
+### 1. Basic Usage with the useNotification Hook
 
 ```tsx
 import { useNotification } from '@/hooks/useNotification';
 
-function MonComposant() {
+function MyComponent() {
   const { success, error, warning, info } = useNotification();
 
   const handleAction = () => {
-    // Exemple de notification de succès
-    success('Opération réussie !', 'Succès', 5000);
+    // Example success notification
+    success('Operation successful!', 'Success', 5000);
     
-    // Exemple de notification d'erreur
-    // error('Une erreur est survenue', 'Erreur', 5000);
+    // Example error notification
+    // error('An error occurred', 'Error', 5000);
     
-    // Exemple d'avertissement
-    // warning('Attention, action irréversible', 'Avertissement', 5000);
+    // Example warning notification
+    // warning('This action cannot be undone', 'Warning', 5000);
     
-    // Exemple d'information
-    // info('Nouvelle mise à jour disponible', 'Information', 5000);
+    // Example info notification
+    // info('New update available', 'Information', 5000);
   };
 
   return (
     <button onClick={handleAction}>
-      Effectuer une action
+      Perform Action
     </button>
   );
 }
 ```
 
-### API
+## API Reference
 
-#### Hook `useNotification`
+### `useNotification` Hook
 
 ```tsx
 const { 
@@ -60,27 +60,83 @@ const {
 } = useNotification();
 ```
 
-- `showNotification(message, type, title?, duration?)`: Méthode générique pour afficher une notification
-- `success(message, title?, duration?)`: Affiche une notification de succès
-- `error(message, title?, duration?)`: Affiche une notification d'erreur
-- `warning(message, title?, duration?)`: Affiche une notification d'avertissement
-- `info(message, title?, duration?)`: Affiche une notification d'information
+#### Methods
 
-#### Paramètres
+- `showNotification(message: string, type: NotificationType, title?: string, duration?: number)`: Generic method to display a notification
+- `success(message: string, title?: string, duration?: number)`: Displays a success notification
+- `error(message: string, title?: string, duration?: number)`: Displays an error notification
+- `warning(message: string, title?: string, duration?: number)`: Displays a warning notification
+- `info(message: string, title?: string, duration?: number)`: Displays an info notification
 
-- `message` (string): Le contenu principal de la notification
-- `title` (string, optionnel): Le titre de la notification
-- `duration` (number, optionnel): Durée d'affichage en millisecondes (par défaut: 5000ms)
+#### Parameters
 
-## Structure des fichiers
+- `message` (string, required): The main content of the notification
+- `title` (string, optional): The title of the notification
+- `duration` (number, optional): Display duration in milliseconds (default: 5000ms)
+- `type` (NotificationType, required for `showNotification`): Type of notification ('success' | 'error' | 'warning' | 'info')
 
-- `Notification.tsx`: Composant individuel de notification
-- `NotificationContainer.tsx`: Conteneur qui gère l'affichage de toutes les notifications
-- `useNotificationStore.ts`: Store Zustand pour gérer l'état des notifications
-- `useNotification.ts`: Hook pour faciliter l'utilisation des notifications
-- `Notification.module.css`: Styles CSS pour les notifications
-- `NotificationContainer.module.css`: Styles CSS pour le conteneur de notifications
+## File Structure
 
-## Personnalisation
+- `Notification.tsx`: Individual notification component
+- `NotificationContainer.tsx`: Container that manages all notifications
+- `useNotificationStore.ts`: Zustand store for managing notification state
+- `useNotification.ts`: Hook for easier notification usage
+- `Notification.css`: CSS styles for notifications
+- `Notification.css.map`: Source map for CSS styles
+- `Notification.scss`: SCSS source for notification styles
 
-Vous pouvez personnaliser l'apparence des notifications en modifiant les fichiers CSS modulaires.
+## Styling
+
+Customize the appearance by modifying the SCSS variables in `Notification.scss`:
+
+```scss
+// Colors
+$success-color: #187050;
+$error-color: #ef4444;
+$warning-color: #bb811b;
+$info-color: #3b82f6;
+
+// Light mode
+$light-bg: #ffffff;
+$light-text: #1b1b1b;
+$light-border: #b8b8b8;
+
+// Dark mode
+$dark-bg: #1b1b1b;
+$dark-text: #ffffff;
+```
+
+## Best Practices
+
+1. Keep notification messages clear and concise
+2. Use appropriate notification types for different scenarios
+3. Set reasonable durations for automatic dismissal
+4. Ensure important notifications require user action
+5. Test notifications in both light and dark modes
+
+## Examples
+
+### Success Notification
+```tsx
+const { success } = useNotification();
+success('Your changes have been saved successfully!', 'Success');
+```
+
+### Error with Custom Duration
+```tsx
+const { error } = useNotification();
+error('Failed to save changes. Please try again.', 'Error', 10000);
+```
+
+### Warning with Title
+```tsx
+const { warning } = useNotification();
+warning('This action cannot be undone.', 'Warning');
+```
+
+### Info Notification
+```tsx
+const { info } = useNotification();
+info('New features available in the latest update!', 'Update Available');
+```
+
