@@ -1,7 +1,13 @@
+"use client";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
+import { NotificationContainer } from "@/components/Notification";
+
+import { useState } from "react";
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,26 +19,21 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Yamify",
-  description:
-    "Yamify is an AI-powered personal cloud built for African developers, offering reliable, scalable, and affordable tools to launch and grow their projects",
-  openGraph: {
-    title: "Yamify",
-    description:
-      "Yamify is an AI-powered personal cloud built for African developers, offering reliable, scalable, and affordable tools to launch and grow their projects",
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
-};
+
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>)
+
+
+
+
+
+{  
+  
+  const [lightMode, setLightMode] = useState(false);
   return (
     <ClerkProvider>
       <html lang="en">
@@ -40,6 +41,8 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           {children}
+          <NotificationContainer lightMode={lightMode} />
+
         </body>
       </html>
     </ClerkProvider>
