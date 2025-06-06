@@ -86,11 +86,7 @@ export default function SignUp() {
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
-<<<<<<< HEAD:src/app/auth/sign-up/page.tsx
-            <div className="btn" onClick={handleGoogleLogin}>
-=======
             <div className="btn" onClick={() => signUpWithSocial('oauth_google')}>
->>>>>>> 18406737a1bb3fca4a103e5b3a319cf72d6e7130:src/app/auth/sign-up/[[...sign-up]]/page.tsx
               <Image src="/svgs/google.svg" alt="" height={20} width={20} />
               Continue with Google
             </div>
