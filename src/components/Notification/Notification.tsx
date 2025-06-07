@@ -75,7 +75,7 @@ const Notification: React.FC<NotificationProps> = ({ notification, onClose, ligh
             {getIcon(notification.type)}
             
               {notification.title && (
-                <div className="notification-title  text-green-700">
+                <div className="notification-title  ">
                   {notification.title}
                 </div>
               )}
