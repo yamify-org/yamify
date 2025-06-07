@@ -41,7 +41,6 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           {children}
-          <NotificationContainer lightMode={lightMode} />
 
         </body>
       </html>

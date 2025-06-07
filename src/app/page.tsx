@@ -27,7 +27,7 @@ export default function Home() {
   const contactRef = useRef<HTMLDivElement | null>(null);
 
   const handleClick = () => {
-    success('Opération réussie !', 'Succès', 5000);
+    error('Opération failed !', 'Error', 5000);
   };
 
   return (
@@ -84,6 +84,9 @@ export default function Home() {
         lightMode={lightMode}
         joinWaitlistRef={joinWaitlistRef}
       />
+                
+            <NotificationContainer lightMode={lightMode} />
+
     </div>
   );
 }

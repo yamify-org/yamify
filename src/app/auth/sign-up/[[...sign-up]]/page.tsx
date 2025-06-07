@@ -5,21 +5,11 @@ import AuthHeader from "../../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
 import { countries } from "@/utils/data";
-import { OAuthStrategy } from '@clerk/types';
-import { useSignUp } from '@clerk/nextjs';
 
-type Country = {
-  name: string;
-  dialCode: string;
-  code: string;
-  flag: string;
-};
+import { OAuthStrategy } from '@clerk/types'
+import { useSignUp } from '@clerk/nextjs'
 
-type SignUpPageProps = {
-  searchParams?: { redirect_url?: string };
-};
-
-export default function SignUp({ searchParams }: SignUpPageProps) {
+export default function SignUp() {
   const [isOpen, setIsOpen] = useState(false);
   const [country, setCountry] = useState({
     name: "Nigeria",
@@ -29,12 +19,7 @@ export default function SignUp({ searchParams }: SignUpPageProps) {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const { signUp, setActive } = useSignUp();
+  const { signUp } = useSignUp()
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -82,13 +67,6 @@ export default function SignUp({ searchParams }: SignUpPageProps) {
       })
   }
 
-  const handleGoogleLogin = () => {
-    const googleAuthUrl =
-      "https://yamify-backend.onrender.com/api/v1/auth/google";
-
-    window.location.href = googleAuthUrl;
-  };
-
   return (
     <div className="auth-section">
       <section>
@@ -113,35 +91,7 @@ export default function SignUp({ searchParams }: SignUpPageProps) {
             <div className="line"></div>
           </div>
 
-          <form onSubmit={async (e) => {
-            e.preventDefault();
-            setError(null);
-            setIsLoading(true);
-            
-            try {
-              await signUp.create({
-                emailAddress: email,
-                password,
-              });
-
-              await signUp.prepareEmailAddressVerification();
-              
-              // Rediriger vers la page de vérification
-              const redirectUrl = searchParams?.redirect_url || '/dashboard';
-              await setActive({ session: signUp.createdSessionId });
-              window.location.href = redirectUrl;
-            } catch (err: any) {
-              console.error('Error:', err);
-              setError(err.errors?.[0]?.message || 'Une erreur est survenue');
-            } finally {
-              setIsLoading(false);
-            }
-          }}>
-            {error && (
-              <div className="error-message">
-                {error}
-              </div>
-            )}
+          <form action="">
             <div className="label">
               <div className="left">
                 <label htmlFor="">Country</label>
@@ -225,11 +175,10 @@ export default function SignUp({ searchParams }: SignUpPageProps) {
                 <label htmlFor="">Email address</label>
               </div>
               <div className="right">
-                <input 
-                  type="email" 
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
                   required
                 />
               </div>
@@ -242,9 +191,8 @@ export default function SignUp({ searchParams }: SignUpPageProps) {
                 <div className="wrap">
                   <input
                     type={showPassword ? "text" : "password"}
+                    name="password"
                     placeholder="Set your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <Image
@@ -260,14 +208,12 @@ export default function SignUp({ searchParams }: SignUpPageProps) {
               </div>
             </div>
 
-            <button 
-              type="submit" 
-              disabled={isLoading}
-              className={isLoading ? 'loading' : ''}
-            >
-              {isLoading ? 'Creating account...' : 'Create account'}
+            <button type="submit">
+              <div className="contain">
+                <span>Create</span>
+                <span className="hover-text">Create</span>
+              </div>
             </button>
-
           </form>
 
           <div className="txt">
@@ -277,6 +223,5 @@ export default function SignUp({ searchParams }: SignUpPageProps) {
         </div>
       </section>
     </div>
-    
   );
 }
