@@ -1,4 +1,4 @@
-# Yamify - Cloud Platform for African Developers
+# Yamify - Cloud Platform for Africa
 
 Yamify is an AI-powered personal cloud platform designed specifically for African developers. It provides reliable, affordable, and scalable cloud infrastructure with tools and support tailored to the unique needs of developers across Africa.
 
