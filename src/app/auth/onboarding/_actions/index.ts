@@ -41,7 +41,7 @@ export const completeOnboarding = async ({workspaceName, createYam}: OnbordindDa
         if(e instanceof Error){
           console.log(e.message)
         }
-        return new Response('Error creating user', { status: 500 })
+        return { error: 'Error creating user' }
       }
 
       try{
@@ -56,7 +56,7 @@ export const completeOnboarding = async ({workspaceName, createYam}: OnbordindDa
             if(e instanceof Error){
               console.log(e.message)
             }
-            return new Response('Error creating workspace', { status: 500 })
+            return { error: 'Error creating workspace' }
           }
 
         // create ingress for the user
@@ -68,7 +68,7 @@ export const completeOnboarding = async ({workspaceName, createYam}: OnbordindDa
       if(e instanceof Error){
         console.log(e.message)
       }
-      return new Response('Error creating ingress', { status: 500 })
+      return { error: 'Error creating ingress' }
     }
 
     if(createYam){
@@ -88,7 +88,7 @@ export const completeOnboarding = async ({workspaceName, createYam}: OnbordindDa
       if(e instanceof Error){
         console.log(e.message)
       }
-      return new Response('Error creating yam', { status: 500 })
+      return { error: 'Error creating yam' }
     }
     }
 
