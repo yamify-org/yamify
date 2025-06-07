@@ -8,12 +8,16 @@ import JoinWaitlistModal from "@/components/JoinWaitlistModal";
 import JoinWaitlistSection from "@/components/JoinWaitlistSection";
 import WhatIfSection from "@/components/WhatIfSection";
 import YamLayersSection from "@/components/YamLayersSection";
+import { useNotification } from '@/hooks/useNotification';
+import { NotificationContainer } from "@/components/Notification";
+
 import "@/styles/Home.css";
 import { useRef, useState } from "react";
 
 export default function Home() {
   const [joinWaitlistModal, setJoinWaitlistModal] = useState(false);
   const [lightMode, setLightMode] = useState(false);
+  const { success, error, warning, info } = useNotification();
 
   const heroRef = useRef<HTMLDivElement | null>(null);
   const workIfRef = useRef<HTMLDivElement | null>(null);
@@ -21,6 +25,10 @@ export default function Home() {
   const yamLayerRef = useRef<HTMLDivElement | null>(null);
   const joinWaitlistRef = useRef<HTMLDivElement | null>(null);
   const contactRef = useRef<HTMLDivElement | null>(null);
+
+  const handleClick = () => {
+    error('Opération failed !', 'Error', 5000);
+  };
 
   return (
     <div
@@ -49,6 +57,10 @@ export default function Home() {
       />
       <HeroSection heroRef={heroRef} lightMode={lightMode} />
 
+      <button onClick={handleClick}>
+      Afficher une notification
+    </button>
+
       <div className="section-containers">
         <WhatIfSection workIfRef={workIfRef} lightMode={lightMode} />
         <CapabilitySection
@@ -72,6 +84,9 @@ export default function Home() {
         lightMode={lightMode}
         joinWaitlistRef={joinWaitlistRef}
       />
+                
+            <NotificationContainer lightMode={lightMode} />
+
     </div>
   );
 }

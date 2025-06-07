@@ -67,13 +67,6 @@ export default function SignUp() {
       })
   }
 
-  const handleGoogleLogin = () => {
-    const googleAuthUrl =
-      "https://yamify-backend.onrender.com/api/v1/auth/google";
-
-    window.location.href = googleAuthUrl;
-  };
-
   return (
     <div className="auth-section">
       <section>
