@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 type Props = {
   expandRightPanel: boolean;
+  setShowWordpressDialog?: (callback: boolean) => void;
 };
 
 // const yamData = [
@@ -40,7 +41,7 @@ type Props = {
 //   workspace: string;
 // }
 
-const RightPanelYam = ({ expandRightPanel }: Props) => {
+const RightPanelYam = ({ expandRightPanel, setShowWordpressDialog }: Props) => {
   const [yam, setYam] = useState<SelectYam>();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -342,11 +343,10 @@ const handleDeployCodeServer = async () => {
               <div className="card">
                 <h4>No deployed project</h4>
                 <p>Once you deploy a project, you can access it here.</p>
-                <button 
-                  onClick={handleDeployWordPress}
-                  disabled={deploymentLoading.wordpress}
+                <button
+                  onClick={() => setShowWordpressDialog && setShowWordpressDialog(true)}
                 >
-                  {deploymentLoading.wordpress ? "Deploying..." : "Deploy a wordpress project"}
+                  Deploy a WordPress project
                 </button>
                 <button 
                   onClick={handleDeployCodeServer}

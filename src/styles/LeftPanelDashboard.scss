@@ -448,6 +448,9 @@
       padding: 0 5px;
       padding-bottom: 5px;
       margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
 
       button {
         display: flex;
@@ -471,6 +474,20 @@
 
           img {
             filter: invert(1);
+          }
+        }
+
+        &.wordpress-btn {
+          background-color: #21759b;
+          
+          .row {
+            color: white;
+            
+            svg {
+              path {
+                fill: white;
+              }
+            }
           }
         }
       }
