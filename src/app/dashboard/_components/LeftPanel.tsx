@@ -14,6 +14,7 @@ type Props = {
   setExpandRightPanel: (Callback: boolean) => void;
   setShowYamDialog: (Callback: boolean) => void;
   setShowWorkspaceDialog?: (Callback: boolean) => void;
+  setShowWordpressDialog?: (Callback: boolean) => void;
   expandRightPanel: boolean;
   workspaces: SelectWorkspace[]
 };
@@ -22,19 +23,14 @@ const LeftPanel = ({
   setExpandRightPanel,
   setShowYamDialog,
   setShowWorkspaceDialog,
+  setShowWordpressDialog,
   workspaces
 }: Props) => {
-<<<<<<< HEAD
-  // const [collapseWallet, setCollapseWallet] = useState(false);
-  const [collapseYam, setCollapseYam] = useState(true);
-  // const [sidebar, setSidebar] = useState(false);
-=======
   const [selectedWorkspace, setSelectedWorkspace] = useState<SelectWorkspace>(workspaces[0]);
   const [collapseWallet, setCollapseWallet] = useState(false);
   const [collapseYam, setCollapseYam] = useState(true);
   const [dropDownWorkspace, setDropDownWorkspace] = useState(false);
   const { user } = useUser();
->>>>>>> 18406737a1bb3fca4a103e5b3a319cf72d6e7130
 
   
   const pathname = usePathname();
@@ -287,6 +283,21 @@ const LeftPanel = ({
             </div>
             <Image src="/svgs/plus.svg" alt="" width={15} height={15} />
           </button>
+          
+          {setShowWordpressDialog && (
+            <button
+              onClick={() => setShowWordpressDialog(true)}
+              className="wordpress-btn"
+            >
+              <div className="row">
+                <svg width="15" height="15" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M128 0C57.3 0 0 57.3 0 128C0 198.7 57.3 256 128 256C198.7 256 256 198.7 256 128C256 57.3 198.7 0 128 0ZM21.1 128C21.1 112.3 24.7 97.4 31.1 84L96.7 231.5C52.6 215.8 21.1 175.5 21.1 128ZM128 234.9C116.9 234.9 106.2 233.3 96.1 230.3L134.8 133.9L174.5 226.6C174.6 226.8 174.7 227 174.8 227.2C160.3 232.2 144.5 234.9 128 234.9ZM142.2 77.3C148.3 77.1 153.8 76.5 153.8 76.5C159.3 75.9 158.7 67.7 153.2 68.3C153.2 68.3 136.6 69.5 125.4 69.5C115 69.5 98.1 68.3 98.1 68.3C92.6 67.7 92 76.5 97.5 76.5C97.5 76.5 102.4 77.1 108 77.3L128.1 130.3L107.5 192.5L66.6 77.3C72.7 77.1 78.2 76.5 78.2 76.5C83.7 75.9 83.1 67.7 77.6 68.3C77.6 68.3 61 69.5 49.8 69.5C47.7 69.5 45.3 69.5 42.8 69.4C60.5 40.9 92.2 21.1 128 21.1C155.3 21.1 180.1 32.6 198.2 51.3C197.8 51.3 197.4 51.2 197 51.2C186.6 51.2 179.1 60 179.1 69.5C179.1 77.3 183.6 83.9 188.4 92C192 98.3 196.3 106.3 196.3 117.6C196.3 124.6 194.1 132.8 190.2 144.2L177.1 184.2L142.2 77.3ZM201.3 78.2C210.9 93.4 216.9 111.9 216.9 128C216.9 172.4 189.5 210.4 149.8 228.1L183.8 135.8C191.3 119.8 193.8 107.1 193.8 95.9C193.8 89.2 193.2 83.1 191.9 77.5C195.2 77.7 198.3 78.2 201.3 78.2Z" fill="#00A67E"/>
+                </svg>
+                <p> Deploy WordPress</p>
+              </div>
+              <Image src="/svgs/plus.svg" alt="" width={15} height={15} />
+            </button>
+          )}
         </div>
       </div>
     </div>

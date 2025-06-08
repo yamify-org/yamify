@@ -1,5 +1,6 @@
 .left-panel {
   top: 0px;
+  /* Trigger recompilation */
   position: fixed;
   z-index: 101;
   left: 0;
@@ -354,6 +355,9 @@
   padding: 0 5px;
   padding-bottom: 5px;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .left-panel .yam-container .btn-contain button {
   display: flex;
@@ -377,4 +381,13 @@
 }
 .left-panel .yam-container .btn-contain button .row img {
   filter: invert(1);
-}/*# sourceMappingURL=LeftPanelDashboard.css.map */
+}
+.left-panel .yam-container .btn-contain button.wordpress-btn {
+  background-color: #21759b;
+}
+.left-panel .yam-container .btn-contain button.wordpress-btn .row {
+  color: white;
+}
+.left-panel .yam-container .btn-contain button.wordpress-btn .row svg path {
+  fill: white;
+}

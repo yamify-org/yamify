@@ -1,5 +1,5 @@
 .left-panel {
-  top: 0px;
+  top: 0px; /* Trigger recompilation */
   position: fixed;
   z-index: 101;
   left: 0;
@@ -448,6 +448,9 @@
       padding: 0 5px;
       padding-bottom: 5px;
       margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
 
       button {
         display: flex;
@@ -471,6 +474,20 @@
 
           img {
             filter: invert(1);
+          }
+        }
+
+        &.wordpress-btn {
+          background-color: #21759b;
+          
+          .row {
+            color: white;
+            
+            svg {
+              path {
+                fill: white;
+              }
+            }
           }
         }
       }

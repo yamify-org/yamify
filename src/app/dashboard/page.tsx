@@ -6,6 +6,7 @@ import RightPanel from "./_components/RightPanel";
 import { useEffect, useState } from "react";
 import CreateYamDialog from "./_components/CreateYamDialog";
 import CreateWorkspaceDialog from "./_components/CreateWorkspaceDialog";
+import DeployWordpressDialog from "./_components/DeployWordpressDialog";
 import fetchWorkspaceList from "@/libs/queries/fetch-workspace-list";
 import { SelectWorkspace } from "@/types/server";
 
@@ -13,6 +14,7 @@ export default function Dashboard() {
   const [expandRightPanel, setExpandRightPanel] = useState(false);
   const [showYamDialog, setShowYamDialog] = useState(false);
   const [showWorkspaceDialog, setShowWorkspaceDialog] = useState(false);
+  const [showWordpressDialog, setShowWordpressDialog] = useState(false);
   const [workspaces, setWorkspaces] = useState<SelectWorkspace[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,16 +41,24 @@ export default function Dashboard() {
   const loadingYamTxts = [
     "Creating your cluster with optimized defaults…",
     "Auto-scaling and security being configured in the background.",
-    "We’re applying AI-powered enhancements for smooth performance.",
-    "You’ll be ready to build in just a moment.",
+    "We're applying AI-powered enhancements for smooth performance.",
+    "You'll be ready to build in just a moment.",
   ];
 
   const loadingWorkspaceTxts = [
     "Welcome to Yamify—your reliable, affordable cloud.",
-    "We’re setting up your workspace, tools, and credits.",
+    "We're setting up your workspace, tools, and credits.",
     "AI is tailoring your experience now and adding your yam...",
     "Your virtual datacenter is getting ready.",
     "In a second now...your workspace and yam will be set.",
+  ];
+
+  const loadingWordpressTxts = [
+    "Deploying WordPress with optimized settings...",
+    "Setting up the database and web server...",
+    "Configuring security and performance features...",
+    "Almost ready to start building your website...",
+    "Your WordPress site will be available in a moment...",
   ];
 
   return (
@@ -66,6 +76,13 @@ export default function Dashboard() {
           setShowYamDialog={setShowWorkspaceDialog}
         />
       )}
+      {showWordpressDialog && (
+        <DeployWordpressDialog
+          workspaces={workspaces}
+          loadingTxts={loadingWordpressTxts}
+          setShowWordpressDialog={setShowWordpressDialog}
+        />
+      )}
 
       {!loading && <section>
         <LeftPanel
@@ -73,6 +90,7 @@ export default function Dashboard() {
           setExpandRightPanel={setExpandRightPanel}
           setShowYamDialog={setShowYamDialog}
           setShowWorkspaceDialog={setShowWorkspaceDialog}
+          setShowWordpressDialog={setShowWordpressDialog}
           workspaces={workspaces}
         />
         <RightPanel workspaces={workspaces} expandRightPanel={expandRightPanel} />
