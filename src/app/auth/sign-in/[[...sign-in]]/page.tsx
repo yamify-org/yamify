@@ -31,11 +31,8 @@ export default function SignIn() {
         console.error(err, null, 2)
       })
   }
-
   const handleGoogleLogin = () => {
-    const googleAuthUrl =
-      "https://yamify-backend.onrender.com/api/v1/auth/google";
-
+    const googleAuthUrl = "https://yamify-backend.onrender.com/api/v1/auth/google";
     window.location.href = googleAuthUrl;
   };
 
@@ -47,16 +44,20 @@ export default function SignIn() {
           <h1>Sign in</h1>
 
           <div className="auth-btns">
+            <div className="btn" onClick={handleGoogleLogin}>
+              <Image src="/svgs/google.svg" alt="" height={20} width={20} />
+              Continue with Google
+            </div>
+
             <div className="btn" onClick={() => signInWithSocial('oauth_github')}>
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
-            <div className="btn" onClick={() => signInWithSocial('oauth_google')}>
-              <Image src="/svgs/google.svg" alt="" height={20} width={20} />
-              Continue with Google
-            </div>
           </div>
-
+        </div>
+      </section>
+    </div>
+  );
           <div className="line-wrap">
             <div className="line"></div>
             <p>OR</p>
