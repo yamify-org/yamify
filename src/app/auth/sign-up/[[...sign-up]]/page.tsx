@@ -49,6 +49,16 @@ export default function SignUp() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
+  
+  // Déplacé avant la condition if (!signUp) return null pour éviter l'erreur d'ordre des hooks
+  useEffect(() => {
+    setPasswordValidations({
+      hasMinLength: password.length >= 6,
+      hasNumber: /\d/.test(password),
+      hasUppercase: /[A-Z]/.test(password),
+      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    });
+  }, [password]);
 
   if (!signUp) return null;
 
@@ -73,15 +83,37 @@ export default function SignUp() {
         console.error(err, null, 2);
       });
   };
-
-  useEffect(() => {
-    setPasswordValidations({
-      hasMinLength: password.length >= 6,
-      hasNumber: /\d/.test(password),
-      hasUppercase: /[A-Z]/.test(password),
-      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
-    });
-  }, [password]);
+  
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get('name')?.toString();
+    const email = formData.get('email')?.toString();
+    const passwordValue = formData.get('password')?.toString();
+    
+    if (!name || !email || !passwordValue) return;
+    
+    try {
+      await signUp.create({
+        firstName: name.split(' ')[0],
+        lastName: name.split(' ').slice(1).join(' '),
+        emailAddress: email,
+        password: passwordValue,
+      });
+      
+      // Redirect après inscription réussie
+      await signUp.prepareEmailAddressVerification({
+        strategy: "email_code"
+      });
+      
+      // Redirection manuelle vers la page de vérification
+      window.location.href = "/verify-email"; 
+    } catch (error) {
+      console.error('Error during sign up:', error);
+      // Ici vous pourriez afficher un message d'erreur à l'utilisateur
+    }
+  };
 
   const ValidSVG = () => (
     <svg
@@ -145,7 +177,7 @@ export default function SignUp() {
             <div className="line"></div>
           </div>
 
-          <form action="">
+          <form onSubmit={handleFormSubmit}>
             <div className="label">
               <div className="left">
                 <label htmlFor="">Country</label>
