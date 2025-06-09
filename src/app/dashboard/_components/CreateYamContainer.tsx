@@ -2,16 +2,16 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "@/styles/CreateYamContainer.css";
-import LoadingAnimation from "@/components/LoadingAnimation";
+import LoadingAnimation from "@/components/Home/LoadingAnimation";
 import { SelectWorkspace } from "@/types/server";
 import { createYamAction } from "../_actions";
 import { useRouter } from "next/navigation";
 
 type Props = {
-  workspaces: SelectWorkspace[]
+  workspaces: SelectWorkspace[];
 };
 
-const CreateYamContainer = ({workspaces}: Props) => {
+const CreateYamContainer = ({ workspaces }: Props) => {
   const [selectedWorkspace, setSelectedWorkspace] = useState<SelectWorkspace>();
   const [open, setOpen] = useState(false);
   const [privacy, setPrivacy] = useState<string | null>(null);
@@ -20,8 +20,7 @@ const CreateYamContainer = ({workspaces}: Props) => {
   const [barWidth, setBarWidth] = useState(0);
   const [yamName, setYamName] = useState("");
   const [displayYamValue, setDisplayYamValue] = useState("");
-  const router = useRouter()
-
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Update display value in lowercase while typing
@@ -62,7 +61,7 @@ const CreateYamContainer = ({workspaces}: Props) => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if(!selectedWorkspace) return
+    if (!selectedWorkspace) return;
 
     setSuccessBool(true);
 
@@ -70,13 +69,13 @@ const CreateYamContainer = ({workspaces}: Props) => {
       const res = await createYamAction({
         workspace: selectedWorkspace.name,
         workspaceId: selectedWorkspace.id,
-        yam: yamName
+        yam: yamName,
       });
 
-      console.log({res})
-      router.push('/dashboard');
-    } catch(e) {
-      console.log(e)
+      console.log({ res });
+      router.push("/dashboard");
+    } catch (e) {
+      console.log(e);
       setSuccessBool(true);
     }
   };

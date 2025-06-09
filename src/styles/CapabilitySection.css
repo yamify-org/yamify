@@ -163,7 +163,7 @@ section.capability-section .first-container .boxes-container .gold {
 }
 section.capability-section .second-container {
   position: relative;
-  background: #1b1b1b;
+  background: #111;
   z-index: 2;
 }
 section.capability-section .second-container .capability-container {
@@ -186,7 +186,7 @@ section.capability-section .second-container .capability-container .capability-c
   border-left: none;
 }
 section.capability-section .second-container .capability-container .capability-card:nth-child(even) {
-  background: #232323;
+  background: #202020;
 }
 section.capability-section .second-container .capability-container .capability-card:nth-child(3) {
   border-right: none;
@@ -271,7 +271,7 @@ section.capability-section .second-container .capability-container .capability-c
   }
   section.capability-section .second-container {
     position: relative;
-    background: #1b1b1b;
+    background: #111;
     z-index: 2;
   }
   section.capability-section .second-container .capability-container {
@@ -294,7 +294,7 @@ section.capability-section .second-container .capability-container .capability-c
     border-left: none;
   }
   section.capability-section .second-container .capability-container .capability-card:nth-child(even) {
-    background: #232323;
+    background: #202020;
   }
   section.capability-section .second-container .capability-container .capability-card h3 {
     font-size: 14px;

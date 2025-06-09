@@ -1,0 +1,120 @@
+@import "variables";
+
+.new-hero-section {
+  width: 100%;
+
+  section {
+    max-width: 1312px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 100px 0;
+    margin-bottom: 100px;
+
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+
+      h2 {
+        text-align: center;
+        font-family: "PT Mono", Arial;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 100%;
+      }
+
+      p {
+        font-family: "Commissioner", sans-serif;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 100%;
+        max-width: 498px;
+      }
+
+      .btns-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+
+    .drop-img {
+      width: 821.435px;
+      height: 532px;
+      flex-shrink: 0;
+      align-self: center;
+      //   border: 2px solid #dd9a38;
+      margin-top: 63px;
+      position: relative;
+      //   background: url("../assets/images/Yam.png") lightgray 50% / cover
+      //     no-repeat;
+
+      img.backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .blurred-backdrop {
+        position: absolute;
+        top: 0;
+        z-index: 3;
+        opacity: 0.5;
+
+        .drop {
+          width: 531.244px;
+          height: 377.436px;
+          flex-shrink: 0;
+        }
+
+        .first {
+          opacity: 0.5;
+          background: var(--Brand-Gold, #dd9a38);
+          filter: blur(100px);
+        }
+
+        .second {
+          opacity: 0.5;
+          background: var(--Brand-Gold, #dd9a38);
+          filter: blur(100px);
+          transform: translateX(-45.6%);
+        }
+
+        .third {
+          width: 538.003px;
+          height: 431.812px;
+          flex-shrink: 0;
+          opacity: 0.5;
+          background: var(--Brand-Light-Green, #bdfffb);
+          filter: blur(100px);
+          //   border: 1px solid red;
+        }
+
+        .fourth {
+          width: 538.003px;
+          height: 431.812px;
+          opacity: 0.5;
+          background: var(--Brand-Light-Green, #bdfffb);
+          transform: translateX(-48%);
+          filter: blur(100px);
+        }
+
+        .row {
+          &:nth-child(2) {
+            transform: translateY(-60%);
+          }
+        }
+      }
+    }
+  }
+}

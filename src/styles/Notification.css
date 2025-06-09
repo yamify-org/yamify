@@ -33,7 +33,7 @@
   opacity: 0;
 }
 .notification.success {
-  border-left: 4px solid #187050;
+  border-left: 4px solid #34d399;
 }
 .notification.error {
   border-left: 4px solid #ef4444;
@@ -49,8 +49,6 @@
   color: #1b1b1b;
   border-color: #b8b8b8;
 }
-
-
 .notification.light-mode .notification-close {
   color: #6b7280;
 }
@@ -58,7 +56,7 @@
   color: #1f2937;
 }
 .notification.light-mode.success {
-  border-left: 4px solid #187050;
+  border-left: 4px solid #34d399;
 }
 .notification.light-mode.error {
   border-left: 4px solid #ef4444;
@@ -69,12 +67,6 @@
 .notification.light-mode.info {
   border-left: 4px solid #3b82f6;
 }
-
-.notification-content{
-  display: flex ;
-  justify-content:space-evenly;
-  
-}
 .notification .notification-content {
   padding: 0.75rem 1rem;
 }
@@ -83,37 +75,19 @@
   align-items: center;
   justify-content: space-between;
 }
-.notification  {
+.notification .notification-icon-text {
   display: flex;
-
-  align-items: center;
- 
-}
-
-
-.notification-icon-text {
-  display: flex;
-
   align-items: center;
   gap: 0.5rem;
 }
-
-
 .notification .notification-title {
   font-size: 0.875rem;
   font-weight: 500;
 }
-.notification  {
+.notification .notification-message {
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
-.notification-title {
-  font-size: 0.875rem;
-  
-}
-
-
-
 .notification .notification-close {
   background: transparent;
   border: none;
@@ -136,13 +110,13 @@
   animation: shrink 5000ms linear forwards;
 }
 .notification .notification-progress.success {
-  background-color: #187050;
+  background-color: #34d399;
 }
 .notification .notification-progress.error {
   background-color: #ef4444;
 }
 .notification .notification-progress.warning {
-  background-color: #bb811b;
+  background-color: #f59e0b;
 }
 .notification .notification-progress.info {
   background-color: #3b82f6;
@@ -155,6 +129,4 @@
   to {
     width: 0;
   }
-}
-
-/*# sourceMappingURL=Notification.css.map */
+}/*# sourceMappingURL=Notification.css.map */

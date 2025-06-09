@@ -110,7 +110,7 @@
   height: 382px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #232323 #1a1a1a;
+  scrollbar-color: #202020 #1a1a1a;
 }
 .join-waitlist-modal .join-waitlist-container .container::-webkit-scrollbar {
   width: 6px;
@@ -120,7 +120,7 @@
   border-radius: 10px;
 }
 .join-waitlist-modal .join-waitlist-container .container::-webkit-scrollbar-thumb {
-  background: #232323;
+  background: #202020;
   border-radius: 10px;
   border: 1px solid #1a1a1a;
 }
@@ -259,9 +259,9 @@
   justify-content: center;
   align-items: center;
   background: var(--Brand-Gold, #dd9a38);
-  color: var(--Default-Black, #1b1b1b);
+  color: #111;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 100%;
   cursor: pointer;
 }

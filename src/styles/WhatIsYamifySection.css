@@ -1,0 +1,36 @@
+.what-is-yamify-section {
+  min-height: 200vh;
+  background: #111;
+}
+.what-is-yamify-section section {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.what-is-yamify-section section .container {
+  position: sticky;
+  top: 0;
+  padding: 60px;
+  background: #111;
+}
+.what-is-yamify-section section .animated-paragraph {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: transparent;
+}
+.what-is-yamify-section section .word {
+  position: relative;
+  overflow: hidden;
+}
+.what-is-yamify-section section .word-mask {
+  display: inline-block;
+  overflow: hidden;
+}
+.what-is-yamify-section section .word-reveal {
+  display: inline-block;
+  transform-origin: left;
+  white-space: nowrap;
+  color: white;
+}/*# sourceMappingURL=WhatIsYamifySection.css.map */

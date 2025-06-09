@@ -61,7 +61,7 @@ const Footer = ({
         <div className="container-footer">
           <div className="left">
             <h2>Navigations</h2>
-            <Image
+            {/* <Image
               src="/svgs/top_left_corner_pin.svg"
               className="pin bottom-left"
               alt=""
@@ -81,7 +81,7 @@ const Footer = ({
               alt=""
               width={21}
               height={21}
-            />
+            /> */}
 
             <div className="links">
               <div className="nav-link" onClick={handleScrollToWork}>
@@ -114,13 +114,28 @@ const Footer = ({
             </div>
           </div>
           <div className="right">
-            <Image
+            {/* <Image
               src="/svgs/top_right_corner_pin.svg"
               className="pin top-right"
               alt=""
               width={21}
               height={21}
-            />
+            /> */}
+
+            <div className="content">
+              <Image
+                src={"/svgs/yamify_logo_lg.svg"}
+                alt="yamify logo"
+                className="logo"
+                width={30}
+                height={38}
+              />
+              <p>
+                Yamify is Africa’s first sovereign cloud infrastructure
+                platform, built to empower developers, startups, and enterprises
+                with instant access to secure, scalable resources.{" "}
+              </p>
+            </div>
 
             <div className="socials">
               <Link href="#" target="_blank">
@@ -133,21 +148,11 @@ const Footer = ({
                 <Image src="/svgs/Linkedin.svg" alt="" width={20} height={20} />
               </Link>
             </div>
-
-            <div className="contact-info">
-              <h3>Contact</h3>
-              <a className="txt" href="tel:++1 994 345 232">
-                +1 994 345 232
-              </a>
-              <p className="txt">
-                Silicon Valley, San Francisco, United State.
-              </p>
-            </div>
           </div>
         </div>
 
         <div className="bottom">
-          <Image
+          {/* <Image
             src="/svgs/plus_pin.svg"
             className="pin top-right"
             alt=""
@@ -161,9 +166,9 @@ const Footer = ({
             alt=""
             width={21}
             height={21}
-          />
+          /> */}
 
-          <Image
+          {/* <Image
             src={
               !lightMode
                 ? "/svgs/yamify_logo_lg.svg"
@@ -179,7 +184,7 @@ const Footer = ({
             Yamify is Africa’s first sovereign cloud infrastructure platform,
             built to empower developers, startups, and enterprises with instant
             access to secure, scalable resources.{" "}
-          </p>
+          </p> */}
 
           <Image
             className="end"

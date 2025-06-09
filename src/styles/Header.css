@@ -4,7 +4,7 @@ header {
   height: 60px;
   top: 0;
   z-index: 100;
-  background: var(--Default-Black, #1b1b1b);
+  background: #111;
   transition: 0.3s all ease-in-out;
 }
 header.light-mode {
@@ -39,7 +39,7 @@ header.light-mode.scrolled {
           backdrop-filter: blur(8px);
 }
 header.scrolled {
-  background: #232323;
+  background: #202020;
   -webkit-backdrop-filter: blur(8px);
           backdrop-filter: blur(8px);
 }
@@ -58,8 +58,10 @@ header section .menu {
 header section .logo {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 15px;
   padding-left: 10px;
+  flex: 0.5;
 }
 header section .logo h1 {
   font-family: "Commissioner", sans-serif;
@@ -72,6 +74,8 @@ header section nav {
   display: flex;
   align-items: center;
   gap: 30px;
+  flex: 1;
+  justify-content: center;
 }
 header section nav .nav-link {
   font-size: 12px;
@@ -111,6 +115,8 @@ header section .action-btns {
   display: flex;
   align-items: items;
   gap: 10px;
+  justify-content: flex-end;
+  flex: 0.5;
 }
 header section .action-btns .modes {
   display: flex;
@@ -128,56 +134,6 @@ header section .action-btns .modes .btn-mode.light {
   background: var(--Brand-Gold, #dd9a38);
 }
 header section .action-btns .modes .btn-mode.dark {
-  background: var(--Brand-Green, #3b5f5d);
-}
-header section .action-btns .btn {
-  display: flex;
-  padding: 0px 15px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  height: 40px;
-  cursor: pointer;
-}
-header section .action-btns .btn .contain {
-  height: 12px;
-  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-  overflow: hidden;
-}
-header section .action-btns .btn .contain.wrapped-link {
-  position: relative;
-  height: 16px;
-  top: -3px;
-}
-header section .action-btns .btn .contain span {
-  line-height: 100%;
-  display: flex;
-  align-items: center;
-  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-}
-header section .action-btns .btn .contain span.wrap {
-  display: flex;
-  gap: 10px;
-}
-header section .action-btns .btn:hover .contain {
-  transform: scale(1.01);
-}
-header section .action-btns .btn:hover .contain span:first-child {
-  transform: translateY(-105%);
-}
-header section .action-btns .btn:hover .contain .hover-text {
-  transform: translateY(-105%);
-}
-header section .action-btns .btn.yellow {
-  background: var(--Brand-Gold, #dd9a38);
-  color: var(--Default-Black, #1b1b1b);
-}
-header section .action-btns .btn.green {
   background: var(--Brand-Green, #3b5f5d);
 }
 @media (max-width: 575px) {

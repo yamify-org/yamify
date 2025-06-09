@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "@/styles/CreateYamDialog.css";
 import Image from "next/image";
-import CreateAnimation from "@/components/CreateAnimation";
+import CreateAnimation from "@/components/Home/CreateAnimation";
 import { createYamAction } from "../_actions";
 import { SelectWorkspace } from "@/types/server";
 import { useRouter } from "next/navigation";
@@ -9,17 +9,21 @@ import { useRouter } from "next/navigation";
 type Props = {
   setShowYamDialog: (Callback: boolean) => void;
   loadingTxts: string[];
-  workspaces: SelectWorkspace[]
+  workspaces: SelectWorkspace[];
 };
 
-const CreateYamDialog = ({ setShowYamDialog, loadingTxts, workspaces }: Props) => {
+const CreateYamDialog = ({
+  setShowYamDialog,
+  loadingTxts,
+  workspaces,
+}: Props) => {
   const [selectedWorkspace, setSelectedWorkspace] = useState<SelectWorkspace>();
   const [open, setOpen] = useState(false);
   const [privacy, setPrivacy] = useState<string | null>(null);
   const [successBool, setSuccessBool] = useState(false);
   const [yamName, setYamName] = useState("");
   const [displayYamValue, setDisplayYamValue] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
   const togglePrivacy = (service: string) => {
     setPrivacy((prev) => (prev === service ? null : service));
@@ -28,7 +32,7 @@ const CreateYamDialog = ({ setShowYamDialog, loadingTxts, workspaces }: Props) =
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if(!selectedWorkspace) return
+    if (!selectedWorkspace) return;
 
     setSuccessBool(true);
 
@@ -36,13 +40,13 @@ const CreateYamDialog = ({ setShowYamDialog, loadingTxts, workspaces }: Props) =
       const res = await createYamAction({
         workspace: selectedWorkspace.name,
         workspaceId: selectedWorkspace.id,
-        yam: yamName
+        yam: yamName,
       });
 
-      console.log({res})
-      router.push('/dashboard');
-    } catch(e) {
-      console.log(e)
+      console.log({ res });
+      router.push("/dashboard");
+    } catch (e) {
+      console.log(e);
       setSuccessBool(true);
     }
   };

@@ -5,6 +5,8 @@ import Link from "next/link";
 import React, { RefObject, useEffect, useState } from "react";
 // import { motion } from "framer-motion";
 import "@/styles/Header.css";
+import routes from "@/libs/routes";
+import Button from "../Button/Button";
 
 type Props = {
   setJoinWaitlistModal: (value: boolean) => void;
@@ -144,76 +146,20 @@ const Header = ({
             <span>Home</span>
             <span className="hover-text">Home</span>
           </div>
-          <div className="nav-link" onClick={handleScrollToWorkIf}>
-            <span>What if</span>
-            <span className="hover-text">What if</span>
-          </div>
-          <div className="nav-link" onClick={handleScrollToCapability}>
-            <span>Capabilities</span>
-            <span className="hover-text">Capabilities</span>
-          </div>
-          <div className="nav-link" onClick={handleScrollToYamLayer}>
-            <span>Yamify Layers</span>
-            <span className="hover-text">Yamify Layers</span>
-          </div>
           <div className="nav-link" onClick={handleScrollToJoinWaitlist}>
-            <span>For Developers</span>
-            <span className="hover-text">For Developers</span>
+            <span>Contact</span>
+            <span className="hover-text">Contact</span>
           </div>
         </nav>
 
         <div className="action-btns">
-          {!isMobile ? (
-            <div className="modes">
-              <div
-                className="btn-mode light"
-                onClick={() => setLightMode(true)}
-              >
-                <Image src="/svgs/sun.svg" alt="" width={15} height={15} />
-              </div>
-              <div
-                className="btn-mode dark"
-                onClick={() => setLightMode(false)}
-              >
-                <Image src="/svgs/moon.svg" alt="" width={15} height={15} />
-              </div>
-            </div>
-          ) : (
-            <div className="modes">
-              {!lightMode ? (
-                <div
-                  className="btn-mode light"
-                  onClick={() => setLightMode(true)}
-                >
-                  <Image src="/svgs/sun.svg" alt="" width={15} height={15} />
-                </div>
-              ) : (
-                <div
-                  className="btn-mode dark"
-                  onClick={() => setLightMode(false)}
-                >
-                  <Image src="/svgs/moon.svg" alt="" width={15} height={15} />
-                </div>
-              )}
-            </div>
-          )}
-
-          <div
-            className="btn yellow"
-            onClick={() => setJoinWaitlistModal(true)}
-          >
-            <div className="contain">
-              <span>Join WaitList</span>
-              <span className="hover-text">Join WaitList</span>
-            </div>
-          </div>
-
-          <div className="btn green" onClick={handleScrollToContact}>
-            <div className="contain">
-              <span>Contact</span>
-              <span className="hover-text">Contact</span>
-            </div>
-          </div>
+          <Button
+            text="Book a Demo"
+            href={"https://calendly.com/luc-yamify/30min"}
+            yellow={false}
+            linkBtn={true}
+            target="_blank"
+          />
         </div>
 
         {openMenu && (

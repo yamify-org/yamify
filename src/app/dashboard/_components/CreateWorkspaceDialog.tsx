@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "@/styles/CreateYamDialog.css";
 import Image from "next/image";
-import CreateAnimation from "@/components/CreateAnimation";
+import CreateAnimation from "@/components/Home/CreateAnimation";
 import { createWorkspaceAction } from "../_actions";
 import { useRouter } from "next/navigation";
 
@@ -57,10 +57,10 @@ const CreateWorkspaceDialog = ({ setShowYamDialog, loadingTxts }: Props) => {
         createYam: createYam,
       });
 
-      console.log({res})
-      router.refresh()
-    } catch(e) {
-      console.log(e)
+      console.log({ res });
+      router.refresh();
+    } catch (e) {
+      console.log(e);
       setSuccessBool(true);
     }
   };
