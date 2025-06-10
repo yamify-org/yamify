@@ -47,6 +47,7 @@ export const projectService = {
           break;
         case 'n8n':
           deploymentResult = await projectService.deployN8nInVCluster(record, yam.kubeConfig, yam.namespace);
+          break;
         default:
           throw new Error(`Unsupported app type: ${params.type}`);
       }
@@ -99,7 +100,7 @@ export const projectService = {
     );
 
     return {
-      url
+      url: typeof url === 'string' ? url : url.url
     };
   },
   deployCustomHelmInVCluster: async (project: { id: string; name: string; namespace: string; chart: string; valuesYaml: string }, vclusterKubeconfig: string) => {

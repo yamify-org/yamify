@@ -121,10 +121,10 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
                     <Image src="/svgs/user.svg" alt="" height={15} width={15} />{" "}
                     {yam.namespace}
                   </span>
-                  <span className="workspace">
+                  {/* <span className="workspace">
                     <Image src="/svgs/flag.svg" alt="" height={15} width={15} />
                     Nigeria Local Data Center
-                  </span>
+                  </span> */}
                 </span>
               </div>
             </nav>
