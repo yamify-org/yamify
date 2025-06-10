@@ -44,13 +44,13 @@ export default function SignIn() {
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
-            <div className="btn" onClick={() => signInWithSocial('oauth_github')}>
+            <div className="btn" onClick={() => signInWithSocial('oauth_google')}>
               <Image src="/svgs/google.svg" alt="" height={20} width={20} />
               Continue with Google
             </div>
           </div>
 
-          <div className="line-wrap">
+          {/* <div className="line-wrap">
             <div className="line"></div>
             <p>OR</p>
             <div className="line"></div>
@@ -101,7 +101,7 @@ export default function SignIn() {
                 <span className="hover-text">Sign in</span>
               </div>
             </button>
-          </form>
+          </form> */}
 
           <div className="txt">
             Forgot your password?{" "}

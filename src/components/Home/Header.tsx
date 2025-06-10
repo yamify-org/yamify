@@ -160,6 +160,13 @@ const Header = ({
             linkBtn={true}
             target="_blank"
           />
+
+          <Button
+            text="Get started"
+            href={"/auth/sign-in"}
+            yellow={true}
+            linkBtn={true}
+          />
         </div>
 
         {openMenu && (

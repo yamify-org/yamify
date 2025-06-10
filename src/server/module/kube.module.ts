@@ -70,9 +70,11 @@ export const kube = {
 
     console.log({response})
   },
+
   deleteNamespace: async (name: string) => {
     await k8sApi.deleteNamespace({name});
   },
+
   createVCluster: async (name: string, namespace: string) => {
     const values = 
     `
@@ -109,7 +111,10 @@ sync:
     } finally {
       await fs.unlink(tmpValuesPath);
     }
+
+
   },
+
   retrieveKubeconfig: async (clusterName: string, namespace: string): Promise<string> => {
     const { stdout } = await execa('vcluster', [
       'connect',
@@ -122,9 +127,11 @@ sync:
 
     return stdout;
   },
+
   deleteVCluster: async (name: string, namespace: string) => {
     await execa('vcluster', ['delete', name, '-n', namespace]);
   },
+
   waitForVCluster: async (kubeconfigPath: string, maxRetries = 10, delayMs = 5000) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -142,6 +149,24 @@ sync:
 
   throw new Error('❌ Timed out waiting for vCluster to become ready.');
 },
+
+  createVclusterNamespace: async (vclusterKubeconfig: string, namespace: string) => {
+    const kubeconfigPath = join(tmpdir(), `kubeconfig-vcluster.yaml`);
+    try {
+      await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
+      const namespaceResponse = await execa('kubectl', [
+        '--kubeconfig', kubeconfigPath,
+        'create', 'namespace', namespace,
+      ]).catch((err) => {
+        if (!err.stderr?.includes('AlreadyExists')) throw err;
+      });
+
+      console.log('vcluster namespace created', namespaceResponse)
+    } catch(error) {
+      console.error('Error creating vcluster namespace:', error);
+    }
+  },
+
   deployCodeServer: async (
   vclusterKubeconfig: string,
   yamNamespace: string, // This should be unique across all apps
@@ -204,14 +229,6 @@ persistence:
   try {
     // Wait until vCluster API is reachable
     await kube.waitForVCluster(kubeconfigPath);
-
-    // Create namespace inside vCluster (if needed)
-    await execa('kubectl', [
-      '--kubeconfig', kubeconfigPath,
-      'create', 'namespace', namespace,
-    ]).catch((err) => {
-      if (!err.stderr?.includes('AlreadyExists')) throw err;
-    });
 
     // Add Helm repository
     await execa('helm', [

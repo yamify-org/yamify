@@ -44,20 +44,20 @@ export const completeOnboarding = async ({workspaceName, createYam}: OnbordindDa
         return new Response('Error creating user', { status: 500 })
       }
 
-      try{
-            const workspace = await workspaceModule.service.create({
-              name: namespace,
-              userId: id,
-            })
-            console.log('Workspace created for user', workspace)
-            workspaceId = workspace.id
-          } catch(e) {
-            console.log(e)
-            if(e instanceof Error){
-              console.log(e.message)
-            }
-            return new Response('Error creating workspace', { status: 500 })
-          }
+      try {
+        const workspace = await workspaceModule.service.create({
+          name: namespace,
+          userId: id,
+        })
+        console.log('Workspace created for user', workspace)
+        workspaceId = workspace.id
+      } catch(e) {
+        console.log(e)
+        if(e instanceof Error){
+          console.log(e.message)
+        }
+        return new Response('Error creating workspace', { status: 500 })
+      }
 
         // create ingress for the user
     try {
@@ -78,11 +78,6 @@ export const completeOnboarding = async ({workspaceName, createYam}: OnbordindDa
         workspaceId
       )
       console.log('Yam created for workspace', yam)
-
-      // const kubeconfig = await kube.retrieveKubeconfig(namespace, namespace);
-      // const url = await kube.deployCodeServer(kubeconfig, 'codeserver-1', 'codeserver-1');
-
-      // console.log(`Code Server is ready at: ${url}`);
     } catch(e) {
       console.log(e)
       if(e instanceof Error){

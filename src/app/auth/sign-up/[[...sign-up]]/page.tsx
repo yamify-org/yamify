@@ -85,7 +85,7 @@ export default function SignUp() {
             </div>
           </div>
 
-          <div className="line-wrap">
+          {/* <div className="line-wrap">
             <div className="line"></div>
             <p>OR</p>
             <div className="line"></div>
@@ -106,7 +106,6 @@ export default function SignUp() {
                       height={100}
                       className="flag"
                     />
-                    {/* <div className="code">{country.dialCode}</div> */}
                     <div className="country-txt">{country.name}</div>
                   </div>
 
@@ -214,7 +213,7 @@ export default function SignUp() {
                 <span className="hover-text">Create</span>
               </div>
             </button>
-          </form>
+          </form> */}
 
           <div className="txt">
             By signing up, you agree to our <span>Privacy Policy</span> and{" "}

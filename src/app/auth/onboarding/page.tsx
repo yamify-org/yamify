@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import CreateAnimation from "@/components/Home/CreateAnimation";
 import { completeOnboarding } from "./_actions";
 import { useUser } from "@clerk/nextjs";
-// import Image from "next/image";
 
 export default function OnboardingWorkpace() {
   const [createYam, setCreateYam] = useState(false);
@@ -83,7 +82,6 @@ export default function OnboardingWorkpace() {
         router.push("/dashboard");
         return;
       }
-
       // Fallback error handling
       setError("Unexpected response format");
       setSuccessBool(false);
