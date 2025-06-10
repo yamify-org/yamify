@@ -41,8 +41,21 @@ NEXT_PUBLIC_CLERK_AFTER_VERIFICATION_URL=/auth/onboarding
 ## 🛠 Développement
 
 ### Composants
-- `page.tsx` : Page principale de vérification
+- `page.tsx` : Page principale de vérification avec animation
 - `loading.tsx` (optionnel) : État de chargement
+
+### Animation de Vérification
+Après soumission réussie du code OTP, une animation de vérification s'affiche :
+- Barre de progression animée
+- Messages de statut dynamiques
+- Redirection automatique après 10 secondes
+- Design cohérent avec l'identité visuelle de Yamify
+
+#### Messages d'Animation
+1. "Verifying code..."
+2. "Validating your identity..."
+3. "Preparing your workspace..."
+4. "Configuration completed !"
 
 ### Fonctionnalités
 - Saisie du code sur 6 champs avec navigation automatique

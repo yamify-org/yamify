@@ -5,6 +5,7 @@ import { useUser, useSignUp, useClerk } from '@clerk/nextjs';
 import { useState, useEffect, FormEvent, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import CreateAnimation from '@/components/Home/CreateAnimation';
 
 const VerifyEmail = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -16,9 +17,27 @@ const VerifyEmail = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
-  
-
+  const [verificationSuccess, setVerificationSuccess] = useState(false);
   const [verifying, setVerifying] = useState(false);
+  
+  // Redirection après animation de vérification réussie
+  useEffect(() => {
+    if (verificationSuccess) {
+      const redirectTimeout = setTimeout(() => {
+        router.push('/auth/onboarding');
+      }, 10000); // Rediriger après 10 secondes d'animation
+      
+      return () => clearTimeout(redirectTimeout);
+    }
+  }, [verificationSuccess, router]);
+  
+  // Messages pour l'animation de vérification
+  const verificationMessages = [
+    "Verifying code...",
+   "Validating your identity...",
+    "Preparing your workspace...",
+    "Configuration completed !"
+  ];
   
   // Refs for inputs
   const inputRefs = [
@@ -120,13 +139,16 @@ const VerifyEmail = () => {
       // Activation de la session
       await setActive({ session: completeSignUp.createdSessionId });
       
-      // Redirection vers la page d'onboarding
-      router.push('/auth/onboarding');
+      // Activer l'animation de vérification réussie
+      setVerificationSuccess(true);
+      
+      // La redirection est gérée par le composant CreateAnimation
+      // après la fin de l'animation
+      
     } catch (err) {
       console.error('Erreur lors de la vérification:', err);
       setError((err as Error).message || 'Une erreur est survenue. Veuillez réessayer.');
       setVerifying(false);
-    } finally {
       setLoading(false);
     }
   };
@@ -146,6 +168,27 @@ const VerifyEmail = () => {
     }
   };
 
+  // Afficher l'animation de vérification réussie
+  if (verificationSuccess) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white">
+        <div className="absolute top-8 left-8">
+          <div className="flex items-center">
+            <Image src="/logo.png" alt="Yamify" width={24} height={24} />
+            <span className="ml-2 text-xl font-bold">Yamify</span>
+          </div>
+        </div>
+        <CreateAnimation 
+          successBool={verificationSuccess}
+          barColor="#BDFFFB" 
+          loadingTxts={verificationMessages}
+          title="Vérification réussie !"
+        />
+      </div>
+    );
+  }
+  
+  // Afficher l'état de chargement
   if (!isLoaded || verifying) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white">
@@ -162,7 +205,7 @@ const VerifyEmail = () => {
           <div className="flex items-center justify-center">
             <Image src="/logo.png" alt="Yamify" width={48} height={48} />
           </div>
-          <p className="mt-4 text-lg">{verifying ? "Verifying code..." : "Loading..."}</p>
+          <p className="mt-4 text-lg">{verifying ? "Verification en cours..." : "Chargement..."}</p>
           <div className="w-64 h-2 bg-gray-700 rounded-full mt-4">
             <div className="h-full bg-yellow-500 rounded-full animate-pulse" style={{ width: '50%' }}></div>
           </div>
