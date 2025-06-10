@@ -207,7 +207,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
                       <div className="content">
                         <h4>n8n</h4>
 
-                        <div className="txt">Flexible AI workflow automation for technical teams</div>
+                        <div className="txt">{deploymentLoading.n8n ? "Deploying..." : "Flexible AI workflow automation for technical teams."}</div>
                       </div>
                     </div>
                     <div className="app" aria-disabled={deploymentLoading.codeserver} onClick={handleDeployCodeServer}>
