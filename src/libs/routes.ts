@@ -12,7 +12,15 @@ const routes = {
     overview: "/dashboard",
     yams: {
       all: (dashboardId: string) => `/dashboard/yams/${dashboardId}/all`,
-      single: (name: string, dashboardId: string) => `/dashboard/yams/${dashboardId}/${name}`,
+      single: (name: string, dashboardId: string) =>
+        `/dashboard/yams/${dashboardId}/${name}`,
+    },
+    projects: {
+      // all: "/dashboard/projects/all",
+      group: (group: string) => `/dashboard/projects/${group}`,
+      deployProject: "/dashboard/projects/deploy-project",
+      installWordPress: "/dashboard/projects/install-wordpress",
+      single: (name: string) => `/dashboard/projects/${name}`,
     },
     users: {
       list: "/dashboard/users/list",

@@ -288,3 +288,10 @@ export const countries = [
     example: "+880 1812 345678",
   },
 ];
+
+export const groups = [
+  {
+    color: "#E6E6E6",
+    text: "default",
+  },
+];
