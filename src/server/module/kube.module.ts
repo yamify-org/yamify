@@ -274,6 +274,9 @@ persistence:
 wordpressUsername: user
 wordpressPassword: "password"
 
+service:
+  type: ClusterIP
+
 ingress:
   enabled: true
   pathType: ImplementationSpecific
@@ -284,10 +287,6 @@ ingress:
     external-dns.alpha.kubernetes.io/hostname: ${host}
     cert-manager.io/cluster-issuer: letsencrypt-prod
   tls: true
-  extraTls:
-    - hosts:
-        - ${host}
-      secretName: ${yamNamespace}-wordpress-tls-cert
 `;
 
     await fs.writeFile(valuesPath, values);

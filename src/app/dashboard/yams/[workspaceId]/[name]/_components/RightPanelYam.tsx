@@ -107,7 +107,7 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
   try {
     const result = await deployWordpressProjectAction({
       name: `wordpress-${Date.now()}`,
-      namespace: yam.namespace,
+      namespace: `${yam.namespace}-wordpress`,
       yamId: yam.id,
       workspaceId: yam.workspaceId
     });

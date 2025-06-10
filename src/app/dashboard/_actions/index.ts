@@ -7,9 +7,9 @@ import { kube } from '@/server/module/kube.module';
 import { projectModule } from '@/server/module/project.module';
 
 interface CreateYamData {
-    workspace: string;
-    workspaceId: string;
-    yam: string;
+  workspace: string;
+  workspaceId: string;
+  yam: string;
 }
 
 export const createYamAction = async ({workspace, workspaceId, yam}: CreateYamData) => {
@@ -167,3 +167,5 @@ export const deployWordpressProjectAction = async ({name, namespace, yamId, work
     return { error: 'Error deploying WordPress' }
   }
 }
+
+
