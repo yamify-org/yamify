@@ -358,7 +358,7 @@ ingress:
     }
 
     return {
-      url: `https://${host}`,
+      url: `https://${host}/wp-admin`,
       user: 'user',
       password: 'password',
     };
@@ -416,24 +416,22 @@ ingress:
     await fs.writeFile(valuesPath, values);
 
     try {
-      // Check if helm is available
-      // try {
-      //   await execa('helm', ['version']);
-      // } catch (error) {
-      //   console.error(error)
-      //   throw new Error('Helm is not installed or not available in PATH. Please install Helm first.');
-      // }
-
       // Wait until vCluster API is reachable
       await kube.waitForVCluster(kubeconfigPath);
 
-      // Create namespace inside vCluster
-      await execa('kubectl', [
-        '--kubeconfig', kubeconfigPath,
-        'create', 'namespace', namespace,
-      ]).catch((err) => {
-        if (!err.stderr?.includes('AlreadyExists')) throw err;
-      });
+      // Add Helm repository
+      await execa('helm', [
+        'repo',
+        'add',
+        'community-charts',
+        'https://community-charts.github.io/helm-charts'
+      ]);
+
+      // Update Helm repositories
+      await execa('helm', [
+        'repo',
+        'update'
+      ]);
 
       // Install WordPress inside the vCluster
       await execa('helm', [

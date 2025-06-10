@@ -7,63 +7,150 @@ export const projectService = {
     return projectRepository.listByYam(opts.yamId);
   },
 
+  // create: async (params: {
+  //   name: string;
+  //   type: string;
+  //   namespace: string;
+  //   chart?: string;
+  //   valuesYaml?: string;
+  //   workspaceId: string;
+  //   yamId: string;
+  // }) => {
+  //   // Create project record with pending status
+  //   const record = await projectRepository.create({
+  //     ...params,
+  //     status: 'pending'
+  //   });
+
+  //   try {
+  //     // Get the parent Yam (vCluster) kubeconfig
+  //     const yam = await prisma.yam.findUnique({ 
+  //       where: { id: params.yamId } 
+  //     });
+      
+  //     if (!yam || !yam.kubeConfig) {
+  //       throw new Error('Parent vCluster kubeconfig not found');
+  //     }
+
+  //     // Update status to deploying
+  //     await projectRepository.update(record.id, { status: 'deploying' });
+
+  //     let deploymentResult;
+
+  //     // Deploy the app inside the vCluster
+  //     switch (params.type) {
+  //       case 'wordpress':
+  //         deploymentResult = await projectService.deployWordpressInVCluster(record, yam.kubeConfig, yam.namespace);
+  //         break;
+  //       case 'code-server':
+  //         deploymentResult = await projectService.deployCodeServerInVCluster(record, yam.kubeConfig, yam.namespace);
+  //         break;
+  //       case 'n8n':
+  //         deploymentResult = await projectService.deployN8nInVCluster(record, yam.kubeConfig, yam.namespace);
+  //         break;
+  //       default:
+  //         throw new Error(`Unsupported app type: ${params.type}`);
+  //     }
+
+  //     // Update project with deployment results
+  //     const updatedRecord = await projectRepository.update(record.id, {
+  //       status: 'ready',
+  //       ...deploymentResult
+  //     });
+
+  //     return updatedRecord;
+  //   } catch (error) {
+  //     await projectRepository.delete(record.id);
+  //     throw error;
+  //   }
+  // },
   create: async (params: {
-    name: string;
-    type: string;
-    namespace: string;
-    chart?: string;
-    valuesYaml?: string;
-    workspaceId: string;
-    yamId: string;
-  }) => {
-    // Create project record with pending status
-    const record = await projectRepository.create({
-      ...params,
-      status: 'pending'
+  name: string;
+  type: string;
+  namespace: string;
+  chart?: string;
+  valuesYaml?: string;
+  workspaceId: string;
+  yamId: string;
+}) => {
+  const record = await projectRepository.create({
+    ...params,
+    status: 'pending'
+  });
+
+  try {
+    const yam = await prisma.yam.findUnique({
+      where: { id: params.yamId }
     });
 
+    if (!yam || !yam.kubeConfig) {
+      throw new Error('Parent vCluster kubeconfig not found');
+    }
+
+    await projectRepository.update(record.id, { status: 'deploying' });
+
+    let deploymentResult;
+
     try {
-      // Get the parent Yam (vCluster) kubeconfig
-      const yam = await prisma.yam.findUnique({ 
-        where: { id: params.yamId } 
-      });
-      
-      if (!yam || !yam.kubeConfig) {
-        throw new Error('Parent vCluster kubeconfig not found');
-      }
-
-      // Update status to deploying
-      await projectRepository.update(record.id, { status: 'deploying' });
-
-      let deploymentResult;
-
-      // Deploy the app inside the vCluster
       switch (params.type) {
         case 'wordpress':
-          deploymentResult = await projectService.deployWordpressInVCluster(record, yam.kubeConfig, yam.namespace);
+          deploymentResult = await projectService.deployWordpressInVCluster(
+            record,
+            yam.kubeConfig,
+            yam.namespace
+          );
           break;
         case 'code-server':
-          deploymentResult = await projectService.deployCodeServerInVCluster(record, yam.kubeConfig, yam.namespace);
+          deploymentResult = await projectService.deployCodeServerInVCluster(
+            record,
+            yam.kubeConfig,
+            yam.namespace
+          );
           break;
         case 'n8n':
-          deploymentResult = await projectService.deployN8nInVCluster(record, yam.kubeConfig, yam.namespace);
+          deploymentResult = await projectService.deployN8nInVCluster(
+            record,
+            yam.kubeConfig,
+            yam.namespace
+          );
           break;
         default:
           throw new Error(`Unsupported app type: ${params.type}`);
       }
-
-      // Update project with deployment results
-      const updatedRecord = await projectRepository.update(record.id, {
-        status: 'ready',
-        ...deploymentResult
-      });
-
-      return updatedRecord;
-    } catch (error) {
-      await projectRepository.delete(record.id);
-      throw error;
+    } catch (deploymentError) {
+      console.error(
+        `Deployment failed for project ${record.id} of type ${params.type}:`,
+        deploymentError
+      );
+      // Optionally update status before deletion
+      await projectRepository.update(record.id, { status: 'failed' });
+      throw new Error(
+        `Failed to deploy ${params.type}: ${deploymentError.message}`
+      );
     }
-  },
+
+    const updatedRecord = await projectRepository.update(record.id, {
+      status: 'ready',
+      ...deploymentResult
+    });
+
+    return updatedRecord;
+  } catch (error) {
+    console.error(`Project creation failed:`, error);
+
+    try {
+      await projectRepository.delete(record.id);
+    } catch (cleanupError) {
+      console.error(
+        `Failed to delete project record ${record.id} during cleanup:`,
+        cleanupError
+      );
+    }
+
+    throw error;
+  }
+},
+
   deployWordpressInVCluster: async (project: { name: string; yamId: string; namespace: string }, vclusterKubeconfig: string, yamName: string) => {
     // Use the existing kube.deployWordpress but with the vCluster's kubeconfig
     console.log({ project, vclusterKubeconfig, yamName });
