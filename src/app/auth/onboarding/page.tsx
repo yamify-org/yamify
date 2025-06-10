@@ -8,13 +8,16 @@ import { useRouter } from "next/navigation";
 import CreateAnimation from "@/components/CreateAnimation";
 import { completeOnboarding } from "./_actions";
 import { useUser } from "@clerk/nextjs";
+import { useNotification } from "@/hooks/useNotification";
+import { NotificationContainer } from "@/components/Notification";
+
 // import Image from "next/image";
 
 export default function OnboardingWorkpace() {
   const [createYam, setCreateYam] = useState(false);
   const [successBool, setSuccessBool] = useState(false);
-  const [error, setError] = React.useState('')
-  const { user } = useUser()
+  const { user } = useUser();
+  const { success, error, warning, info } = useNotification();
 
   const [workspaceName, setWorkspaceName] = useState("");
   const [displayValue, setDisplayValue] = useState(""); // Temporary value for display while focused
@@ -63,7 +66,7 @@ export default function OnboardingWorkpace() {
     if (res instanceof Response) {
       const data = await res.json();
       if (data.error) {
-        setError(data.error);
+        error(data.error, 'Error', 5000);
         setSuccessBool(false);
         return;
       }
@@ -71,7 +74,7 @@ export default function OnboardingWorkpace() {
 
     // Check for error in direct object response
     if ('error' in res && res.error) {
-      setError(res.error);
+      error(res.error);
       setSuccessBool(false);
       return;
     }
@@ -84,12 +87,13 @@ export default function OnboardingWorkpace() {
     }
 
     // Fallback error handling
-    setError('Unexpected response format');
+    error('Unexpected response format');
     setSuccessBool(false);
 
-  } catch (error) {
-    console.error('Error creating workspace:', error);
-    setError('An unexpected error occurred');
+  } catch (err) {
+    console.error('Error creating workspace:', err);
+    const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
+    error(errorMessage);
     setSuccessBool(false);
   }
 };
@@ -187,7 +191,7 @@ export default function OnboardingWorkpace() {
                   </div>
                 </button>
 
-                {error && <p className="error">{error}</p>}
+
               </form>
             </>
           ) : (

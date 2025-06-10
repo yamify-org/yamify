@@ -27,7 +27,7 @@ export default function Home() {
   const contactRef = useRef<HTMLDivElement | null>(null);
 
   const handleClick = () => {
-    error('Opération failed !', 'Error', 5000);
+    success('Opération failed !', 'Error', 5000);
   };
 
   return (
