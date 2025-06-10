@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuthHeader from "../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
@@ -13,11 +13,28 @@ import { useUser } from "@clerk/nextjs";
 export default function OnboardingWorkpace() {
   const [createYam, setCreateYam] = useState(false);
   const [successBool, setSuccessBool] = useState(false);
-  const [error, setError] = React.useState("");
-  const { user } = useUser();
+  const [error, setError] = React.useState('')
+  const { user, isLoaded, isSignedIn } = useUser()
 
   const [workspaceName, setWorkspaceName] = useState("");
   const [displayValue, setDisplayValue] = useState(""); // Temporary value for display while focused
+  const router = useRouter();
+
+  // Vérifier si l'email est validé
+  useEffect(() => {
+    if (!isLoaded) return;
+    
+    if (!isSignedIn) {
+      router.push('/auth/sign-in');
+      return;
+    }
+
+    // Vérifier si l'email est validé
+    if (user && user.primaryEmailAddress?.verification.status !== 'verified') {
+      router.push('/auth/verify-email');
+      return;
+    }
+  }, [isLoaded, isSignedIn, user, router]);
 
   const handleFocus = () => {
     // On focus, remove -workspace for editing
@@ -44,55 +61,54 @@ export default function OnboardingWorkpace() {
     setDisplayValue(e.target.value.toLowerCase());
     setWorkspaceName(e.target.value.toLowerCase());
   };
-  const router = useRouter();
 
   const handleCreateYam = () => {
     setCreateYam(true);
   };
 
   const handleCreateWorkspace = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSuccessBool(true);
+  e.preventDefault();
+  setSuccessBool(true);
 
-    try {
-      const res = await completeOnboarding({
-        workspaceName,
-        createYam,
-      });
+  try {
+    const res = await completeOnboarding({
+      workspaceName, createYam
+    });
 
-      // Check if res is a Response object (error case)
-      if (res instanceof Response) {
-        const data = await res.json();
-        if (data.error) {
-          setError(data.error);
-          setSuccessBool(false);
-          return;
-        }
-      }
-
-      // Check for error in direct object response
-      if ("error" in res && res.error) {
-        setError(res.error);
+    // Check if res is a Response object (error case)
+    if (res instanceof Response) {
+      const data = await res.json();
+      if (data.error) {
+        setError(data.error);
         setSuccessBool(false);
         return;
       }
-
-      // Success case
-      if ("message" in res && res.message) {
-        await user?.reload();
-        router.push("/dashboard");
-        return;
-      }
-
-      // Fallback error handling
-      setError("Unexpected response format");
-      setSuccessBool(false);
-    } catch (error) {
-      console.error("Error creating workspace:", error);
-      setError("An unexpected error occurred");
-      setSuccessBool(false);
     }
-  };
+
+    // Check for error in direct object response
+    if ('error' in res && res.error) {
+      setError(res.error);
+      setSuccessBool(false);
+      return;
+    }
+
+    // Success case
+    if ('message' in res && res.message) {
+      await user?.reload();
+      router.push('/dashboard');
+      return;
+    }
+
+    // Fallback error handling
+    setError('Unexpected response format');
+    setSuccessBool(false);
+
+  } catch (error) {
+    console.error('Error creating workspace:', error);
+    setError('An unexpected error occurred');
+    setSuccessBool(false);
+  }
+};
 
   const loadingTxts = [
     "Welcome to Yamify—your reliable, affordable cloud.",

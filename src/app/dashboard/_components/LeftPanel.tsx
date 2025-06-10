@@ -24,17 +24,15 @@ const LeftPanel = ({
   setShowWorkspaceDialog,
   workspaces
 }: Props) => {
-<<<<<<< HEAD
+
   // const [collapseWallet, setCollapseWallet] = useState(false);
   const [collapseYam, setCollapseYam] = useState(true);
   // const [sidebar, setSidebar] = useState(false);
-=======
+
   const [selectedWorkspace, setSelectedWorkspace] = useState<SelectWorkspace>(workspaces[0]);
   const [collapseWallet, setCollapseWallet] = useState(false);
-  const [collapseYam, setCollapseYam] = useState(true);
   const [dropDownWorkspace, setDropDownWorkspace] = useState(false);
   const { user } = useUser();
->>>>>>> 18406737a1bb3fca4a103e5b3a319cf72d6e7130
 
   
   const pathname = usePathname();

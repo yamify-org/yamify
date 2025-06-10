@@ -6,8 +6,8 @@ import "@/styles/AuthPage.css";
 import Image from "next/image";
 import { countries } from "@/utils/data";
 
-import { OAuthStrategy } from '@clerk/types'
-import { useSignUp } from '@clerk/nextjs'
+import { OAuthStrategy } from "@clerk/types";
+import { useSignUp } from "@clerk/nextjs";
 
 export default function SignUp() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +19,14 @@ export default function SignUp() {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { signUp } = useSignUp()
+  const [password, setPassword] = useState("");
+  const [passwordValidations, setPasswordValidations] = useState({
+    hasMinLength: false,
+    hasNumber: false,
+    hasUppercase: false,
+    hasSpecialChar: false,
+  });
+  const { signUp } = useSignUp();
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -42,8 +49,18 @@ export default function SignUp() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
+  
+  // Déplacé avant la condition if (!signUp) return null pour éviter l'erreur d'ordre des hooks
+  useEffect(() => {
+    setPasswordValidations({
+      hasMinLength: password.length >= 6,
+      hasNumber: /\d/.test(password),
+      hasUppercase: /[A-Z]/.test(password),
+      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    });
+  }, [password]);
 
-  if (!signUp) return null
+  if (!signUp) return null;
 
   const filteredCountries = countries.filter((country) =>
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -53,19 +70,82 @@ export default function SignUp() {
     return signUp
       .authenticateWithRedirect({
         strategy,
-        redirectUrl: '/auth/sign-up/sso-callback',
-        redirectUrlComplete: '/dashboard',
+        redirectUrl: "/auth/sign-up/sso-callback",
+        redirectUrlComplete: "/dashboard",
       })
       .then((res) => {
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => {
         // See https://clerk.com/docs/custom-flows/error-handling
         // for more info on error handling
-        console.log(err.errors)
-        console.error(err, null, 2)
-      })
-  }
+        console.log(err.errors);
+        console.error(err, null, 2);
+      });
+  };
+  
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get('name')?.toString();
+    const email = formData.get('email')?.toString();
+    const passwordValue = formData.get('password')?.toString();
+    
+    if (!name || !email || !passwordValue) return;
+    
+    try {
+      await signUp.create({
+        firstName: name.split(' ')[0],
+        lastName: name.split(' ').slice(1).join(' '),
+        emailAddress: email,
+        password: passwordValue,
+      });
+      
+      // Redirect après inscription réussie
+      await signUp.prepareEmailAddressVerification({
+        strategy: "email_code"
+      });
+      
+      // Redirection manuelle vers la page de vérification
+      window.location.href = "/verify-email"; 
+    } catch (error) {
+      console.error('Error during sign up:', error);
+      // Ici vous pourriez afficher un message d'erreur à l'utilisateur
+    }
+  };
+
+  const ValidSVG = () => (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M22 22L22 2L2 2L2 22L22 22Z" stroke="#F8F8F8" />
+      <rect width="14" height="14" transform="translate(5 5)" fill="#F8F8F8" />
+      <path
+        d="M16.6663 8.5L10.2497 14.9167L7.33301 12"
+        stroke="#1B1B1B"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+
+  const InvalidSVG = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path d="M22 22L22 2L2 2L2 22L22 22Z" stroke="#4c4c4c" />
+    </svg>
+  );
 
   return (
     <div className="auth-section">
@@ -75,11 +155,17 @@ export default function SignUp() {
           <h1>Create your account</h1>
 
           <div className="auth-btns">
-            <div className="btn" onClick={() => signUpWithSocial('oauth_github')}>
+            <div
+              className="btn"
+              onClick={() => signUpWithSocial("oauth_github")}
+            >
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
-            <div className="btn" onClick={() => signUpWithSocial('oauth_google')}>
+            <div
+              className="btn"
+              onClick={() => signUpWithSocial("oauth_google")}
+            >
               <Image src="/svgs/google.svg" alt="" height={20} width={20} />
               Continue with Google
             </div>
@@ -91,7 +177,7 @@ export default function SignUp() {
             <div className="line"></div>
           </div>
 
-          <form action="">
+          <form onSubmit={handleFormSubmit}>
             <div className="label">
               <div className="left">
                 <label htmlFor="">Country</label>
@@ -194,16 +280,56 @@ export default function SignUp() {
                     name="password"
                     placeholder="Set your password"
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <Image
                     onClick={() => setShowPassword((prev) => !prev)}
                     src={
-                      showPassword ? "/svgs/eyeopen.svg" : "/svgs/eyeopen.svg"
+                      showPassword ? "/svgs/eyeopen.svg" : "/svgs/eyeclosed.svg"
                     }
                     alt="Toggle password visibility"
                     height={15}
                     width={15}
                   />
+                </div>
+              </div>
+            </div>
+
+            <div className="password-checker-container label">
+              <div className="left"></div>
+              <div className="right">
+                <div className="wrap">
+                  {passwordValidations.hasMinLength ? (
+                    <ValidSVG />
+                  ) : (
+                    <InvalidSVG />
+                  )}
+                  <p>6 characters min</p>
+                </div>
+                <div className="wrap">
+                  {passwordValidations.hasNumber ? (
+                    <ValidSVG />
+                  ) : (
+                    <InvalidSVG />
+                  )}
+                  <p>A number</p>
+                </div>
+                <div className="wrap">
+                  {passwordValidations.hasUppercase ? (
+                    <ValidSVG />
+                  ) : (
+                    <InvalidSVG />
+                  )}
+                  <p>Upper case character</p>
+                </div>
+                <div className="wrap">
+                  {passwordValidations.hasSpecialChar ? (
+                    <ValidSVG />
+                  ) : (
+                    <InvalidSVG />
+                  )}
+                  <p>Special character</p>
                 </div>
               </div>
             </div>
