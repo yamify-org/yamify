@@ -363,4 +363,109 @@ ingress:
       password: 'password',
     };
   },
+
+  deployN8n: async (
+    vclusterKubeconfig: string,
+    yamNamespace: string, // This should be unique across all apps
+    namespace: string
+  ): Promise<{url: string}> => {
+    const host = `${yamNamespace}-n8n.aiscaler.ai`;
+
+    console.log({host, yamNamespace})
+
+    const kubeconfigPath = join(tmpdir(), `kubeconfig-${yamNamespace}.yaml`);
+    const valuesPath = join(tmpdir(), `values-${yamNamespace}.yaml`);
+    await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
+
+    const values = `
+main:
+  count: 1
+  pdb:
+    enabled: true
+    minAvailable: 1
+
+
+  resources: 
+    requests:
+        cpu: 100m
+        memory: 128Mi
+    limits:
+        cpu: 2000m
+        memory: 1Gi
+
+
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: 
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    external-dns.alpha.kubernetes.io/hostname: ${host}
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: ${host}
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: 
+   - secretName: ${yamNamespace}-n8n-test-tls
+     hosts:
+       - ${host}
+`;
+
+    await fs.writeFile(valuesPath, values);
+
+    try {
+      // Check if helm is available
+      // try {
+      //   await execa('helm', ['version']);
+      // } catch (error) {
+      //   console.error(error)
+      //   throw new Error('Helm is not installed or not available in PATH. Please install Helm first.');
+      // }
+
+      // Wait until vCluster API is reachable
+      await kube.waitForVCluster(kubeconfigPath);
+
+      // Create namespace inside vCluster
+      await execa('kubectl', [
+        '--kubeconfig', kubeconfigPath,
+        'create', 'namespace', namespace,
+      ]).catch((err) => {
+        if (!err.stderr?.includes('AlreadyExists')) throw err;
+      });
+
+      // Install WordPress inside the vCluster
+      await execa('helm', [
+        'install',
+        'n8n',
+        'community-charts/n8n',
+        '--namespace', namespace,
+        '-f', valuesPath,
+        '--kubeconfig', kubeconfigPath,
+        '--debug',
+      ]);
+
+      // Wait for pod to be ready
+      await execa('kubectl', [
+        '--kubeconfig', kubeconfigPath,
+        'wait',
+        '--namespace', namespace,
+        '--for=condition=Ready',
+        'pod',
+        '-l=app.kubernetes.io/name=n8n',
+        '--timeout=120s',
+      ]);
+
+    } catch(error) {
+      console.error('Error deploying n8n:', error);
+    } finally {
+      await fs.unlink(kubeconfigPath);
+      await fs.unlink(valuesPath);
+    }
+
+    return {
+      url: `https://${host}`,
+    };
+  },
 };

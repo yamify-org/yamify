@@ -45,6 +45,8 @@ export const projectService = {
         case 'code-server':
           deploymentResult = await projectService.deployCodeServerInVCluster(record, yam.kubeConfig, yam.namespace);
           break;
+        case 'n8n':
+          deploymentResult = await projectService.deployN8nInVCluster(record, yam.kubeConfig, yam.namespace);
         default:
           throw new Error(`Unsupported app type: ${params.type}`);
       }
@@ -57,7 +59,7 @@ export const projectService = {
 
       return updatedRecord;
     } catch (error) {
-      await projectRepository.update(record.id, { status: 'failed' });
+      await projectRepository.delete(record.id);
       throw error;
     }
   },
@@ -87,6 +89,17 @@ export const projectService = {
       url,
       username: 'user',
       password: 'changeme'
+    };
+  },
+  deployN8nInVCluster: async (project: { name: string; yamId: string; namespace: string }, vclusterKubeconfig: string, yamName: string) => {
+    const url = await kube.deployN8n(
+      vclusterKubeconfig,
+      yamName, // Ensure unique subdomain
+      project.namespace
+    );
+
+    return {
+      url
     };
   },
   deployCustomHelmInVCluster: async (project: { id: string; name: string; namespace: string; chart: string; valuesYaml: string }, vclusterKubeconfig: string) => {

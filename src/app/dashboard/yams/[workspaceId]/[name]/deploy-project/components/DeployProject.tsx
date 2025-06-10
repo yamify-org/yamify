@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { SelectYam } from "@/types/server";
 import { useParams } from "next/navigation";
 import fetchYam from "@/libs/queries/fetch-yam";
-import { deployCodeServerProjectAction, deployWordpressProjectAction } from "@/app/dashboard/_actions";
+import { deployCodeServerProjectAction, deployWordpressProjectAction, deployN8nProjectAction } from "@/app/dashboard/_actions";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -22,9 +22,11 @@ const DeployProject = ({ expandRightPanel }: Props) => {
   const [deploymentLoading, setDeploymentLoading] = useState<{
       wordpress: boolean;
       codeserver: boolean;
+      n8n: boolean;
     }>({
       wordpress: false,
-      codeserver: false
+      codeserver: false,
+      n8n: false,
     });
 
   const params = useParams();
@@ -64,7 +66,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
     try {
       const result = await deployWordpressProjectAction({
         name: `wordpress-${Date.now()}`,
-        namespace: `${yam.namespace}-wordpress`,
+        namespace: 'default',
         yamId: yam.id,
         workspaceId: yam.workspaceId
       });
@@ -89,7 +91,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
     try {
       const result = await deployCodeServerProjectAction({
         name: `codeserver-${Date.now()}`,
-        namespace: yam.namespace,
+        namespace: 'default',
         yamId: yam.id,
         workspaceId: yam.workspaceId
       });
@@ -103,6 +105,31 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       alert("Failed to deploy CodeServer. Please try again.");
     } finally {
       setDeploymentLoading(prev => ({ ...prev, codeserver: false }));
+    }
+  };
+
+  const handleDeployN8n = async () => {
+    if (!yam) return;
+
+    setDeploymentLoading(prev => ({ ...prev, n8n: true }));
+
+    try {
+      const result = await deployN8nProjectAction({
+        name: `n8n-${Date.now()}`,
+        namespace: 'default',
+        yamId: yam.id,
+        workspaceId: yam.workspaceId
+      });
+
+      if (result.success) {
+        alert("n8n deployment created successfully!");
+        router.back();
+      }
+    } catch (error) {
+      console.error("Failed to deploy n8n:", error);
+      alert("Failed to deploy n8n. Please try again.");
+    } finally {
+      setDeploymentLoading(prev => ({ ...prev, n8n: false }));
     }
   };
 
@@ -174,7 +201,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
                         <div className="txt">{deploymentLoading.wordpress ? "Deploying..." : "Everything you need to build and grow any website—all in one place."}</div>
                       </div>
                     </div>
-                    <div className="app">
+                    <div className="app" aria-disabled={deploymentLoading.n8n} onClick={handleDeployN8n}>
                       <Image src="/svgs/n8n.svg" alt="" width={24} height={24} />
 
                       <div className="content">

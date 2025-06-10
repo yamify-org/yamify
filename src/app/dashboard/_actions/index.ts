@@ -94,14 +94,14 @@ export const createWorkspaceAction = async ({namespace, createYam}: CreateWorksp
   }
 }
 
-interface DeployCodeServerProjectData {
+interface DeployProject {
   name: string;
   namespace: string;
   yamId: string;
   workspaceId: string;
 }
 
-export const deployCodeServerProjectAction = async ({name, namespace, yamId, workspaceId}: DeployCodeServerProjectData) => {
+export const deployCodeServerProjectAction = async ({name, namespace, yamId, workspaceId}: DeployProject) => {
   const { userId } = await auth()
   const user = await currentUser()
 
@@ -131,14 +131,7 @@ export const deployCodeServerProjectAction = async ({name, namespace, yamId, wor
   }
 }
 
-interface DeployWordpressProjectData {
-  name: string;
-  namespace: string;
-  yamId: string;
-  workspaceId: string;
-}
-
-export const deployWordpressProjectAction = async ({name, namespace, yamId, workspaceId}: DeployWordpressProjectData) => {
+export const deployWordpressProjectAction = async ({name, namespace, yamId, workspaceId}: DeployProject) => {
   const { userId } = await auth()
   const user = await currentUser()
 
@@ -168,4 +161,33 @@ export const deployWordpressProjectAction = async ({name, namespace, yamId, work
   }
 }
 
+export const deployN8nProjectAction = async ({name, namespace, yamId, workspaceId}: DeployProject) => {
+  const { userId } = await auth()
+  const user = await currentUser()
+
+  if (!user || !userId) {
+    return { error: 'No Logged In User' }
+  }
+
+  try {
+    const project = await projectModule.service.create({
+      name,
+      type: 'n8n',
+      namespace,
+      workspaceId,
+      yamId
+    });
+
+    console.log('n8n project created:', project)
+    return { success: true, project }
+
+  } catch(e) {
+    console.log(e)
+    if(e instanceof Error){
+      console.log(e.message)
+      return { error: e.message }
+    }
+    return { error: 'Error deploying n8n' }
+  }
+}
 
