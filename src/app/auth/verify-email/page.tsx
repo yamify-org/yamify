@@ -17,7 +17,7 @@ const VerifyEmail = () => {
   const [error, setError] = useState<string | null>(null);
   const [emailAddress, setEmailAddress] = useState<string | null>(null);
   
-  // Animation state
+
   const [verifying, setVerifying] = useState(false);
   
   // Refs for inputs
