@@ -12,6 +12,10 @@ export const yamRepository = {
         domain,
       },
     }),
-  getByName: (name: string) => prisma.yam.findFirst({ where: { name } }),
+  getByName: (name: string) => prisma.yam.findFirst({ where: { name }, include: {
+      projects: {
+        where: { status: "ready" }
+      }
+    } }),
   delete: (id: string) => prisma.yam.delete({ where: { id } }),
 };

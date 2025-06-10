@@ -1,12 +1,17 @@
 import DashboardHeader from "@/app/dashboard/_components/DashboardHeader";
-import { deployCodeServerProjectAction, deployWordpressProjectAction } from "@/app/dashboard/_actions/index";
 import fetchYam from "@/libs/queries/fetch-yam";
 import "@/styles/RightPanelDashboard.css";
 import "@/styles/RightPanelDashboardYamPage.css";
+import "@/styles/RightPanelDashboardProject.css";
 import { SelectYam } from "@/types/server";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import routes from "@/libs/routes";
+import Button from "@/components/Button/Button";
+import { tag } from "@/utils/tags";
+import { groups } from "@/utils/data";
+import ProjectCard from "./ProjectCard";
 
 type Props = {
   expandRightPanel: boolean;
@@ -45,13 +50,6 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   // Add this state for deployment loading (add after existing useState declarations)
-  const [deploymentLoading, setDeploymentLoading] = useState<{
-    wordpress: boolean;
-    codeserver: boolean;
-  }>({
-    wordpress: false,
-    codeserver: false
-  });
 
   const params = useParams();
   const yamName = params.name as string;
@@ -99,58 +97,6 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
     window.URL.revokeObjectURL(url);
   };
 
-  const handleDeployWordPress = async () => {
-  if (!yam) return;
-  
-  setDeploymentLoading(prev => ({ ...prev, wordpress: true }));
-  
-  try {
-    const result = await deployWordpressProjectAction({
-      name: `wordpress-${Date.now()}`,
-      namespace: `${yam.namespace}-wordpress`,
-      yamId: yam.id,
-      workspaceId: yam.workspaceId
-    });
-    
-    if (result.success) {
-      alert("WordPress deployment created successfully!");
-    } else {
-      alert(result.error || "Failed to deploy WordPress");
-    }
-  } catch (error) {
-    console.error("Failed to deploy WordPress:", error);
-    alert("Failed to deploy WordPress. Please try again.");
-  } finally {
-    setDeploymentLoading(prev => ({ ...prev, wordpress: false }));
-  }
-};
-
-const handleDeployCodeServer = async () => {
-  if (!yam) return;
-  
-  setDeploymentLoading(prev => ({ ...prev, codeserver: true }));
-  
-  try {
-    const result = await deployCodeServerProjectAction({
-      name: `codeserver-${Date.now()}`,
-      namespace: yam.namespace,
-      yamId: yam.id,
-      workspaceId: yam.workspaceId
-    });
-    
-    if (result.success) {
-      alert("CodeServer deployment created successfully!");
-    } else {
-      alert(result.error || "Failed to deploy CodeServer");
-    }
-  } catch (error) {
-    console.error("Failed to deploy CodeServer:", error);
-    alert("Failed to deploy CodeServer. Please try again.");
-  } finally {
-    setDeploymentLoading(prev => ({ ...prev, codeserver: false }));
-  }
-};
-
   return (
     <div
       className={`right-panel right-panel-yams ${
@@ -187,7 +133,7 @@ const handleDeployCodeServer = async () => {
               <div className="tab active">
                 <h2>Overview</h2>
               </div>
-              <div className="tab">
+              {/* <div className="tab">
                 <h2>Installed Apps</h2>
               </div>
               <div className="tab">
@@ -195,7 +141,7 @@ const handleDeployCodeServer = async () => {
               </div>
               <div className="tab">
                 <h2>Usage</h2>
-              </div>
+              </div> */}
             </div>
 
             <div className="yam-details">
@@ -262,7 +208,7 @@ const handleDeployCodeServer = async () => {
                   </div>
                 </div>
               </div>
-              <div className="right">
+              {/* <div className="right">
                 <h3>Connection details</h3>
                 <div className="card">
                   <div className="row">
@@ -282,10 +228,10 @@ const handleDeployCodeServer = async () => {
                     <Image src="/svgs/copy.svg" alt="" height={15} width={15} />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
-            <div className="yam-usage">
+            {/* <div className="yam-usage">
               <h3>Usage</h3>
 
               <div className="card">
@@ -334,29 +280,90 @@ const handleDeployCodeServer = async () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="deploy-project">
-              <h3>Projects</h3>
+            {/* <div className="deploy-project">
+                <h3>Projects</h3>
+            </div> */}
 
-              <div className="card">
-                <h4>No deployed project</h4>
-                <p>Once you deploy a project, you can access it here.</p>
-                <button 
-                  onClick={handleDeployWordPress}
-                  disabled={deploymentLoading.wordpress}
-                >
-                  {deploymentLoading.wordpress ? "Deploying..." : "Deploy a wordpress project"}
-                </button>
-                <button 
-                  onClick={handleDeployCodeServer}
-                  disabled={deploymentLoading.codeserver}
-                >
-                  {deploymentLoading.codeserver ? "Deploying..." : "Deploy a codeserver project"}
-                </button>
-              </div>
+            {/* <div className="card">
+              <h4>No deployed project</h4>
+              <p>Once you deploy a project, you can access it here.</p>
+              <button 
+                onClick={handleDeployWordPress}
+                disabled={deploymentLoading.wordpress}
+              >
+                {deploymentLoading.wordpress ? "Deploying..." : "Deploy a wordpress project"}
+              </button>
+              <button 
+                onClick={handleDeployCodeServer}
+                disabled={deploymentLoading.codeserver}
+              >
+                {deploymentLoading.codeserver ? "Deploying..." : "Deploy a codeserver project"}
+              </button>
+            </div> */}
+
+            {yam.projects.length === 0 ? (
+                      <div className="section-projects">
+                        <nav>
+                          <div className="wrap">
+                            {tag.icon({
+                              color: groups[0].color,
+                              width: 18,
+                              height: 18,
+                            })}
+                            <h1>{groups[0].text}</h1>
+                          </div>
+                        </nav>
+            
+                        <div className="deploy-container">
+                          <h2>No deployed project</h2>
+                          <p>
+                            Deploy your first application to get started with your
+                            Kubernetes environment. Once you deploy a project, you can
+                            access it here.
+                          </p>
+            
+                          <Button
+                            href={routes.dashboard.yams.deployProject(yam.name, yam.workspaceId)}
+                            linkBtn={true}
+                            yellow={true}
+                            text="Deploy a project"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="section-projects">
+                        <nav>
+                          <div className="wrap">
+                            {tag.icon({
+                              color: groups[0].color,
+                              width: 18,
+                              height: 18,
+                            })}
+                            <h1>{groups[0].text}</h1>
+                          </div>
+            
+                          <Button
+                            href={routes.dashboard.yams.deployProject(yam.name, yam.workspaceId)}
+                            linkBtn={true}
+                            yellow={true}
+                            text="Deploy a project"
+                          />
+                        </nav>
+            
+                        <div className="deployed-application">
+                          <h2>Deployed Applications</h2>
+            
+                          <div className="projects">
+                            {yam.projects.map(project => (
+                              <ProjectCard key={project.id} project={project} />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
             </div>
-          </div>
         }
       </div>
     </div>

@@ -1,9 +1,9 @@
 import "@/styles/RightPanelDashboard.css";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+// import Image from "next/image";
+// import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import CreateYamContainer from "./CreateYamContainer";
-import Link from "next/link";
+// import Link from "next/link";
 import DashboardHeader from "./DashboardHeader";
 import { SelectWorkspace } from "@/types/server";
 import { useUser } from "@clerk/nextjs";
@@ -15,7 +15,7 @@ type Props = {
 
 const RightPanel = ({ expandRightPanel, workspaces }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mainInputRef = useRef<HTMLInputElement>(null);
+  // const mainInputRef = useRef<HTMLInputElement>(null);
   const today = new Date();
   const formattedToday = new Intl.DateTimeFormat('en-US', {
     weekday: 'long',   // e.g. "Thursday"
@@ -24,55 +24,55 @@ const RightPanel = ({ expandRightPanel, workspaces }: Props) => {
   }).format(today);
   const { user } = useUser()
 
-  const [roleCareer, setRoleCareer] = useState<string | null>(null);
-  const [mainImage, setMainImage] = useState("");
+  // const [roleCareer, setRoleCareer] = useState<string | null>(null);
+  // const [mainImage, setMainImage] = useState("");
 
-  const toggleRoleCareer = (service: string) => {
-    setRoleCareer((prev) => (prev === service ? null : service));
-  };
+  // const toggleRoleCareer = (service: string) => {
+  //   setRoleCareer((prev) => (prev === service ? null : service));
+  // };
 
-  const handleMainImageChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const imagePath = URL.createObjectURL(file);
-      setMainImage(imagePath); // this will be a blob URL
-    }
-  };
+  // const handleMainImageChange = async (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     const imagePath = URL.createObjectURL(file);
+  //     setMainImage(imagePath); // this will be a blob URL
+  //   }
+  // };
 
-  const scrollToIndex = (index: number) => {
-    if (!containerRef.current) return;
+  // const scrollToIndex = (index: number) => {
+  //   if (!containerRef.current) return;
 
-    const container = containerRef.current;
-    const taskWidth =
-      container.firstChild instanceof HTMLElement
-        ? container.firstChild.offsetWidth + 10 // +gap
-        : 0;
+  //   const container = containerRef.current;
+  //   const taskWidth =
+  //     container.firstChild instanceof HTMLElement
+  //       ? container.firstChild.offsetWidth + 10 // +gap
+  //       : 0;
 
-    container.scrollTo({
-      left: index * taskWidth,
-      behavior: "smooth",
-    });
-  };
+  //   container.scrollTo({
+  //     left: index * taskWidth,
+  //     behavior: "smooth",
+  //   });
+  // };
 
-  const handleProceed = () => {
-    const container = containerRef.current;
-    if (!container) return;
+  // const handleProceed = () => {
+  //   const container = containerRef.current;
+  //   if (!container) return;
 
-    const taskWidth =
-      container.firstChild instanceof HTMLElement
-        ? container.firstChild.offsetWidth + 10
-        : 0;
+  //   const taskWidth =
+  //     container.firstChild instanceof HTMLElement
+  //       ? container.firstChild.offsetWidth + 10
+  //       : 0;
 
-    // Recalculate based on current scroll position
-    const currentIndex = Math.round(container.scrollLeft / taskWidth);
-    const nextIndex = currentIndex + 1;
+  //   // Recalculate based on current scroll position
+  //   const currentIndex = Math.round(container.scrollLeft / taskWidth);
+  //   const nextIndex = currentIndex + 1;
 
-    if (nextIndex < container.children.length) {
-      scrollToIndex(nextIndex);
-    }
-  };
+  //   if (nextIndex < container.children.length) {
+  //     scrollToIndex(nextIndex);
+  //   }
+  // };
 
   const syncScrollPosition = () => {
     const container = containerRef.current;
@@ -117,7 +117,7 @@ const RightPanel = ({ expandRightPanel, workspaces }: Props) => {
           </div>
 
           <div className="onboarding-container">
-            <div className="onboarding-head">
+            {/* <div className="onboarding-head">
               <div className="wrap">
                 <Image src="/svgs/user.svg" alt="" width={15} height={15} />
                 <p>6 Steps to Onboarding</p>
@@ -394,7 +394,7 @@ const RightPanel = ({ expandRightPanel, workspaces }: Props) => {
                   </div>
                 </div>
               </motion.div>
-            </div>
+            </div> */}
 
             <CreateYamContainer workspaces={workspaces} />
           </div>

@@ -84,7 +84,7 @@ const CreateYamContainer = ({ workspaces }: Props) => {
     <form onSubmit={onSubmit} className="create-yam-container">
       <div className="head">
         <Image src="/svgs/cluster.svg" alt="" width={15} height={15} />
-        <h1>Create your first Yam in 1 Click</h1>
+        <h1>Create a Yam in 1 Click</h1>
       </div>
 
       {!successBool ? (

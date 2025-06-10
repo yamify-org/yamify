@@ -1,0 +1,233 @@
+import DashboardHeader from "@/app/dashboard/_components/DashboardHeader";
+import "@/styles/RightPanelDashboard.css";
+import "@/styles/DeployProject.css";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { SelectYam } from "@/types/server";
+import { useParams } from "next/navigation";
+import fetchYam from "@/libs/queries/fetch-yam";
+import { deployCodeServerProjectAction, deployWordpressProjectAction } from "@/app/dashboard/_actions";
+import { useRouter } from "next/navigation";
+
+type Props = {
+  expandRightPanel: boolean;
+  setShowYamDialog: (Callback: boolean) => void;
+};
+
+const DeployProject = ({ expandRightPanel }: Props) => {
+  const [yam, setYam] = useState<SelectYam>();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const [deploymentLoading, setDeploymentLoading] = useState<{
+      wordpress: boolean;
+      codeserver: boolean;
+    }>({
+      wordpress: false,
+      codeserver: false
+    });
+
+  const params = useParams();
+  const yamName = params.name as string;
+
+  const slug = decodeURIComponent(yamName);
+
+  useEffect(() => {
+    async function getWorkspaces() {
+      setLoading(true)
+      try {
+        const data = await fetchYam({
+          name: slug
+        });
+        setYam(data);
+        setLoading(false)
+      } catch (err) {
+        console.error(err);
+        setError('Could not load yam. Please try again later.');
+        setLoading(false)
+      }
+    }
+    getWorkspaces();
+  }, [slug]);
+
+  console.log(error);
+
+  if(!yam) {
+    return null;
+  }
+
+  const handleDeployWordPress = async () => {
+    if (!yam) return;
+    
+    setDeploymentLoading(prev => ({ ...prev, wordpress: true }));
+    
+    try {
+      const result = await deployWordpressProjectAction({
+        name: `wordpress-${Date.now()}`,
+        namespace: `${yam.namespace}-wordpress`,
+        yamId: yam.id,
+        workspaceId: yam.workspaceId
+      });
+      
+      if (result.success) {
+        alert("WordPress deployment created successfully!");
+        router.back()
+      }
+    } catch (error) {
+      console.error("Failed to deploy WordPress:", error);
+      alert("Failed to deploy WordPress. Please try again.");
+    } finally {
+      setDeploymentLoading(prev => ({ ...prev, wordpress: false }));
+    }
+  };
+
+  const handleDeployCodeServer = async () => {
+    if (!yam) return;
+    
+    setDeploymentLoading(prev => ({ ...prev, codeserver: true }));
+    
+    try {
+      const result = await deployCodeServerProjectAction({
+        name: `codeserver-${Date.now()}`,
+        namespace: yam.namespace,
+        yamId: yam.id,
+        workspaceId: yam.workspaceId
+      });
+      
+      if (result.success) {
+        alert("CodeServer deployment created successfully!");
+        router.back()
+      }
+    } catch (error) {
+      console.error("Failed to deploy CodeServer:", error);
+      alert("Failed to deploy CodeServer. Please try again.");
+    } finally {
+      setDeploymentLoading(prev => ({ ...prev, codeserver: false }));
+    }
+  };
+
+  return (
+    <div
+      className={`right-panel right-panel-yams ${
+        expandRightPanel && "not-expand"
+      }`}
+    >
+      <div className="dummy-panel"></div>
+      <div className="main-panel">
+        <DashboardHeader />
+
+        {!loading && <div className="section-deploy">
+          <div onClick={() => router.back()} className="back-btn">
+            <div className="wrap">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+              >
+                <path
+                  d="M11.875 7.5H3.125M3.125 7.5L7.5 11.875M3.125 7.5L7.5 3.125"
+                  stroke="#B8B8B8"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+
+              <p>Go back to Yam</p>
+            </div>
+          </div>
+
+          <div className="deployment-container">
+            <div className="desc">
+              <h1>Start building something new.</h1>
+              <p>
+                Deploy your apps installed from marketplace or create a new
+                pipeline.
+              </p>
+            </div>
+
+            <div className="building">
+              <div className="build marketplace">
+                <h2>Deploy from Marketplace</h2>
+
+                <p>Choose from a growing library of production-ready apps</p>
+
+                <div className="container">
+                  <div className="apps">
+                    <div
+                      className="app"
+                      aria-disabled={deploymentLoading.wordpress}
+                      onClick={handleDeployWordPress}
+                    >
+                      <Image
+                        src="/svgs/wordpress.svg"
+                        alt=""
+                        width={24}
+                        height={24}
+                      />
+
+                      <div className="content">
+                        <h4>Wordpress</h4>
+
+                        <div className="txt">{deploymentLoading.wordpress ? "Deploying..." : "Everything you need to build and grow any website—all in one place."}</div>
+                      </div>
+                    </div>
+                    <div className="app">
+                      <Image src="/svgs/n8n.svg" alt="" width={24} height={24} />
+
+                      <div className="content">
+                        <h4>n8n</h4>
+
+                        <div className="txt">Flexible AI workflow automation for technical teams</div>
+                      </div>
+                    </div>
+                    <div className="app" aria-disabled={deploymentLoading.codeserver} onClick={handleDeployCodeServer}>
+                      <Image src="/svgs/code-server.svg" alt="" width={24} height={24} />
+
+                      <div className="content">
+                        <h4>VS Code</h4>
+
+                        <div className="txt">{deploymentLoading.codeserver ? "Deploying..." : "Run VS Code and access it in the browser."}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* <div className="build pipeline">
+                <h2>Deploy from Pipeline</h2>
+
+                <div className="static">
+                  <div className="wrap">
+                    <Image
+                      src="/svgs/display.svg"
+                      alt=""
+                      height={15}
+                      width={15}
+                    />
+                    <h3>Connect Your Code. We&apos;ll Handle the Rest.</h3>
+                  </div>
+
+                  <div className="content">
+                    <p>
+                      Push from GitHub, GitLab, or any Git provider. Yamify
+                      automatically detects your language and framework,
+                      recommends the best build method, and deploys your app
+                      into an isolated Kubernetes environment (Yam).{" "}
+                    </p>
+
+                    <div className="btn">Connect your code</div>
+                  </div>
+                </div>
+              </div> */}
+            </div>
+          </div>
+        </div>}
+      </div>
+    </div>
+  );
+};
+
+export default DeployProject;

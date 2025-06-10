@@ -14,6 +14,7 @@ const routes = {
       all: (dashboardId: string) => `/dashboard/yams/${dashboardId}/all`,
       single: (name: string, dashboardId: string) =>
         `/dashboard/yams/${dashboardId}/${name}`,
+      deployProject: (name: string, dashboardId: string) => `/dashboard/yams/${dashboardId}/${name}/deploy-project`
     },
     projects: {
       // all: "/dashboard/projects/all",

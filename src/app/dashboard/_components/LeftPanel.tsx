@@ -5,12 +5,12 @@ import "@/styles/LeftPanelDashboard.css";
 import Image from "next/image";
 import Link from "next/link";
 import routes from "@/libs/routes";
-import { AnimatePresence, motion } from "framer-motion";
+// import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { SelectWorkspace } from "@/types/server";
-import { tag } from "@/utils/tags";
-import { groups } from "@/utils/data";
+// import { tag } from "@/utils/tags";
+// import { groups } from "@/utils/data";
 
 type Props = {
   setExpandRightPanel: (Callback: boolean) => void;
@@ -30,7 +30,7 @@ const LeftPanel = ({
     useState<SelectWorkspace | null>(
       workspaces.length > 0 ? workspaces[0] : null
     );
-  const [collapseYam, setCollapseYam] = useState(true);
+  // const [collapseYam, setCollapseYam] = useState(true);
   const [dropDownWorkspace, setDropDownWorkspace] = useState(false);
   const { user } = useUser();
   const pathname = usePathname();
@@ -178,21 +178,21 @@ const LeftPanel = ({
             </div>
             {selectedWorkspace && (
               <Link
-                href={routes.dashboard.yams.all(selectedWorkspace.id)}
+                href={routes.dashboard.yams.single(selectedWorkspace.name, selectedWorkspace.id)}
                 className={`link ${
                   pathname ===
-                    routes.dashboard.yams.all(selectedWorkspace.id) && "active"
+                    routes.dashboard.yams.single(selectedWorkspace.name, selectedWorkspace.id) && "active"
                 }`}
               >
                 <Image src="/svgs/cluster.svg" alt="" width={15} height={15} />
-                <p>All Yams</p>
+                <p>Yam</p>
               </Link>
             )}
           </div>
         </div>
       </div>
 
-      <div className="group-container">
+      {/* <div className="group-container">
         <div className="wrap" onClick={() => setCollapseYam(!collapseYam)}>
           <h2>Group</h2>
           <Image
@@ -226,7 +226,7 @@ const LeftPanel = ({
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </div> */}
     </div>
   );
 };
