@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useRouter } from 'next/navigation';
 import { useUser, useSignUp, useClerk } from '@clerk/nextjs';
@@ -6,6 +6,12 @@ import { useState, useEffect, FormEvent, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import CreateAnimation from '@/components/Home/CreateAnimation';
+import AuthHeader from '../_components/AuthHeader';
+import "@/styles/AuthPage.css";
+import "@/styles/VerifyEmail.css"; // Import des styles spécifiques pour les champs OTP
+
+// Activer ce mode pour tester la page sans authentification
+const TEST_MODE = true;
 
 const VerifyEmail = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -61,12 +67,13 @@ const VerifyEmail = () => {
     // Focus the first input on load
     inputRefs[0].current?.focus();
     
-    // Get email from signUp object
-    if (signUp) {
-      const pendingEmail = signUp.emailAddress;
-      setEmailAddress(pendingEmail || null);
+    // Récupérer l'adresse email depuis le signUp object
+    if (signUp && signUp.emailAddress) {
+      setEmailAddress(signUp.emailAddress);
+    } else if (TEST_MODE) {
+      setEmailAddress('test@example.com');
     }
-  }, [isLoaded, isSignedIn, signUp]);
+  }, [signUp]);
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) {
@@ -168,22 +175,24 @@ const VerifyEmail = () => {
     }
   };
 
+  // Pour tester l'animation de vérification
+  const handleTestAnimation = () => {
+    setVerificationSuccess(true);
+  };
+
   // Afficher l'animation de vérification réussie
   if (verificationSuccess) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white">
-        <div className="absolute top-8 left-8">
-          <div className="flex items-center">
-            <Image src="/logo.png" alt="Yamify" width={24} height={24} />
-            <span className="ml-2 text-xl font-bold">Yamify</span>
-          </div>
-        </div>
-        <CreateAnimation 
-          successBool={verificationSuccess}
-          barColor="#BDFFFB" 
-          loadingTxts={verificationMessages}
-          title="Vérification réussie !"
-        />
+      <div className="auth-section">
+        <section>
+          <AuthHeader />
+          <CreateAnimation 
+            successBool={verificationSuccess}
+            barColor="#BDFFFB" 
+            loadingTxts={verificationMessages}
+            title="Verification successful!"
+          />
+        </section>
       </div>
     );
   }
@@ -191,111 +200,96 @@ const VerifyEmail = () => {
   // Afficher l'état de chargement
   if (!isLoaded || verifying) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white">
-        <div className="absolute top-8 left-8">
-          <Link href="/">
-            <div className="flex items-center">
-              <Image src="/logo.png" alt="Yamify" width={24} height={24} />
-              <span className="ml-2 text-xl font-bold">Yamify</span>
-            </div>
-          </Link>
-        </div>
-        
-        <div className="flex flex-col items-center justify-center">
-          <div className="flex items-center justify-center">
-            <Image src="/logo.png" alt="Yamify" width={48} height={48} />
-          </div>
-          <p className="mt-4 text-lg">{verifying ? "Verification en cours..." : "Chargement..."}</p>
-          <div className="w-64 h-2 bg-gray-700 rounded-full mt-4">
-            <div className="h-full bg-yellow-500 rounded-full animate-pulse" style={{ width: '50%' }}></div>
-          </div>
-        </div>
+      <div className="auth-section">
+        <section>
+          <AuthHeader />
+          <CreateAnimation 
+            successBool={true}
+            barColor="#BDFFFB" 
+            loadingTxts={["Verification in progress...", "Validating code...", "Almost there..."]}
+            title={verifying ? "Verifying your code" : "Loading..."}
+          />
+        </section>
       </div>
     );
   }
 
+  // Vérifier si tous les champs sont remplis
+  const allFieldsFilled = verificationCode.every(digit => digit !== '');
+
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white">
-      <div className="absolute top-8 left-8">
-        <Link href="/">
-          <div className="flex items-center">
-            <Image src="/logo.png" alt="Yamify" width={24} height={24} />
-            <span className="ml-2 text-xl font-bold">Yamify</span>
+    <div className="auth-section">
+      <section>
+        <AuthHeader />
+        <div className="container">
+          <div className="back-icon" onClick={() => router.back()}>
+            <Image
+              src="/svgs/arrow-left.svg"
+              alt="Back"
+              height={15}
+              width={15}
+            />
           </div>
-        </Link>
-      </div>
-      
-      <div className="absolute top-8 right-8">
-        <span className="text-sm">Already have an account? </span>
-        <Link href="/auth/sign-in" className="text-yellow-500 hover:underline">Sign in</Link>
-      </div>
-      
-      <div className="flex flex-grow items-center justify-center">
-        <div className="w-full max-w-md p-8">
-          <button 
-            onClick={() => router.back()}
-            className="flex items-center text-gray-400 hover:text-white mb-6"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
-            </svg>
-            Back
-          </button>
           
-          <h1 className="text-3xl font-bold mb-8">Verify OTP</h1>
-          
-          <p className="mb-8 text-gray-300">
-            Please enter the code that was sent to {emailAddress || 'your email address'}.
+          <h1>Verify OTP</h1>
+          <p className="subtitle">
+            Please enter the code that was sent to your email address.
           </p>
           
           <form onSubmit={handleSubmit}>
-            <div className="mb-2">
-              <label className="block text-sm font-medium text-gray-300">Enter code</label>
-            </div>
+            <div className="label-txt">Enter code</div>
             
-            <div className="flex gap-2 mb-6">
+            <div className="otp-box">
               {verificationCode.map((digit, index) => (
                 <input
                   key={index}
                   ref={inputRefs[index]}
                   type="text"
-                  inputMode="numeric"
-                  maxLength={1}
                   value={digit}
                   onChange={(e) => handleInputChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  onPaste={index === 0 ? handlePaste : undefined}
-                  className="w-12 h-12 border border-gray-600 rounded bg-black text-white text-center text-xl focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 focus:outline-none"
+                  onPaste={handlePaste}
+                  className="otp-input"
+                  maxLength={1}
+                  autoComplete="off"
+                  inputMode="numeric"
+                  pattern="[0-9]"
+                  placeholder=""
+                  required
                 />
               ))}
             </div>
             
-            {error && (
-              <div className="text-red-500 text-sm mb-4">
-                {error}
-              </div>
-            )}
+            {error && <p className="error">{error}</p>}
             
-            <div className="mb-6">
-              <button 
-                type="button" 
-                onClick={handleResendCode}
-                className="text-yellow-500 hover:underline text-sm"
-              >
-                Didn't receive the code? Retry
-              </button>
+            <div className="retry-box">
+              <p>Didn't receive the code? <span onClick={handleResendCode} className="text-link">Retry</span></p>
             </div>
             
             <button
               type="submit"
-              disabled={loading}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-yellow-300 transition-colors"
+              disabled={loading || !allFieldsFilled}
+              className={`submit-button ${allFieldsFilled ? 'active-btn' : ''}`}
             >
-              Verify
+              <div className="hover-container">
+                <span>{loading ? "Verifying..." : "Verify"}</span>
+              </div>
             </button>
+            
+            {TEST_MODE && (
+              <div className="test-mode-container">
+                <button
+                  type="button"
+                  onClick={handleTestAnimation}
+                  className="test-button"
+                >
+                  Test Animation
+                </button>
+              </div>
+            )}
           </form>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
