@@ -1,0 +1,240 @@
+@import "variables";
+
+.new-capacity-section {
+  width: 100%;
+  margin-bottom: 260px;
+
+  section {
+    max-width: 1312px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 100%;
+      margin-bottom: 40px;
+    }
+
+    .yamify-details {
+      width: 100%;
+      max-width: 880px;
+
+      img {
+        z-index: 2;
+      }
+
+      h2 {
+        font-family: "Commissioner", sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 100%;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        span {
+          color: $brand-gold;
+          font-family: "PT Mono", sans-serif;
+          font-size: 10px;
+          font-weight: 400;
+          transform: translateY(2px);
+        }
+      }
+
+      .content {
+        p {
+          color: var(--Default-Grey, #b8b8b8);
+          font-family: "Commissioner", sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          line-height: 16px;
+        }
+      }
+
+      .no {
+        color: var(--Default-Grey, #b8b8b8);
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 100%;
+        z-index: 2;
+      }
+
+      .row {
+        display: flex;
+        gap: 15.93px;
+        margin-bottom: 14px;
+
+        .card {
+          display: flex;
+          width: 50%;
+          height: 200px;
+          padding: 20px;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-start;
+          background: $defualt-black;
+          border: 2px solid $ash;
+          position: relative;
+
+          &:last-child {
+            align-items: flex-end;
+
+            .content {
+              flex-direction: row-reverse;
+
+              p {
+                direction: rtl;
+              }
+            }
+          }
+
+          .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            align-self: stretch;
+            z-index: 2;
+
+            p {
+              width: 80%;
+            }
+          }
+        }
+
+        &.second {
+          .box {
+            position: relative;
+            z-index: 5;
+
+            .yamify-chip {
+              position: absolute;
+              left: 0;
+              top: 0;
+
+              &:hover {
+                .bg-blurred {
+                  opacity: 0.4;
+                }
+              }
+
+              .bg-blurred {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 250px;
+                height: 250px;
+                flex-shrink: 0;
+                background: var(--Brand-Gold, #dd9a38);
+                opacity: 0;
+                filter: blur(50px);
+              }
+
+              svg.chip {
+                position: absolute;
+                top: 0;
+                left: 0;
+              }
+
+              .contain {
+                width: 250px;
+                height: 250px;
+                padding: 15px 25px;
+                z-index: 1;
+                position: relative;
+
+                .txt {
+                  color: $brand-gold;
+                  font-size: 13px;
+                  font-weight: 700;
+                  line-height: 100%;
+                  margin-bottom: 12px;
+                }
+
+                img {
+                  position: absolute;
+                  bottom: 20px;
+                  right: 71px;
+                  width: 20px;
+                  height: 25.33px;
+                }
+              }
+            }
+          }
+
+          .card {
+            width: 299.691px;
+
+            .head {
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+
+            .content {
+              p {
+                width: 100%;
+              }
+            }
+
+            &:last-child {
+              border: none;
+
+              .head {
+                flex-direction: row-reverse;
+              }
+            }
+
+            svg {
+              position: absolute;
+              right: -2px;
+              top: 0px;
+              z-index: 0;
+              width: 343px;
+              height: 100%;
+            }
+          }
+        }
+
+        &.third {
+          .card {
+            width: 432.055px;
+            border: none;
+
+            &:first-child {
+              svg {
+                position: absolute;
+                left: -2px;
+                top: 0px;
+                z-index: 0;
+                width: 433px;
+                height: 100%;
+              }
+            }
+
+            .content {
+              p {
+                width: 80%;
+              }
+            }
+
+            svg {
+              position: absolute;
+              right: -2px;
+              top: 0px;
+              z-index: 0;
+              width: 433px;
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

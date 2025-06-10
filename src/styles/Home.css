@@ -1,6 +1,6 @@
 .home {
   width: 100%;
-  background: var(--Default-Black, #1b1b1b);
+  background: #111;
   padding-top: 60px;
 }
 .home.light-mode {

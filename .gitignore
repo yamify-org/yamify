@@ -2,6 +2,18 @@
 
 # dependencies
 /node_modules
+/docs-site/node_modules
+/docs-site/.next
+/docs-site/.pnp
+/docs-site/.pnp.*
+/docs-site/.yarn
+/docs-site/.yarn/*
+/docs-site/.yarn/patches
+/docs-site/.yarn/plugins
+/docs-site/.yarn/releases
+/docs-site/.yarn/versions    
+
+
 /.pnp
 .pnp.*
 .yarn/*

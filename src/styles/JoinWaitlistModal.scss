@@ -315,9 +315,9 @@
         justify-content: center;
         align-items: center;
         background: var(--Brand-Gold, #dd9a38);
-        color: var(--Default-Black, #1b1b1b);
+        color: $defualt-black;
         font-size: 14px;
-        font-weight: 400;
+        font-weight: 700;
         line-height: 100%;
         cursor: pointer;
 

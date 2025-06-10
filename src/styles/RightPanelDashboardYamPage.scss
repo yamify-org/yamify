@@ -86,7 +86,7 @@
           }
 
           &:hover {
-            border-bottom: 2px solid var(--Brand-Gold, #dd9a38);
+            background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
           }
         }
       }
@@ -158,13 +158,6 @@
                   position: relative;
                   top: -3px;
 
-                  &:hover {
-                    background: var(
-                      --Brand-Transparent-Gold,
-                      rgba(221, 154, 56, 0.1)
-                    );
-                  }
-
                   h4 {
                     color: var(--Default-Light-grey, #e6e6e6);
                     font-size: 11px;
@@ -210,13 +203,6 @@
               align-items: center;
               cursor: pointer;
               border-bottom: 1px solid #232323;
-
-              &:hover {
-                background: var(
-                  --Brand-Transparent-Gold,
-                  rgba(221, 154, 56, 0.1)
-                );
-              }
 
               .txt-content {
                 display: flex;

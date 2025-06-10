@@ -1,5 +1,11 @@
+@import "variables";
+
 footer {
   width: 100%;
+  background-image: linear-gradient(#cfcfcf06 1px, transparent 1px),
+    linear-gradient(90deg, #cfcfcf06 0.5px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center top;
 
   &.light-mode {
     section {
@@ -67,7 +73,7 @@ footer {
     width: 100%;
     margin: 0 auto;
     position: relative;
-    padding-top: 100px;
+    padding-top: 50px;
 
     .container-footer {
       display: flex;
@@ -83,8 +89,8 @@ footer {
         flex-direction: column;
         align-items: flex-start;
         gap: 20px;
-        border: 0.5px dashed var(--Default-Ash, #4c4c4c);
-        background: var(--Default-Black, #1b1b1b);
+        border: 0.5px dashed $ash;
+        background: $defualt-black;
         position: relative;
 
         img.pin {
@@ -163,8 +169,8 @@ footer {
         padding: 50px;
         justify-content: space-between;
         align-items: flex-end;
-        border: 0.5px dashed var(--Default-Ash, #4c4c4c);
-        background: var(--Default-Black, #1b1b1b);
+        border: 0.5px dashed $ash;
+        background: $defualt-black;
         position: relative;
 
         img.pin {
@@ -205,6 +211,22 @@ footer {
             line-height: 100%;
           }
         }
+
+        .content {
+          height: 100%;
+          width: 405px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          p {
+            font-family: "Commissioner", sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+            color: #e6e6e6;
+          }
+        }
       }
     }
 
@@ -215,8 +237,9 @@ footer {
       padding: 40px 0;
       flex-direction: column;
       align-items: center;
-      border: 0.5px dashed var(--Default-Ash, #4c4c4c);
+      border: 0.5px dashed $ash;
       position: relative;
+      background: $defualt-black;
 
       img.pin {
         position: absolute;

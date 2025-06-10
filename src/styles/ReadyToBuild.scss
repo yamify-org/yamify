@@ -1,0 +1,133 @@
+@import "variables";
+
+.ready-to-build-section {
+  width: 100%;
+  margin-bottom: 150px;
+
+  section {
+    max-width: 880px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    height: 420px;
+    position: relative;
+
+    .blurred-backdrop {
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      opacity: 0.3;
+
+      .drop {
+        width: 531.244px;
+        height: 377.436px;
+        flex-shrink: 0;
+      }
+
+      .first {
+        opacity: 0.5;
+        background: var(--Brand-Gold, #dd9a38);
+        filter: blur(100px);
+      }
+
+      .second {
+        opacity: 0.5;
+        background: var(--Brand-Gold, #dd9a38);
+        filter: blur(100px);
+        transform: translateX(-45.6%);
+      }
+
+      .third {
+        width: 538.003px;
+        height: 431.812px;
+        flex-shrink: 0;
+        opacity: 0.5;
+        background: var(--Brand-Light-Green, #bdfffb);
+        filter: blur(100px);
+        //   border: 1px solid red;
+      }
+
+      .fourth {
+        width: 538.003px;
+        height: 431.812px;
+        opacity: 0.5;
+        background: var(--Brand-Light-Green, #bdfffb);
+        transform: translateX(-48%);
+        filter: blur(100px);
+      }
+
+      .row {
+        &:nth-child(2) {
+          transform: translateY(-60%);
+        }
+      }
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 20px;
+      height: 100%;
+      border: 2px solid $ash;
+      background: $defualt-black;
+      overflow: hidden;
+      z-index: 2;
+      position: relative;
+
+      .left {
+        display: flex;
+        padding: 60px 50px;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 322px;
+        height: 100%;
+
+        h1 {
+          color: $light-grey;
+          font-size: 24px;
+          font-weight: 700;
+          line-height: 27px;
+          margin-bottom: 20px;
+        }
+
+        p {
+          font-family: "Commissioner", sans-serif;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 17px;
+          color: $light-grey;
+        }
+      }
+
+      .right {
+        flex: 1;
+        position: relative;
+        height: 100%;
+
+        .blurred-drop {
+          position: absolute;
+          z-index: 1;
+          left: 0;
+          top: 0;
+          background: linear-gradient(
+            -270deg,
+            var(--Default-Black, #111) 25.48%,
+            var(--Default-Black-T, rgba(17, 17, 17, 0.02)) 100%
+          );
+          width: 293.913px;
+          height: 100%;
+        }
+
+        img {
+          position: absolute;
+          width: 100%;
+          right: 0;
+          bottom: 0;
+        }
+      }
+    }
+  }
+}

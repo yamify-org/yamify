@@ -1,5 +1,8 @@
 footer {
   width: 100%;
+  background-image: linear-gradient(rgba(207, 207, 207, 0.0235294118) 1px, transparent 1px), linear-gradient(90deg, rgba(207, 207, 207, 0.0235294118) 0.5px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center top;
 }
 footer.light-mode section .container-footer .left {
   border: 0.5px dashed var(--Default-Ash, #b8b8b8);
@@ -45,7 +48,7 @@ footer section {
   width: 100%;
   margin: 0 auto;
   position: relative;
-  padding-top: 100px;
+  padding-top: 50px;
 }
 footer section .container-footer {
   display: flex;
@@ -61,8 +64,8 @@ footer section .container-footer .left {
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  border: 0.5px dashed var(--Default-Ash, #4c4c4c);
-  background: var(--Default-Black, #1b1b1b);
+  border: 0.5px dashed #202020;
+  background: #111;
   position: relative;
 }
 footer section .container-footer .left img.pin {
@@ -128,8 +131,8 @@ footer section .container-footer .right {
   padding: 50px;
   justify-content: space-between;
   align-items: flex-end;
-  border: 0.5px dashed var(--Default-Ash, #4c4c4c);
-  background: var(--Default-Black, #1b1b1b);
+  border: 0.5px dashed #202020;
+  background: #111;
   position: relative;
 }
 footer section .container-footer .right img.pin {
@@ -165,14 +168,29 @@ footer section .container-footer .right .contact-info .txt {
   font-weight: 400;
   line-height: 100%;
 }
+footer section .container-footer .right .content {
+  height: 100%;
+  width: 405px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+footer section .container-footer .right .content p {
+  font-family: "Commissioner", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #e6e6e6;
+}
 footer section .bottom {
   display: flex;
   height: 400px;
   padding: 40px 0;
   flex-direction: column;
   align-items: center;
-  border: 0.5px dashed var(--Default-Ash, #4c4c4c);
+  border: 0.5px dashed #202020;
   position: relative;
+  background: #111;
 }
 footer section .bottom img.pin {
   position: absolute;

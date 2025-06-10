@@ -6,7 +6,7 @@ header {
   height: 60px;
   top: 0;
   z-index: 100;
-  background: var(--Default-Black, #1b1b1b);
+  background: $defualt-black;
   transition: 0.3s all ease-in-out;
 
   &.light-mode {
@@ -75,8 +75,10 @@ header {
     .logo {
       display: flex;
       align-items: center;
+      justify-content: flex-start;
       gap: 15px;
       padding-left: 10px;
+      flex: 0.5;
 
       h1 {
         font-family: "Commissioner", sans-serif;
@@ -91,6 +93,8 @@ header {
       display: flex;
       align-items: center;
       gap: 30px;
+      flex: 1;
+      justify-content: center;
 
       .nav-link {
         font-size: 12px;
@@ -138,6 +142,8 @@ header {
       display: flex;
       align-items: items;
       gap: 10px;
+      justify-content: flex-end;
+      flex: 0.5;
 
       .modes {
         display: flex;
@@ -158,66 +164,6 @@ header {
           &.dark {
             background: var(--Brand-Green, #3b5f5d);
           }
-        }
-      }
-
-      .btn {
-        display: flex;
-        padding: 0px 15px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        height: 40px;
-        cursor: pointer;
-
-        .contain {
-          height: 12px;
-          transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-          overflow: hidden;
-
-          &.wrapped-link {
-            position: relative;
-            height: 16px;
-            top: -3px;
-          }
-
-          span {
-            line-height: 100%;
-            display: flex;
-            align-items: center;
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-
-            &.wrap {
-              display: flex;
-              gap: 10px;
-            }
-          }
-        }
-
-        &:hover .contain {
-          transform: scale(1.01);
-        }
-
-        &:hover .contain span:first-child {
-          transform: translateY(-105%);
-        }
-
-        &:hover .contain .hover-text {
-          transform: translateY(-105%);
-        }
-
-        &.yellow {
-          background: var(--Brand-Gold, #dd9a38);
-          color: var(--Default-Black, #1b1b1b);
-        }
-
-        &.green {
-          background: var(--Brand-Green, #3b5f5d);
         }
       }
     }

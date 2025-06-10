@@ -1,6 +1,8 @@
+@import "variables";
+
 .home {
   width: 100%;
-  background: var(--Default-Black, #1b1b1b);
+  background: $defualt-black;
   padding-top: 60px;
 
   &.light-mode {

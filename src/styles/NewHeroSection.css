@@ -1,0 +1,100 @@
+.new-hero-section {
+  width: 100%;
+}
+.new-hero-section section {
+  max-width: 1312px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 100px 0;
+  margin-bottom: 100px;
+}
+.new-hero-section section .content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.new-hero-section section .content-container h2 {
+  text-align: center;
+  font-family: "PT Mono", Arial;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 100%;
+}
+.new-hero-section section .content-container p {
+  font-family: "Commissioner", sans-serif;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 100%;
+  max-width: 498px;
+}
+.new-hero-section section .content-container .btns-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.new-hero-section section .drop-img {
+  width: 821.435px;
+  height: 532px;
+  flex-shrink: 0;
+  align-self: center;
+  margin-top: 63px;
+  position: relative;
+}
+.new-hero-section section .drop-img img.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.new-hero-section section .drop-img .blurred-backdrop {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  opacity: 0.5;
+}
+.new-hero-section section .drop-img .blurred-backdrop .drop {
+  width: 531.244px;
+  height: 377.436px;
+  flex-shrink: 0;
+}
+.new-hero-section section .drop-img .blurred-backdrop .first {
+  opacity: 0.5;
+  background: var(--Brand-Gold, #dd9a38);
+  filter: blur(100px);
+}
+.new-hero-section section .drop-img .blurred-backdrop .second {
+  opacity: 0.5;
+  background: var(--Brand-Gold, #dd9a38);
+  filter: blur(100px);
+  transform: translateX(-45.6%);
+}
+.new-hero-section section .drop-img .blurred-backdrop .third {
+  width: 538.003px;
+  height: 431.812px;
+  flex-shrink: 0;
+  opacity: 0.5;
+  background: var(--Brand-Light-Green, #bdfffb);
+  filter: blur(100px);
+}
+.new-hero-section section .drop-img .blurred-backdrop .fourth {
+  width: 538.003px;
+  height: 431.812px;
+  opacity: 0.5;
+  background: var(--Brand-Light-Green, #bdfffb);
+  transform: translateX(-48%);
+  filter: blur(100px);
+}
+.new-hero-section section .drop-img .blurred-backdrop .row:nth-child(2) {
+  transform: translateY(-60%);
+}/*# sourceMappingURL=NewHeroSection.css.map */
