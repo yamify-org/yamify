@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import fetchYam from "@/libs/queries/fetch-yam";
 import { deployCodeServerProjectAction, deployWordpressProjectAction, deployN8nProjectAction } from "@/app/dashboard/_actions";
 import { useRouter } from "next/navigation";
+import CreateAnimation from "@/components/Home/CreateAnimation";
 
 type Props = {
   expandRightPanel: boolean;
@@ -16,18 +17,10 @@ type Props = {
 
 const DeployProject = ({ expandRightPanel }: Props) => {
   const [yam, setYam] = useState<SelectYam>();
+  const [showAnimation, setShowAnimation] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const [deploymentLoading, setDeploymentLoading] = useState<{
-      wordpress: boolean;
-      codeserver: boolean;
-      n8n: boolean;
-    }>({
-      wordpress: false,
-      codeserver: false,
-      n8n: false,
-    });
 
   const params = useParams();
   const yamName = params.name as string;
@@ -61,7 +54,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
   const handleDeployWordPress = async () => {
     if (!yam) return;
     
-    setDeploymentLoading(prev => ({ ...prev, wordpress: true }));
+    setShowAnimation(true);
     
     try {
       const result = await deployWordpressProjectAction({
@@ -73,20 +66,20 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       
       if (result.success) {
         alert("WordPress deployment created successfully!");
+        setShowAnimation(false);
         router.back()
       }
     } catch (error) {
+      setShowAnimation(false);
       console.error("Failed to deploy WordPress:", error);
       alert("Failed to deploy WordPress. Please try again.");
-    } finally {
-      setDeploymentLoading(prev => ({ ...prev, wordpress: false }));
     }
   };
 
   const handleDeployCodeServer = async () => {
     if (!yam) return;
     
-    setDeploymentLoading(prev => ({ ...prev, codeserver: true }));
+    setShowAnimation(true);
     
     try {
       const result = await deployCodeServerProjectAction({
@@ -98,20 +91,20 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       
       if (result.success) {
         alert("CodeServer deployment created successfully!");
+        setShowAnimation(false);
         router.back()
       }
     } catch (error) {
+      setShowAnimation(false);
       console.error("Failed to deploy CodeServer:", error);
       alert("Failed to deploy CodeServer. Please try again.");
-    } finally {
-      setDeploymentLoading(prev => ({ ...prev, codeserver: false }));
     }
   };
 
   const handleDeployN8n = async () => {
     if (!yam) return;
 
-    setDeploymentLoading(prev => ({ ...prev, n8n: true }));
+    setShowAnimation(true);
 
     try {
       const result = await deployN8nProjectAction({
@@ -123,15 +116,24 @@ const DeployProject = ({ expandRightPanel }: Props) => {
 
       if (result.success) {
         alert("n8n deployment created successfully!");
+        setShowAnimation(false);
         router.back();
       }
     } catch (error) {
+      setShowAnimation(false);
       console.error("Failed to deploy n8n:", error);
       alert("Failed to deploy n8n. Please try again.");
-    } finally {
-      setDeploymentLoading(prev => ({ ...prev, n8n: false }));
     }
   };
+
+  const loadingTxts = [
+    "Provisioning resources...",
+    "Deploying your app...",
+    "Finalizing setup...",
+    "Almost done!"
+  ];
+
+  const animationTitle = "We’re preparing your deployment—hang tight!";
 
   return (
     <div
@@ -143,7 +145,15 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       <div className="main-panel">
         <DashboardHeader />
 
-        {!loading && <div className="section-deploy">
+        {showAnimation ? (
+          <CreateAnimation
+            successBool={showAnimation}
+            loadingTxts={loadingTxts}
+            barColor="#BDFFFB"
+            title={animationTitle}
+          />
+        ) : (
+        !loading && <div className="section-deploy">
           <div onClick={() => router.back()} className="back-btn">
             <div className="wrap">
               <svg
@@ -185,7 +195,6 @@ const DeployProject = ({ expandRightPanel }: Props) => {
                   <div className="apps">
                     <div
                       className="app"
-                      aria-disabled={deploymentLoading.wordpress}
                       onClick={handleDeployWordPress}
                     >
                       <Image
@@ -198,25 +207,25 @@ const DeployProject = ({ expandRightPanel }: Props) => {
                       <div className="content">
                         <h4>Wordpress</h4>
 
-                        <div className="txt">{deploymentLoading.wordpress ? "Deploying..." : "Everything you need to build and grow any website—all in one place."}</div>
+                        <div className="txt">Everything you need to build and grow any website—all in one place.</div>
                       </div>
                     </div>
-                    <div className="app" aria-disabled={deploymentLoading.n8n} onClick={handleDeployN8n}>
+                    <div className="app" onClick={handleDeployN8n}>
                       <Image src="/svgs/n8n.svg" alt="" width={24} height={24} />
 
                       <div className="content">
                         <h4>n8n</h4>
 
-                        <div className="txt">{deploymentLoading.n8n ? "Deploying..." : "Flexible AI workflow automation for technical teams."}</div>
+                        <div className="txt">Flexible AI workflow automation for technical teams.</div>
                       </div>
                     </div>
-                    <div className="app" aria-disabled={deploymentLoading.codeserver} onClick={handleDeployCodeServer}>
+                    <div className="app" onClick={handleDeployCodeServer}>
                       <Image src="/svgs/code-server.svg" alt="" width={24} height={24} />
 
                       <div className="content">
                         <h4>VS Code</h4>
 
-                        <div className="txt">{deploymentLoading.codeserver ? "Deploying..." : "Run VS Code and access it in the browser."}</div>
+                        <div className="txt">Run VS Code and access it in the browser.</div>
                       </div>
                     </div>
                   </div>
@@ -251,7 +260,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
               </div> */}
             </div>
           </div>
-        </div>}
+        </div>)}
       </div>
     </div>
   );
