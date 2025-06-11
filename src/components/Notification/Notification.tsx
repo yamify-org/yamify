@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { NotificationType, Notification as NotificationData } from '@/stores/useNotificationStore';
 import "@/styles/Notification.css";
 
@@ -41,6 +41,11 @@ const getIcon = (type: NotificationType) => {
 
 const Notification: React.FC<NotificationProps> = ({ notification, onClose, lightMode = false }) => {
   const [isVisible, setIsVisible] = useState(false);
+
+  const handleClose = useCallback(() => {
+    setIsVisible(false);
+    setTimeout(() => onClose(notification.id), 300); // Attendre la fin de l'animation
+  }, [onClose, notification.id]);
   
   useEffect(() => {
     // Montre la notification avec une petite animation 
@@ -54,12 +59,7 @@ const Notification: React.FC<NotificationProps> = ({ notification, onClose, ligh
       
       return () => clearTimeout(timer);
     }
-  }, [notification]);
-  
-  const handleClose = () => {
-    setIsVisible(false);
-    setTimeout(() => onClose(notification.id), 300); // Attendre la fin de l'animation
-  };
+  }, [handleClose, notification]);
   
   // Applique la classe light-mode si lightMode est true
   const notificationClass = `notification ${notification.type} ${isVisible ? '' : 'exit'} ${lightMode ? 'light-mode' : ''}`;

@@ -24,6 +24,7 @@ const WhatIsYamifySection = () => {
               const start = i / words.length;
               const end = (i + 1) / words.length;
 
+              // eslint-disable-next-line react-hooks/rules-of-hooks
               const scaleX = useTransform(
                 scrollYProgress,
                 [start, end],

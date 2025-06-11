@@ -1,13 +1,13 @@
 "use client";
 
-import CapabilitySection from "@/components/Home/CapabilitySection";
+// import CapabilitySection from "@/components/Home/CapabilitySection";
 import Footer from "@/components/Home/Footer";
 import Header from "@/components/Home/Header";
-import HeroSection from "@/components/Home/HeroSection";
+// import HeroSection from "@/components/Home/HeroSection";
 import JoinWaitlistModal from "@/components/Home/JoinWaitlistModal";
-import JoinWaitlistSection from "@/components/Home/JoinWaitlistSection";
-import WhatIfSection from "@/components/Home/WhatIfSection";
-import YamLayersSection from "@/components/Home/YamLayersSection";
+// import JoinWaitlistSection from "@/components/Home/JoinWaitlistSection";
+// import WhatIfSection from "@/components/Home/WhatIfSection";
+// import YamLayersSection from "@/components/Home/YamLayersSection";
 // import { useNotification } from "@/hooks/useNotification";
 import { NotificationContainer } from "@/components/Notification";
 
@@ -16,7 +16,7 @@ import { useRef, useState } from "react";
 import NewHeroSection from "@/components/Home/NewHeroSection";
 import NewCapacitySection from "@/components/Home/NewCapacitySection";
 import SpeakStackSection from "@/components/Home/SpeakStackSection";
-import WhatIsYamifySection from "@/components/Home/WhatIsYamifySection";
+// import WhatIsYamifySection from "@/components/Home/WhatIsYamifySection";
 import ReadyToBuild from "@/components/Home/ReadyToBuild";
 
 export default function Home() {

@@ -22,8 +22,7 @@ export default function YamsPage() {
       {showYamDialog && (
         <CreateYamDialog
           loadingTxts={loadingTxts}
-          setShowYamDialog={setShowYamDialog}
-        />
+          setShowYamDialog={setShowYamDialog} workspaces={[]} />
       )}
       <section>
         <LeftPanel

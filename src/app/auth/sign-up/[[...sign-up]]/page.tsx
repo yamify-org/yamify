@@ -4,21 +4,21 @@ import React, { useEffect, useRef, useState } from "react";
 import AuthHeader from "../../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
-import { countries } from "@/utils/data";
+// import { countries } from "@/utils/data";
 
 import { OAuthStrategy } from '@clerk/types'
 import { useSignUp } from '@clerk/nextjs'
 
 export default function SignUp() {
   const [isOpen, setIsOpen] = useState(false);
-  const [country, setCountry] = useState({
-    name: "Nigeria",
-    dialCode: "+234",
-    code: "NG",
-    flag: "https://flagcdn.com/ng.svg",
-  });
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  // const [country, setCountry] = useState({
+  //   name: "Nigeria",
+  //   dialCode: "+234",
+  //   code: "NG",
+  //   flag: "https://flagcdn.com/ng.svg",
+  // });
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [showPassword, setShowPassword] = useState(false);
   const { signUp } = useSignUp()
 
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -30,7 +30,7 @@ export default function SignUp() {
         !modalRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
-        setSearchTerm("");
+        // setSearchTerm("");
       }
     };
 
@@ -45,9 +45,9 @@ export default function SignUp() {
 
   if (!signUp) return null
 
-  const filteredCountries = countries.filter((country) =>
-    country.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredCountries = countries.filter((country) =>
+  //   country.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   const signUpWithSocial = (strategy: OAuthStrategy) => {
     return signUp

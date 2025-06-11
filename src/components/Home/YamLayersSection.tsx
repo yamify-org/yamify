@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, RefObject } from "react";
+import { useEffect, useState, useRef, RefObject, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "@/styles/YamLayersSection.css";
 import ActionCard from "./ActionCard";
@@ -61,21 +61,21 @@ const YamLayersSection = ({ yamLayerRef, lightMode }: Props) => {
     },
   ];
 
-  const cycleTerms = () => {
+  const cycleTerms = useCallback(() => {
     setIndexNumber((prev) => (prev + 1) % terms.length);
-  };
+  }, [terms.length]);
 
-  const restartInterval = () => {
+  const restartInterval = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(cycleTerms, 5000);
-  };
+  }, [cycleTerms]);
 
   useEffect(() => {
     restartInterval();
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, []);
+  }, [restartInterval]);
 
   const handleClick = (index: number) => {
     setIndexNumber(index);

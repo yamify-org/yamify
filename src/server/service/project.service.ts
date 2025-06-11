@@ -125,7 +125,7 @@ export const projectService = {
       // Optionally update status before deletion
       await projectRepository.update(record.id, { status: 'failed' });
       throw new Error(
-        `Failed to deploy ${params.type}: ${deploymentError.message}`
+        `Failed to deploy ${params.type}: ${deploymentError}`
       );
     }
 

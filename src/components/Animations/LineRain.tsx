@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const LineRain = () => {
-  const rows = 8;
+  // const rows = 8;
   const cols = 7;
   const total = 53; // 7 full rows + 4 lines on the last row
 

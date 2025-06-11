@@ -1,14 +1,14 @@
 import DashboardHeader from "@/app/dashboard/_components/DashboardHeader";
 import "@/styles/RightPanelDashboard.css";
 import "@/styles/DeployProject.css";
-import Image from "next/image";
+// import Image from "next/image";
 
 type Props = {
   expandRightPanel: boolean;
   setShowYamDialog: (Callback: boolean) => void;
 };
 
-const InstallWordpress = ({ expandRightPanel, setShowYamDialog }: Props) => {
+const InstallWordpress = ({ expandRightPanel }: Props) => {
   return (
     <div
       className={`right-panel right-panel-yams ${
