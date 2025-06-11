@@ -16,7 +16,7 @@
     "@t3-oss/env-nextjs": "^0.13.4",
     "better-auth": "^1.2.7",
     "execa": "^9.5.3",
-    "framer-motion": "^12.9.2",
+    "framer-motion": "^12.17.0",
     "gsap": "^3.13.0",
     "install": "^0.13.0",
     "lightningcss": "^1.30.1",
