@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import fetchYam from "@/libs/queries/fetch-yam";
 import { deployCodeServerProjectAction, deployWordpressProjectAction, deployN8nProjectAction } from "@/app/dashboard/_actions";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
   expandRightPanel: boolean;
@@ -219,6 +220,21 @@ const DeployProject = ({ expandRightPanel }: Props) => {
                         <div className="txt">{deploymentLoading.codeserver ? "Deploying..." : "Run VS Code and access it in the browser."}</div>
                       </div>
                     </div>
+                    
+                    <Link 
+                      className="app" 
+                      href="https://chat.yamify.co/" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Image src="/svgs/chat-bot.svg" alt="" width={24} height={24} />
+
+                      <div className="content">
+                        <h4>Yamify Bot</h4>
+                        <div className="txt">Chat with your AI assistant in real-time.</div>
+                      </div>
+                    </Link>
                   </div>
                 </div>
               </div>
