@@ -25,6 +25,11 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.redirect(onboardingUrl);
   }
 
+  // Don't redirect if user is on SSO callback routes - they need to complete OAuth
+  if (req.nextUrl.pathname.includes('/sso-callback')) {
+    return NextResponse.next();
+  }
+
   // if user is signed in and is on auth routes, redirect to dashboard
   if (userId && isPublicRoute(req)) {
     const dashboardUrl = new URL("/dashboard", req.url);
