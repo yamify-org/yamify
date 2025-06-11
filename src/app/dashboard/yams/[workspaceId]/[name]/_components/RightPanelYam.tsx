@@ -194,7 +194,7 @@ const handleDeployCodeServer = async () => {
                 <h2>Project</h2>
               </div>
               <div className="tab">
-                <h2>Usage</h2>
+               {/* <h2>Usage</h2> */}
               </div>
             </div>
 
