@@ -154,7 +154,7 @@ const HeroSection = ({ heroRef, lightMode }: Props) => {
     };
 
     startActiveHighlighter();
-  }, []);
+  }, [classMap.active, classMap.highlight]);
 
   return (
     <div className={`hero-section ${lightMode && "light-mode"}`} ref={heroRef}>

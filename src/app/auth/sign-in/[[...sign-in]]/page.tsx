@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import AuthHeader from "../../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
-import Link from "next/link";
 import { OAuthStrategy } from '@clerk/types'
 import { useSignIn } from '@clerk/nextjs'
 
 export default function SignIn() {
-  const [showPassword, setShowPassword] = useState(false);
   const { signIn } = useSignIn()
 
   if (!signIn) return null
@@ -101,14 +99,15 @@ export default function SignIn() {
                 <span className="hover-text">Sign in</span>
               </div>
             </button>
-          </form> */}
+          </form> 
 
           <div className="txt">
-            Forgot your password?{" "}
+            Forgot your password?
             <span>
               <Link href="">Reset it</Link>
             </span>
           </div>
+          */}
         </div>
       </section>
     </div>

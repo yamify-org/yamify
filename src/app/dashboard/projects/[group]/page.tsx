@@ -51,7 +51,7 @@ export default function YamsPage() {
           setShowYamDialog={setShowYamDialog}
         />
       )}
-      <section>
+      {!loading && <section>
         <LeftPanel
           setShowYamDialog={setShowYamDialog}
           expandRightPanel={expandRightPanel}
@@ -62,7 +62,7 @@ export default function YamsPage() {
           expandRightPanel={expandRightPanel}
           // setShowYamDialog={setShowYamDialog}
         />
-      </section>
+      </section>}
     </div>
   );
 }

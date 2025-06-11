@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { RefObject, useEffect, useState } from "react";
 // import { motion } from "framer-motion";
 import "@/styles/Header.css";
-import routes from "@/libs/routes";
+// import routes from "@/libs/routes";
 import Button from "../Button/Button";
 
 type Props = {
@@ -21,19 +21,21 @@ type Props = {
 };
 
 const Header = ({
-  setJoinWaitlistModal,
+  // setJoinWaitlistModal,
   heroRef,
   workIfRef,
   capabilityRef,
   yamLayerRef,
   joinWaitlistRef,
-  contactRef,
-  setLightMode,
+  // contactRef,
+  // setLightMode,
   lightMode,
 }: Props) => {
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  console.log({isMobile})
 
   useEffect(() => {
     const handleResize = () => {
@@ -81,11 +83,11 @@ const Header = ({
     scrollToSection(yamLayerRef);
   };
 
-  const handleScrollToContact = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setOpenMenu(false);
-    scrollToSection(contactRef);
-  };
+  // const handleScrollToContact = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   setOpenMenu(false);
+  //   scrollToSection(contactRef);
+  // };
 
   const handleScrollToJoinWaitlist = (e: React.MouseEvent) => {
     e.preventDefault();

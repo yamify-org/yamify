@@ -9,14 +9,14 @@ import { groups } from "@/utils/data";
 import { tag } from "@/utils/tags";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+// import { useState } from "react";
 
 type Props = {
   expandRightPanel: boolean;
 };
 
 const RightPanelProjects = ({ expandRightPanel }: Props) => {
-  const [projectExists, setProjectExists] = useState(true);
+  // const [projectExists, setProjectExists] = useState(true);
 
   return (
     <div
@@ -28,7 +28,7 @@ const RightPanelProjects = ({ expandRightPanel }: Props) => {
       <div className="main-panel">
         <DashboardHeader />
 
-        {!projectExists ? (
+        {true ? (
           <div className="section-projects">
             <nav>
               <div className="wrap">
