@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import Script from 'next/script';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,7 +26,19 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           {children}
+          <Script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/146340379.js" />
+          <Script async src="https://www.googletagmanager.com/gtag/js?id=G-HFCV4YMZ3D"></Script>
+          <Script>
+            window.dataLayer = window.dataLayer || [];
 
+            function gtag(){  
+              dataLayer.push(arguments);
+            }
+            
+            gtag('js', new Date());
+
+            gtag('config', 'G-HFCV4YMZ3D');
+          </Script>
         </body>
       </html>
     </ClerkProvider>
