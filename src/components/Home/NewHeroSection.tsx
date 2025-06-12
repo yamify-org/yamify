@@ -3,14 +3,16 @@ import ActionTexts from "./ActionTexts";
 import Button from "../Button/Button";
 import routes from "@/libs/routes";
 import Image from "next/image";
+import { RefObject } from "react";
 
 type Props = {
   setJoinWaitlistModal: (value: boolean) => void;
+  heroRef: RefObject<HTMLDivElement | null>;
 };
 
-const NewHeroSection = ({ setJoinWaitlistModal }: Props) => {
+const NewHeroSection = ({ setJoinWaitlistModal, heroRef }: Props) => {
   return (
-    <div className="new-hero-section">
+    <div className="new-hero-section" ref={heroRef}>
       <section>
         <ActionTexts
           lightMode={false}

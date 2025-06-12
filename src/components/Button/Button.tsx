@@ -7,10 +7,19 @@ type Props = {
   text: string;
   href?: string;
   target?: string;
+  submit?: boolean;
   onClick?: () => void;
 };
 
-const Button = ({ linkBtn, yellow, text, href, target, onClick }: Props) => {
+const Button = ({
+  linkBtn,
+  yellow,
+  text,
+  href,
+  target,
+  onClick,
+  submit,
+}: Props) => {
   return (
     <>
       {linkBtn && href ? (
@@ -25,16 +34,17 @@ const Button = ({ linkBtn, yellow, text, href, target, onClick }: Props) => {
           </div>
         </Link>
       ) : (
-        <div
+        <button
           className={`btn ${yellow ? "yellow" : "green"}`}
           onClick={onClick}
           style={{ cursor: onClick ? "pointer" : "default" }}
+          type={!submit ? "button" : "submit"}
         >
           <div className="contain">
             <span>{text}</span>
             <span className="hover-text">{text}</span>
           </div>
-        </div>
+        </button>
       )}
     </>
   );

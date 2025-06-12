@@ -3,51 +3,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { RefObject, useEffect, useState } from "react";
-// import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import "@/styles/Header.css";
-// import routes from "@/libs/routes";
 import Button from "../Button/Button";
+import FeaturesContainer from "./FeaturesContainer";
+import LineRain from "../Animations/LineRain";
 
 type Props = {
   setJoinWaitlistModal: (value: boolean) => void;
-  setLightMode: (value: boolean) => void;
-  lightMode: boolean;
   heroRef: RefObject<HTMLDivElement | null>;
-  workIfRef: RefObject<HTMLDivElement | null>;
-  capabilityRef: RefObject<HTMLDivElement | null>;
-  yamLayerRef: RefObject<HTMLDivElement | null>;
-  joinWaitlistRef: RefObject<HTMLDivElement | null>;
-  contactRef: RefObject<HTMLDivElement | null>;
+  featuresRef: RefObject<HTMLDivElement | null>;
+  // contactRef: RefObject<HTMLDivElement | null>;
 };
 
-const Header = ({
-  // setJoinWaitlistModal,
-  heroRef,
-  workIfRef,
-  capabilityRef,
-  yamLayerRef,
-  joinWaitlistRef,
-  // contactRef,
-  // setLightMode,
-  lightMode,
-}: Props) => {
+const Header = ({ heroRef, featuresRef }: Props) => {
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  console.log({isMobile})
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 575);
-    };
-
-    // Run the function once to set initial state
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,34 +37,16 @@ const Header = ({
     scrollToSection(heroRef);
   };
 
-  const handleScrollToWorkIf = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setOpenMenu(false);
-    scrollToSection(workIfRef);
-  };
-
-  const handleScrollToCapability = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setOpenMenu(false);
-    scrollToSection(capabilityRef);
-  };
-
-  const handleScrollToYamLayer = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setOpenMenu(false);
-    scrollToSection(yamLayerRef);
-  };
-
   // const handleScrollToContact = (e: React.MouseEvent) => {
   //   e.preventDefault();
   //   setOpenMenu(false);
   //   scrollToSection(contactRef);
   // };
 
-  const handleScrollToJoinWaitlist = (e: React.MouseEvent) => {
+  const handleScrollToFeatures = (e: React.MouseEvent) => {
     e.preventDefault();
     setOpenMenu(false);
-    scrollToSection(joinWaitlistRef);
+    scrollToSection(featuresRef);
   };
 
   const scrollToSection = (ref: RefObject<HTMLElement | null>) => {
@@ -102,11 +56,7 @@ const Header = ({
   };
 
   return (
-    <header
-      className={`main-header ${scrolled ? "scrolled" : ""} ${
-        lightMode && "light-mode"
-      }`}
-    >
+    <header className={`main-header ${scrolled ? "scrolled" : ""} `}>
       <section>
         <Link href="/" className="logo">
           <div className="menu">
@@ -130,11 +80,7 @@ const Header = ({
           </div>
 
           <Image
-            src={
-              !lightMode
-                ? "/svgs/yamify_logo_sm.svg"
-                : "/svgs/yamify_logo_sm_lm.svg"
-            }
+            src={"/svgs/yamify_logo_sm.svg"}
             alt="Yamify Logo"
             className="logo-img"
             width={20}
@@ -148,7 +94,33 @@ const Header = ({
             <span>Home</span>
             <span className="hover-text">Home</span>
           </div>
-          <div className="nav-link" onClick={handleScrollToJoinWaitlist}>
+          <div
+            className="feature-link"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <div className="wrap-link">
+              <div className="nav-link" onClick={handleScrollToFeatures}>
+                <span>Features</span>
+                <span className="hover-text">Features</span>
+              </div>
+              <Image src="/svgs/caret_down.svg" alt="" width={15} height={15} />
+            </div>
+
+            <AnimatePresence>
+              {isHovered && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  <FeaturesContainer />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <div className="nav-link">
             <span>Contact</span>
             <span className="hover-text">Contact</span>
           </div>
@@ -176,17 +148,44 @@ const Header = ({
             <div className="nav-link" onClick={handleScrollToWork}>
               Home
             </div>
-            <div className="nav-link" onClick={handleScrollToWorkIf}>
-              What if
+            <div className="wrap-link">
+              <div className="nav-link" onClick={handleScrollToFeatures}>
+                Features
+              </div>
+              <Image src="/svgs/caret_down.svg" alt="" width={15} height={15} />
             </div>
-            <div className="nav-link" onClick={handleScrollToCapability}>
-              Capabilities
-            </div>
-            <div className="nav-link" onClick={handleScrollToYamLayer}>
-              Yamify Layers
-            </div>
-            <div className="nav-link" onClick={handleScrollToJoinWaitlist}>
-              For Developers
+            <div className="nav-link">Contact</div>
+            <div className="yamify-container">
+              <div style={{ width: 204 }} className="yamify-box">
+                <div className="yamify-chip">
+                  <div className="bg-blurred"></div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="204"
+                    height="203"
+                    viewBox="0 0 204 203"
+                    fill="none"
+                    className="chip"
+                  >
+                    <path
+                      d="M162.994 0.5L203.5 40.8066V162.192L162.994 202.5H41.0059L0.5 162.192V0.5H162.994Z"
+                      fill="#111111"
+                      stroke="#B8B8B8"
+                    />
+                  </svg>
+
+                  <div className="contain">
+                    <div className="txt">Yamify</div>
+                    <LineRain cols={8} total={43} />
+                    <Image
+                      src="/svgs/yamify_logo_sm.svg"
+                      alt=""
+                      width={40}
+                      height={40}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
 
             <Image

@@ -25,6 +25,7 @@
         font-size: 24px;
         font-weight: 700;
         line-height: 100%;
+        color: var(--Default-Light-grey, #e6e6e6);
       }
 
       p {
@@ -32,8 +33,9 @@
         text-align: center;
         font-size: 12px;
         font-weight: 500;
-        line-height: 100%;
+        line-height: 17px;
         max-width: 498px;
+        color: var(--Default-Light-grey, #e6e6e6);
       }
 
       .btns-wrap {
@@ -112,6 +114,122 @@
         .row {
           &:nth-child(2) {
             transform: translateY(-60%);
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 575px) {
+    & {
+      section {
+        max-width: 100%;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding: 50px 0;
+        margin-bottom: 100px;
+
+        .content-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 30px;
+          width: 300px;
+          margin: 0 auto;
+
+          h2 {
+            text-align: center;
+            font-size: 18px;
+          }
+
+          p {
+            width: 100%;
+            font-size: 13px;
+          }
+
+          .btns-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+        }
+
+        .drop-img {
+          width: 320px;
+          height: 209px;
+          flex-shrink: 0;
+          align-self: center;
+          //   border: 2px solid #dd9a38;
+          margin-top: 63px;
+          position: relative;
+          //   background: url("../assets/images/Yam.png") lightgray 50% / cover
+          //     no-repeat;
+
+          img.backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+          }
+
+          .blurred-backdrop {
+            position: absolute;
+            top: 0;
+            z-index: 3;
+            opacity: 0.5;
+            width: 100%;
+            // overflow: hidden;
+
+            .drop {
+              width: 193.18px;
+              height: 136.254px;
+              flex-shrink: 0;
+            }
+
+            .first {
+              opacity: 0.5;
+              background: var(--Brand-Gold, #dd9a38);
+              filter: blur(100px);
+            }
+
+            .second {
+              opacity: 0.5;
+              background: var(--Brand-Gold, #dd9a38);
+              filter: blur(100px);
+              transform: translateX(-45.6%);
+            }
+
+            .third {
+              width: 195.638px;
+              height: 155.884px;
+              flex-shrink: 0;
+              opacity: 0.5;
+              background: var(--Brand-Light-Green, #bdfffb);
+              filter: blur(100px);
+              //   border: 1px solid red;
+            }
+
+            .fourth {
+              width: 195.638px;
+              height: 155.884px;
+              opacity: 0.5;
+              background: var(--Brand-Light-Green, #bdfffb);
+              transform: translateX(-48%);
+              filter: blur(100px);
+            }
+
+            .row {
+              &:nth-child(2) {
+                transform: translateY(-60%);
+              }
+            }
           }
         }
       }

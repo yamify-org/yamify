@@ -100,6 +100,14 @@
           line-height: 17px;
           color: $light-grey;
         }
+
+        img {
+          display: none;
+        }
+
+        .blurred-drop {
+          display: none;
+        }
       }
 
       .right {
@@ -126,6 +134,184 @@
           width: 100%;
           right: 0;
           bottom: 0;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 575px) {
+    & {
+      section {
+        max-width: 100%;
+        width: 100%;
+        padding: 0 20px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        height: fit-content;
+        position: relative;
+
+        .blurred-backdrop {
+          position: absolute;
+          top: 0;
+          z-index: 1;
+          opacity: 0.3;
+
+          .drop {
+            width: 111.29px;
+            height: 385.293px;
+            flex-shrink: 0;
+          }
+
+          .first {
+            opacity: 0.5;
+            background: var(--Brand-Gold, #dd9a38);
+            filter: blur(100px);
+          }
+
+          .second {
+            opacity: 0.5;
+            background: var(--Brand-Gold, #dd9a38);
+            filter: blur(100px);
+            transform: translateX(-15.6%);
+          }
+
+          .third {
+            width: 113.979px;
+            height: 440.802px;
+            flex-shrink: 0;
+            opacity: 0.5;
+            background: var(--Brand-Light-Green, #bdfffb);
+            filter: blur(100px);
+            //   border: 1px solid red;
+          }
+
+          .fourth {
+            width: 113.979px;
+            height: 440.802px;
+            opacity: 0.5;
+            background: var(--Brand-Light-Green, #bdfffb);
+            transform: translateX(-78%);
+            filter: blur(100px);
+          }
+
+          .row {
+            &:nth-child(2) {
+              transform: translateY(-40%);
+            }
+          }
+        }
+
+        .container {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          gap: 20px;
+          height: 100%;
+          border: 2px solid $ash;
+          background: $defualt-black;
+          overflow: hidden;
+          z-index: 2;
+          position: relative;
+          flex-direction: column;
+
+          .left {
+            display: flex;
+            padding: 30px 0;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            height: 100%;
+            position: relative;
+
+            .content {
+              padding: 0 30px;
+            }
+
+            h1 {
+              color: $light-grey;
+              font-size: 24px;
+              font-weight: 700;
+              line-height: 27px;
+              margin-bottom: 20px;
+            }
+
+            p {
+              font-family: "Commissioner", sans-serif;
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 17px;
+              color: $light-grey;
+            }
+
+            img {
+              position: relative;
+              width: 525.205px;
+              height: 324.971px;
+              right: 0;
+              bottom: 0;
+              display: block;
+            }
+
+            .blurred-drop {
+              display: block;
+              position: absolute;
+              left: 0;
+              bottom: 90px;
+              z-index: 1;
+              width: 191.208px;
+              height: 245px;
+              flex-shrink: 0;
+              background: linear-gradient(
+                -270deg,
+                var(--Default-Black, #111) 25.48%,
+                var(--Default-Black-T, rgba(17, 17, 17, 0.02)) 100%
+              );
+            }
+
+            button {
+              margin-left: 30px;
+            }
+          }
+
+          .right {
+            flex: 1;
+            position: relative;
+            height: 100%;
+            padding-bottom: 20px;
+            display: none;
+            // overflow: hidden;
+
+            .blurred-drop {
+              position: absolute;
+              z-index: 0;
+              left: 0;
+              top: 0;
+              background: linear-gradient(
+                -270deg,
+                var(--Default-Black, #111) 25.48%,
+                var(--Default-Black-T, rgba(17, 17, 17, 0.02)) 100%
+              );
+              width: 293.913px;
+              height: 100%;
+            }
+
+            .btn-wrp {
+              position: absolute;
+              bottom: 20px;
+              left: 30px;
+              z-index: 100px;
+            }
+
+            img {
+              position: relative;
+              width: 525.205px;
+              height: 324.971px;
+              right: 0;
+              bottom: 0;
+            }
+          }
         }
       }
     }
