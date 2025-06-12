@@ -36,13 +36,13 @@ const CreateAnimation = ({
         });
       }, 2500);
 
-      const redirectTimeout = setTimeout(() => {
-        router.push("/dashboard");
-      }, 12000);
+      // const redirectTimeout = setTimeout(() => {
+      //   router.push("/dashboard");
+      // }, 12000);
 
       return () => {
         clearInterval(interval);
-        clearTimeout(redirectTimeout);
+        // clearTimeout(redirectTimeout);
       };
     }
   }, [successBool, loadingTxts.length, router]);
