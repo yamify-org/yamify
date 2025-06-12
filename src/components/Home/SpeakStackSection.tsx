@@ -389,7 +389,7 @@ const SpeakStackSection = () => {
               />
               <Image
                 className="fourth-img"
-                src="/svgs/oneclickmb.svg"
+                src="/svgs/oneclick2.svg"
                 alt=""
                 width={251}
                 height={201}
