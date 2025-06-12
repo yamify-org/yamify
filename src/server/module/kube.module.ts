@@ -271,7 +271,7 @@ persistence:
       '--kubeconfig', kubeconfigPath,
     ]).catch(() => {});
     console.error('Error deploying code-server:', error);
-    throw new Error(`code-server deployment failed: ${error.message}`);
+    throw new Error(`code-server deployment failed: ${error}`);
   } finally {
     await fs.unlink(kubeconfigPath);
     await fs.unlink(valuesPath);
@@ -354,7 +354,7 @@ ingress:
       '--kubeconfig', kubeconfigPath,
     ]).catch(() => {});
     console.error('Error deploying WordPress:', error);
-    throw new Error(`Deployment failed: ${error.message}`);
+    throw new Error(`Deployment failed: ${error}`);
   } finally {
     await fs.unlink(kubeconfigPath);
     await fs.unlink(valuesPath);
@@ -458,7 +458,7 @@ ingress:
       '--kubeconfig', kubeconfigPath,
     ]).catch(() => {});
     console.error('Error deploying n8n:', error);
-    throw new Error(`n8n deployment failed: ${error.message}`);
+    throw new Error(`n8n deployment failed: ${error}`);
   } finally {
     await fs.unlink(kubeconfigPath);
     await fs.unlink(valuesPath);
