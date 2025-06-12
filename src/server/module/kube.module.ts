@@ -169,7 +169,7 @@ sync:
 
   deployCodeServer: async (
   vclusterKubeconfig: string,
-  yamNamespace: string, // This should be unique across all apps
+  yamNamespace: string,
   namespace: string
 ): Promise<string> => {
   const host = `${yamNamespace}-codeserver.aiscaler.ai`;
@@ -230,21 +230,19 @@ persistence:
     // Wait until vCluster API is reachable
     await kube.waitForVCluster(kubeconfigPath);
 
-    // Add Helm repository
-    await execa('helm', [
-      'repo',
-      'add',
-      'nicholaswilde',
-      'https://nicholaswilde.github.io/helm-charts/'
-    ]);
+    // Add and update Helm repo
+    await execa('helm', ['repo', 'add', 'nicholaswilde', 'https://nicholaswilde.github.io/helm-charts/']);
+    await execa('helm', ['repo', 'update']);
 
-    // Update Helm repositories
-    await execa('helm', [
-      'repo',
-      'update'
-    ]);
+    // Create namespace if needed
+    // await execa('kubectl', [
+    //   '--kubeconfig', kubeconfigPath,
+    //   'create', 'namespace', namespace,
+    // ]).catch((err) => {
+    //   if (!err.stderr?.includes('AlreadyExists')) throw err;
+    // });
 
-    // Install code-server via Helm inside the vCluster
+    // Install code-server chart
     await execa('helm', [
       'install',
       'codeserver',
@@ -255,16 +253,25 @@ persistence:
       '--debug',
     ]);
 
-    // Wait for pod to be ready (timeout in 120s)
+    // ✅ Wait for deployment rollout
     await execa('kubectl', [
       '--kubeconfig', kubeconfigPath,
-      'wait',
+      'rollout',
+      'status',
+      'deployment/codeserver',
       '--namespace', namespace,
-      '--for=condition=Ready',
-      'pod',
-      '-l=app.kubernetes.io/name=code-server',
-      '--timeout=120s',
+      '--timeout=300s',
     ]);
+  } catch (error) {
+    // Optional uninstall on failure
+    await execa('helm', [
+      'uninstall',
+      'codeserver',
+      '--namespace', namespace,
+      '--kubeconfig', kubeconfigPath,
+    ]).catch(() => {});
+    console.error('Error deploying code-server:', error);
+    throw new Error(`code-server deployment failed: ${error.message}`);
   } finally {
     await fs.unlink(kubeconfigPath);
     await fs.unlink(valuesPath);
@@ -275,19 +282,17 @@ persistence:
 
   // Modified to work with app deployments inside vClusters
   deployWordpress: async (
-    vclusterKubeconfig: string,
-    yamNamespace: string, // This should be unique across all apps
-    namespace: string
-  ): Promise<{url: string, user: string, password: string}> => {
-    const host = `${yamNamespace}-wordpress.aiscaler.ai`;
+  vclusterKubeconfig: string,
+  yamNamespace: string, // Unique across all apps
+  namespace: string
+): Promise<{ url: string; user: string; password: string }> => {
+  const host = `${yamNamespace}-wordpress.aiscaler.ai`;
 
-    console.log({host, yamNamespace})
+  const kubeconfigPath = join(tmpdir(), `kubeconfig-${yamNamespace}.yaml`);
+  const valuesPath = join(tmpdir(), `values-${yamNamespace}.yaml`);
+  await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
 
-    const kubeconfigPath = join(tmpdir(), `kubeconfig-${yamNamespace}.yaml`);
-    const valuesPath = join(tmpdir(), `values-${yamNamespace}.yaml`);
-    await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
-
-    const values = `
+  const values = `
 wordpressUsername: user
 wordpressPassword: "password"
 
@@ -306,94 +311,87 @@ ingress:
   tls: true
 `;
 
-    await fs.writeFile(valuesPath, values);
+  await fs.writeFile(valuesPath, values);
 
-    try {
-      // Check if helm is available
-      // try {
-      //   await execa('helm', ['version']);
-      // } catch (error) {
-      //   console.error(error)
-      //   throw new Error('Helm is not installed or not available in PATH. Please install Helm first.');
-      // }
+  try {
+    // Wait until vCluster API is reachable
+    await kube.waitForVCluster(kubeconfigPath);
 
-      // Wait until vCluster API is reachable
-      await kube.waitForVCluster(kubeconfigPath);
+    // Create namespace inside vCluster
+    // await execa('kubectl', [
+    //   '--kubeconfig', kubeconfigPath,
+    //   'create', 'namespace', namespace,
+    // ]).catch((err) => {
+    //   if (!err.stderr?.includes('AlreadyExists')) throw err;
+    // });
 
-      // Create namespace inside vCluster
-      await execa('kubectl', [
-        '--kubeconfig', kubeconfigPath,
-        'create', 'namespace', namespace,
-      ]).catch((err) => {
-        if (!err.stderr?.includes('AlreadyExists')) throw err;
-      });
+    // Install WordPress inside the vCluster
+    await execa('helm', [
+      'install',
+      'wordpress',
+      'oci://registry-1.docker.io/bitnamicharts/wordpress',
+      '--namespace', namespace,
+      '-f', valuesPath,
+      '--kubeconfig', kubeconfigPath,
+      '--debug',
+    ]);
 
-      // Install WordPress inside the vCluster
-      await execa('helm', [
-        'install',
-        'wordpress',
-        'oci://registry-1.docker.io/bitnamicharts/wordpress',
-        '--namespace', namespace,
-        '-f', valuesPath,
-        '--kubeconfig', kubeconfigPath,
-        '--debug',
-      ]);
+    // ✅ Wait for the WordPress Deployment to complete rollout
+    await execa('kubectl', [
+      '--kubeconfig', kubeconfigPath,
+      'rollout',
+      'status',
+      'deployment/wordpress',
+      '--namespace', namespace,
+      '--timeout=300s',
+    ]);
+  } catch (error) {
+    // Optional: uninstall chart on failure
+    await execa('helm', [
+      'uninstall',
+      'wordpress',
+      '--namespace', namespace,
+      '--kubeconfig', kubeconfigPath,
+    ]).catch(() => {});
+    console.error('Error deploying WordPress:', error);
+    throw new Error(`Deployment failed: ${error.message}`);
+  } finally {
+    await fs.unlink(kubeconfigPath);
+    await fs.unlink(valuesPath);
+  }
 
-      // Wait for pod to be ready
-      await execa('kubectl', [
-        '--kubeconfig', kubeconfigPath,
-        'wait',
-        '--namespace', namespace,
-        '--for=condition=Ready',
-        'pod',
-        '-l=app.kubernetes.io/name=wordpress',
-        '--timeout=120s',
-      ]);
-
-    } catch(error) {
-      console.error('Error deploying WordPress:', error);
-    } finally {
-      await fs.unlink(kubeconfigPath);
-      await fs.unlink(valuesPath);
-    }
-
-    return {
-      url: `https://${host}/wp-admin`,
-      user: 'user',
-      password: 'password',
-    };
-  },
+  return {
+    url: `https://${host}/wp-admin`,
+    user: 'user',
+    password: 'password',
+  };
+},
 
   deployN8n: async (
-    vclusterKubeconfig: string,
-    yamNamespace: string, // This should be unique across all apps
-    namespace: string
-  ): Promise<{url: string}> => {
-    const host = `${yamNamespace}-n8n.aiscaler.ai`;
+  vclusterKubeconfig: string,
+  yamNamespace: string,
+  namespace: string
+): Promise<{ url: string }> => {
+  const host = `${yamNamespace}-n8n.aiscaler.ai`;
 
-    console.log({host, yamNamespace})
+  const kubeconfigPath = join(tmpdir(), `kubeconfig-${yamNamespace}.yaml`);
+  const valuesPath = join(tmpdir(), `values-${yamNamespace}.yaml`);
+  await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
 
-    const kubeconfigPath = join(tmpdir(), `kubeconfig-${yamNamespace}.yaml`);
-    const valuesPath = join(tmpdir(), `values-${yamNamespace}.yaml`);
-    await fs.writeFile(kubeconfigPath, vclusterKubeconfig);
-
-    const values = `
+  const values = `
 main:
   count: 1
   pdb:
     enabled: true
     minAvailable: 1
 
-
   resources: 
     requests:
-        cpu: 100m
-        memory: 128Mi
+      cpu: 100m
+      memory: 128Mi
     limits:
-        cpu: 2000m
-        memory: 1Gi
-
-
+      cpu: 2000m
+      memory: 1Gi
 
 ingress:
   enabled: true
@@ -408,62 +406,66 @@ ingress:
         - path: /
           pathType: Prefix
   tls: 
-   - secretName: ${yamNamespace}-n8n-test-tls
-     hosts:
-       - ${host}
+    - secretName: ${yamNamespace}-n8n-test-tls
+      hosts:
+        - ${host}
 `;
 
-    await fs.writeFile(valuesPath, values);
+  await fs.writeFile(valuesPath, values);
 
-    try {
-      // Wait until vCluster API is reachable
-      await kube.waitForVCluster(kubeconfigPath);
+  try {
+    // Wait until vCluster API is reachable
+    await kube.waitForVCluster(kubeconfigPath);
 
-      // Add Helm repository
-      await execa('helm', [
-        'repo',
-        'add',
-        'community-charts',
-        'https://community-charts.github.io/helm-charts'
-      ]);
+    // Add and update Helm repository
+    await execa('helm', ['repo', 'add', 'community-charts', 'https://community-charts.github.io/helm-charts']);
+    await execa('helm', ['repo', 'update']);
 
-      // Update Helm repositories
-      await execa('helm', [
-        'repo',
-        'update'
-      ]);
+    // Create namespace inside vCluster if not exists
+    // await execa('kubectl', [
+    //   '--kubeconfig', kubeconfigPath,
+    //   'create', 'namespace', namespace,
+    // ]).catch((err) => {
+    //   if (!err.stderr?.includes('AlreadyExists')) throw err;
+    // });
 
-      // Install WordPress inside the vCluster
-      await execa('helm', [
-        'install',
-        'n8n',
-        'community-charts/n8n',
-        '--namespace', namespace,
-        '-f', valuesPath,
-        '--kubeconfig', kubeconfigPath,
-        '--debug',
-      ]);
+    // Install n8n via Helm
+    await execa('helm', [
+      'install',
+      'n8n',
+      'community-charts/n8n',
+      '--namespace', namespace,
+      '-f', valuesPath,
+      '--kubeconfig', kubeconfigPath,
+      '--debug',
+    ]);
 
-      // Wait for pod to be ready
-      await execa('kubectl', [
-        '--kubeconfig', kubeconfigPath,
-        'wait',
-        '--namespace', namespace,
-        '--for=condition=Ready',
-        'pod',
-        '-l=app.kubernetes.io/name=n8n',
-        '--timeout=120s',
-      ]);
+    // ✅ Wait for the Deployment rollout
+    await execa('kubectl', [
+      '--kubeconfig', kubeconfigPath,
+      'rollout',
+      'status',
+      'deployment/n8n',
+      '--namespace', namespace,
+      '--timeout=300s',
+    ]);
+  } catch (error) {
+    // Optional cleanup on failure
+    await execa('helm', [
+      'uninstall',
+      'n8n',
+      '--namespace', namespace,
+      '--kubeconfig', kubeconfigPath,
+    ]).catch(() => {});
+    console.error('Error deploying n8n:', error);
+    throw new Error(`n8n deployment failed: ${error.message}`);
+  } finally {
+    await fs.unlink(kubeconfigPath);
+    await fs.unlink(valuesPath);
+  }
 
-    } catch(error) {
-      console.error('Error deploying n8n:', error);
-    } finally {
-      await fs.unlink(kubeconfigPath);
-      await fs.unlink(valuesPath);
-    }
-
-    return {
-      url: `https://${host}`,
-    };
-  },
+  return {
+    url: `https://${host}`,
+  };
+},
 };
