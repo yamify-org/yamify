@@ -7,7 +7,7 @@
   width: 100%;
   margin: 0 auto;
 }
-.auth-section section .header {
+.auth-section section .auth-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -15,32 +15,32 @@
   height: 60px;
   font-family: "Commissioner", sans-serif;
 }
-.auth-section section .header .logo {
+.auth-section section .auth-header .logo {
   display: flex;
   align-items: center;
   gap: 15px;
 }
-.auth-section section .header .logo h1 {
+.auth-section section .auth-header .logo h1 {
   font-size: 18px;
   font-weight: 600;
   line-height: 100%;
 }
-.auth-section section .header .wrap {
+.auth-section section .auth-header .wrap {
   display: flex;
   align-items: center;
   gap: 4px;
 }
-.auth-section section .header .wrap p {
+.auth-section section .auth-header .wrap p {
   font-size: 13px;
   font-weight: 500;
   line-height: 100%;
 }
-.auth-section section .header .wrap a {
+.auth-section section .auth-header .wrap a {
   font-size: 13px;
   font-weight: 600;
   line-height: 100%;
 }
-.auth-section section .header .wrap a:hover {
+.auth-section section .auth-header .wrap a:hover {
   text-decoration: underline;
 }
 .auth-section section .container {

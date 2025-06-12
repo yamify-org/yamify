@@ -10,7 +10,7 @@ const AuthHeader = () => {
   console.log(pathname);
 
   return (
-    <div className="header">
+    <div className="auth-header">
       <Link href="/" className="logo">
         <Image
           src={

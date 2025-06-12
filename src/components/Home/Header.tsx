@@ -8,6 +8,7 @@ import "@/styles/Header.css";
 import Button from "../Button/Button";
 import FeaturesContainer from "./FeaturesContainer";
 import LineRain from "../Animations/LineRain";
+import routes from "@/libs/routes";
 
 type Props = {
   setJoinWaitlistModal: (value: boolean) => void;
@@ -137,7 +138,7 @@ const Header = ({ heroRef, featuresRef }: Props) => {
 
           <Button
             text="Get started"
-            href={"/auth/sign-in"}
+            href={routes.auth.login}
             yellow={true}
             linkBtn={true}
           />

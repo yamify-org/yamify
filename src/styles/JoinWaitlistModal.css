@@ -287,6 +287,223 @@
 }
 @media (max-width: 575px) {
   .join-waitlist-modal .join-waitlist-container {
-    transform: scale(0.1);
+    display: flex;
+    width: 90vw;
+    height: auto;
+    padding: 40px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px dashed var(--Default-Ash, #4c4c4c);
+    background: radial-gradient(82.36% 29.65% at 100% 0%, var(--Brand-Gold, rgba(221, 154, 56, 0.1)) 0%, rgba(221, 154, 56, 0) 100%), var(--Default-Black, #111);
+    position: relative;
+  }
+  .join-waitlist-modal .join-waitlist-container .close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    cursor: pointer;
+  }
+  .join-waitlist-modal .join-waitlist-container .close:hover {
+    transform: scale(1.1);
+  }
+  .join-waitlist-modal .join-waitlist-container h1 {
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    margin-bottom: 20px;
+  }
+  .join-waitlist-modal .join-waitlist-container p {
+    font-family: "Commissioner", sans-serif;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    margin-bottom: 30px;
+  }
+  .join-waitlist-modal .join-waitlist-container .container {
+    width: 100%;
+    gap: 5px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label {
+    width: 100%;
+    display: flex;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label:last-child {
+    margin-bottom: 50px;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .left {
+    display: flex;
+    width: 80px;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 10px;
+    border-right: 1px solid var(--Default-Ash, #4c4c4c);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .left label {
+    font-family: "Commissioner", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 100%;
+    direction: rtl;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+    width: 100%;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right input {
+    outline: none;
+    border: none;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 100%;
+    color: var(--Brand-Gold, #dd9a38);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right input::-moz-placeholder {
+    color: var(--Default-Ash, #4c4c4c);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right input::placeholder {
+    color: var(--Default-Ash, #4c4c4c);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right textarea {
+    width: 100%;
+    resize: none;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 100%;
+    color: var(--Brand-Gold, #dd9a38);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right textarea::-moz-placeholder {
+    color: var(--Default-Ash, #4c4c4c);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right textarea::placeholder {
+    color: var(--Default-Ash, #4c4c4c);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .checkbox-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .box {
+    display: flex;
+    padding: 10px 15px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--Default-Ash, #4c4c4c);
+    color: var(--Default-Ash, #4c4c4c);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    cursor: pointer;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .box.active {
+    color: var(--Brand-Gold, #dd9a38);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .box .containn {
+    height: 14.5px;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    overflow: hidden;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .box .containn.wrapped-link {
+    position: relative;
+    height: 16px;
+    top: -3px;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .box .containn span {
+    line-height: 100%;
+    display: flex;
+    align-items: center;
+    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .box .containn span.wrap {
+    display: flex;
+    gap: 10px;
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .box:hover .containn {
+    transform: scale(1.01);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .box:hover .containn span:first-child {
+    transform: translateY(-105%);
+  }
+  .join-waitlist-modal .join-waitlist-container .container .label .right .box:hover .containn .hover-text {
+    transform: translateY(-105%);
+  }
+  .join-waitlist-modal .join-waitlist-container .contain-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .join-waitlist-modal .join-waitlist-container .contain-wrap button {
+    width: 100%;
+  }
+  .join-waitlist-modal .join-waitlist-container .contain-wrap .loading-container {
+    display: inline-flex;
+    height: 50px;
+    padding: 0px 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 20px;
+  }
+  .join-waitlist-modal .join-waitlist-container .contain-wrap .loading-container .txt {
+    font-family: "Commissioner", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .join-waitlist-modal .join-waitlist-container .success-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .join-waitlist-modal .join-waitlist-container .success-container img.logo {
+    margin-bottom: 40px;
+  }
+  .join-waitlist-modal .join-waitlist-container .success-container .txt-status {
+    text-align: center;
+    font-family: "Commissioner", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 100%;
+    margin-bottom: 40px;
+  }
+  .join-waitlist-modal .join-waitlist-container .success-container h1 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 27px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .join-waitlist-modal .join-waitlist-container .success-container p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .join-waitlist-modal .join-waitlist-container .success-container h3 {
+    font-family: "Commissioner", sans-serif;
+    font-size: 16px;
+    color: #dd9a38;
+    font-weight: 600;
   }
 }/*# sourceMappingURL=JoinWaitlistModal.css.map */

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "@/styles/JoinWaitlistModal.css";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
@@ -26,6 +26,27 @@ const JoinWaitlistModal = ({
     name: "",
     email: "",
   });
+  const modalRef = useRef<HTMLFormElement | null>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setJoinWaitlistModal(false);
+        setSuccessModal(false);
+      }
+    };
+
+    if (joinWaitlistModal) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [joinWaitlistModal]);
 
   const { name, email } = formData;
 
@@ -130,6 +151,7 @@ const JoinWaitlistModal = ({
       <AnimatePresence>
         {joinWaitlistModal && (
           <motion.form
+            ref={modalRef}
             key="modal"
             className="join-waitlist-container"
             initial={{ opacity: 0, y: 100 }}

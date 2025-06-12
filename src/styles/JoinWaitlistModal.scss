@@ -351,7 +351,259 @@
   @media (max-width: 575px) {
     & {
       .join-waitlist-container {
-        transform: scale(0.1);
+        display: flex;
+        width: 90vw;
+        height: auto;
+        padding: 40px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px dashed var(--Default-Ash, #4c4c4c);
+        background: radial-gradient(
+            82.36% 29.65% at 100% 0%,
+            var(--Brand-Gold, rgba(221, 154, 56, 0.1)) 0%,
+            rgba(221, 154, 56, 0) 100%
+          ),
+          var(--Default-Black, #111);
+        position: relative;
+
+        .close {
+          position: absolute;
+          top: 25px;
+          right: 25px;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+
+        h1 {
+          text-align: center;
+          font-size: 20px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 24px;
+          margin-bottom: 20px;
+        }
+
+        p {
+          font-family: "Commissioner", sans-serif;
+          text-align: center;
+          font-size: 13px;
+          font-weight: 500;
+          line-height: 16px;
+          margin-bottom: 30px;
+        }
+
+        .container {
+          width: 100%;
+          gap: 5px;
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column;
+
+          .label {
+            width: 100%;
+            display: flex;
+
+            &:last-child {
+              margin-bottom: 50px;
+            }
+
+            .left {
+              display: flex;
+              width: 80px;
+              padding: 10px;
+              flex-direction: column;
+              justify-content: flex-start;
+              align-items: flex-end;
+              gap: 10px;
+              border-right: 1px solid var(--Default-Ash, #4c4c4c);
+
+              label {
+                font-family: "Commissioner", sans-serif;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 100%;
+                direction: rtl;
+              }
+            }
+
+            .right {
+              display: flex;
+              padding: 10px;
+              flex-direction: column;
+              justify-content: center;
+              align-items: flex-start;
+              gap: 10px;
+              flex: 1 0 0;
+              align-self: stretch;
+              width: 100%;
+
+              input {
+                outline: none;
+                border: none;
+                width: 100%;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 100%;
+                color: var(--Brand-Gold, #dd9a38);
+
+                &::placeholder {
+                  color: var(--Default-Ash, #4c4c4c);
+                }
+              }
+
+              textarea {
+                width: 100%;
+                resize: none;
+                border: none;
+                outline: none;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 100%;
+                color: var(--Brand-Gold, #dd9a38);
+
+                &::placeholder {
+                  color: var(--Default-Ash, #4c4c4c);
+                }
+              }
+
+              .checkbox-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+              }
+
+              .box {
+                display: flex;
+                padding: 10px 15px;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid var(--Default-Ash, #4c4c4c);
+                color: var(--Default-Ash, #4c4c4c);
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                cursor: pointer;
+                // height: 40px;
+
+                &.active {
+                  color: var(--Brand-Gold, #dd9a38);
+                }
+
+                .containn {
+                  height: 14.5px;
+                  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+                  overflow: hidden;
+
+                  &.wrapped-link {
+                    position: relative;
+                    height: 16px;
+                    top: -3px;
+                  }
+
+                  span {
+                    line-height: 100%;
+                    display: flex;
+                    align-items: center;
+                    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+
+                    &.wrap {
+                      display: flex;
+                      gap: 10px;
+                    }
+                  }
+                }
+
+                &:hover .containn {
+                  transform: scale(1.01);
+                }
+
+                &:hover .containn span:first-child {
+                  transform: translateY(-105%);
+                }
+
+                &:hover .containn .hover-text {
+                  transform: translateY(-105%);
+                }
+              }
+            }
+          }
+        }
+
+        .contain-wrap {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          // align-items: center;
+          margin-top: 10px;
+
+          button {
+            width: 100%;
+          }
+
+          .loading-container {
+            display: inline-flex;
+            height: 50px;
+            padding: 0px 20px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            gap: 20px;
+
+            .txt {
+              font-family: "Commissioner", sans-serif;
+              font-size: 14px;
+              font-weight: 400;
+            }
+          }
+        }
+
+        .success-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+
+          img.logo {
+            margin-bottom: 40px;
+          }
+
+          .txt-status {
+            text-align: center;
+            font-family: "Commissioner", sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 100%;
+            margin-bottom: 40px;
+          }
+
+          h1 {
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 27px;
+            text-align: center;
+            margin-bottom: 20px;
+          }
+
+          p {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+            text-align: center;
+            margin-bottom: 60px;
+          }
+
+          h3 {
+            font-family: "Commissioner", sans-serif;
+            font-size: 16px;
+            color: $brand-gold;
+            font-weight: 600;
+          }
+        }
       }
     }
   }
