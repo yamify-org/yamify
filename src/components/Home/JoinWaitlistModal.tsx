@@ -46,7 +46,7 @@ const JoinWaitlistModal = ({
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [joinWaitlistModal]);
+  }, [joinWaitlistModal, setJoinWaitlistModal]);
 
   const { name, email } = formData;
 
