@@ -1,72 +1,74 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "@/styles/JoinWaitlistModal.css";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import LoadingAnimation from "./LoadingAnimation";
 import { toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Button from "../Button/Button";
 
 type Props = {
   setJoinWaitlistModal: (value: boolean) => void;
   joinWaitlistModal: boolean;
-  lightMode: boolean;
 };
 
 const JoinWaitlistModal = ({
   setJoinWaitlistModal,
   joinWaitlistModal,
-  lightMode,
 }: Props) => {
-  const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
-  const [useGitHub, setUseGitHub] = useState<string | null>(null);
-  const [testFeedback, setTestFeedback] = useState<string | null>(null);
-  const [launchingRange, setLaunchingRange] = useState<string | null>(null);
+  // const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
+  // const [useGitHub, setUseGitHub] = useState<string | null>(null);
+  // const [testFeedback, setTestFeedback] = useState<string | null>(null);
+  // const [launchingRange, setLaunchingRange] = useState<string | null>(null);
   const [loadingBool, setLoadingBool] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    location: "",
-    tools: "",
-    specificFeature: "",
-    biggestStruggle: "",
   });
-  const [isMobile, setIsMobile] = useState(false);
+  const modalRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 575);
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setJoinWaitlistModal(false);
+        setSuccessModal(false);
+      }
     };
 
-    // Run the function once to set initial state
-    handleResize();
+    if (joinWaitlistModal) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [joinWaitlistModal]);
 
-  const { name, email, location, tools, specificFeature, biggestStruggle } =
-    formData;
+  const { name, email } = formData;
 
-  const toggleRoles = (service: string) => {
-    setSelectedRoles((prev) =>
-      prev.includes(service)
-        ? prev.filter((s) => s !== service)
-        : [...prev, service]
-    );
-  };
+  // const toggleRoles = (service: string) => {
+  //   setSelectedRoles((prev) =>
+  //     prev.includes(service)
+  //       ? prev.filter((s) => s !== service)
+  //       : [...prev, service]
+  //   );
+  // };
 
-  const toggleGitgub = (service: string) => {
-    setUseGitHub((prev) => (prev === service ? null : service));
-  };
+  // const toggleGitgub = (service: string) => {
+  //   setUseGitHub((prev) => (prev === service ? null : service));
+  // };
 
-  const toggleTestFeedback = (service: string) => {
-    setTestFeedback((prev) => (prev === service ? null : service));
-  };
+  // const toggleTestFeedback = (service: string) => {
+  //   setTestFeedback((prev) => (prev === service ? null : service));
+  // };
 
-  const toggleLaunchingRange = (service: string) => {
-    setLaunchingRange((prev) => (prev === service ? null : service));
-  };
+  // const toggleLaunchingRange = (service: string) => {
+  //   setLaunchingRange((prev) => (prev === service ? null : service));
+  // };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -85,13 +87,6 @@ const JoinWaitlistModal = ({
       name,
       email,
       location,
-      tools,
-      specific_feature: specificFeature,
-      biggest_struggle: biggestStruggle,
-      selected_roles: selectedRoles,
-      use_github: useGitHub,
-      test_feedback: testFeedback,
-      launching_range: launchingRange,
     };
 
     setLoadingBool(true);
@@ -152,10 +147,11 @@ const JoinWaitlistModal = ({
   };
 
   return (
-    <div className={`join-waitlist-modal ${lightMode && "light-mode"}`}>
+    <div className={`join-waitlist-modal`}>
       <AnimatePresence>
         {joinWaitlistModal && (
           <motion.form
+            ref={modalRef}
             key="modal"
             className="join-waitlist-container"
             initial={{ opacity: 0, y: 100 }}
@@ -182,14 +178,12 @@ const JoinWaitlistModal = ({
                   We’re opening early access to students/learners, developers,
                   startups, and creators who want to be part of the next
                   evolution in cloud infrastructure — powered by AI, built for
-                  Africa, and open to the world. Whether you’re launching an
-                  MVP, deploying full-scale apps, or experimenting with AI
-                  workloads, this platform adapts to your needs.
+                  Africa, and open to the world.
                 </p>
                 <div className="container">
                   <div className="label">
                     <div className="left">
-                      <label htmlFor="">Name</label>
+                      <label htmlFor="">Full Name</label>
                     </div>
                     <div className="right">
                       <input
@@ -197,7 +191,7 @@ const JoinWaitlistModal = ({
                         name="name"
                         value={name}
                         onChange={handleChange}
-                        placeholder="So we know who’s building with us."
+                        placeholder="What’s your full name?"
                         required
                       />
                     </div>
@@ -212,12 +206,12 @@ const JoinWaitlistModal = ({
                         name="email"
                         value={email}
                         onChange={handleChange}
-                        placeholder="We’ll send your access link and insider updates here."
+                        placeholder="What’s your email address?"
                         required
                       />
                     </div>
                   </div>
-                  <div className="label">
+                  {/* <div className="label">
                     <div className="left">
                       {!isMobile ? (
                         <label htmlFor="">?Where are you based</label>
@@ -419,17 +413,17 @@ const JoinWaitlistModal = ({
                         placeholder="Free text field—make this personal, not formal"
                       ></textarea>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
-                <div className="contain">
+                <div className="contain-wrap">
                   {!loadingBool ? (
-                    <button type="submit">
-                      <div className="containn">
-                        <span>Submit</span>
-                        <span className="hover-text">Submit</span>
-                      </div>
-                    </button>
+                    <Button
+                      text="Submit"
+                      yellow={true}
+                      submit={true}
+                      linkBtn={false}
+                    />
                   ) : (
                     <div className="loading-container">
                       <LoadingAnimation />
@@ -443,21 +437,16 @@ const JoinWaitlistModal = ({
             ) : (
               <div className="success-container">
                 <Image
-                  src={
-                    !lightMode
-                      ? "/svgs/yamify_logo_lg.svg"
-                      : "/svgs/yamify_logo_lg_lm.svg"
-                  }
+                  src={"/svgs/yamify_logo_lg.svg"}
                   alt="yamify logo"
                   className="logo"
                   width={30}
                   height={38}
                 />
 
-                <h1>
-                  Welcome to the Future of Cloud,
-                  <br /> Built Around You.
-                </h1>
+                <div className="txt-status">Submitted successfully!!!</div>
+
+                <h1>Welcome to the Future of Cloud, Built Around You.</h1>
                 <p>
                   Thanks for joining the waitlist — your spot is secured. 🚀
                   <br />
@@ -465,14 +454,6 @@ const JoinWaitlistModal = ({
                   peeks, and exclusive launch perks.
                 </p>
                 <h3>— The Team</h3>
-
-                <Image
-                  className="end"
-                  src="/svgs/yamify_gd.svg"
-                  alt=""
-                  width={797}
-                  height={306}
-                />
               </div>
             )}
           </motion.form>

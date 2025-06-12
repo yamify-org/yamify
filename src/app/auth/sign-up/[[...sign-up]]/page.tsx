@@ -6,8 +6,8 @@ import "@/styles/AuthPage.css";
 import Image from "next/image";
 // import { countries } from "@/utils/data";
 
-import { OAuthStrategy } from '@clerk/types'
-import { useSignUp } from '@clerk/nextjs'
+import { OAuthStrategy } from "@clerk/types";
+import { useSignUp } from "@clerk/nextjs";
 
 export default function SignUp() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +19,7 @@ export default function SignUp() {
   // });
   // const [searchTerm, setSearchTerm] = useState("");
   // const [showPassword, setShowPassword] = useState(false);
-  const { signUp } = useSignUp()
+  const { signUp } = useSignUp();
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -43,7 +43,7 @@ export default function SignUp() {
     };
   }, [isOpen]);
 
-  if (!signUp) return null
+  if (!signUp) return null;
 
   // const filteredCountries = countries.filter((country) =>
   //   country.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -53,19 +53,19 @@ export default function SignUp() {
     return signUp
       .authenticateWithRedirect({
         strategy,
-        redirectUrl: '/auth/sign-up/sso-callback',
-        redirectUrlComplete: '/dashboard',
+        redirectUrl: "/auth/sign-up/sso-callback",
+        redirectUrlComplete: "/dashboard",
       })
       .then((res) => {
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => {
         // See https://clerk.com/docs/custom-flows/error-handling
         // for more info on error handling
-        console.log(err.errors)
-        console.error(err, null, 2)
-      })
-  }
+        console.log(err.errors);
+        console.error(err, null, 2);
+      });
+  };
 
   return (
     <div className="auth-section">
@@ -75,11 +75,17 @@ export default function SignUp() {
           <h1>Create your account</h1>
 
           <div className="auth-btns">
-            <div className="btn" onClick={() => signUpWithSocial('oauth_github')}>
+            <div
+              className="btn-auth"
+              onClick={() => signUpWithSocial("oauth_github")}
+            >
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
-            <div className="btn" onClick={() => signUpWithSocial('oauth_google')}>
+            <div
+              className="btn-auth"
+              onClick={() => signUpWithSocial("oauth_google")}
+            >
               <Image src="/svgs/google.svg" alt="" height={20} width={20} />
               Continue with Google
             </div>

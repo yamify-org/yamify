@@ -15,13 +15,12 @@
   color: $default-white;
 
   .contain {
-    height: 13px;
+    height: 12px;
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
 
     &.wrapped-link {
       position: relative;
-      height: 16px;
       top: -3px;
     }
 

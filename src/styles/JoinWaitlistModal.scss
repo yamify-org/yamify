@@ -8,6 +8,9 @@
   width: 100vw;
   z-index: 9999;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--Default-Black, #1b1b1bd3);
 
   &.light-mode {
@@ -90,29 +93,25 @@
   }
 
   .join-waitlist-container {
-    position: absolute;
-    bottom: 0;
-    right: 0;
     display: flex;
-    width: 1000px;
-    height: 700px;
-    padding: 60px 80px;
-    padding-top: 70px;
+    width: 600px;
+    height: 600px;
+    padding: 80px;
     flex-direction: column;
     align-items: flex-start;
-    border-top: 1px dashed var(--Default-Ash, #4c4c4c);
-    border-left: 1px dashed var(--Default-Ash, #4c4c4c);
+    border: 1px dashed var(--Default-Ash, #4c4c4c);
     background: radial-gradient(
         82.36% 29.65% at 100% 0%,
         var(--Brand-Gold, rgba(221, 154, 56, 0.1)) 0%,
         rgba(221, 154, 56, 0) 100%
       ),
-      var(--Default-Black, #1b1b1b);
+      var(--Default-Black, #111);
+    position: relative;
 
     .close {
       position: absolute;
-      top: 40px;
-      right: 60px;
+      top: 25px;
+      right: 25px;
       cursor: pointer;
 
       &:hover {
@@ -121,52 +120,29 @@
     }
 
     h1 {
+      text-align: center;
       font-size: 24px;
+      font-style: normal;
       font-weight: 700;
-      line-height: 100%;
+      line-height: 27px;
       margin-bottom: 20px;
     }
 
     p {
       font-family: "Commissioner", sans-serif;
-      font-weight: 300;
+      text-align: center;
       font-size: 14px;
+      font-weight: 500;
       line-height: 17px;
       margin-bottom: 30px;
     }
 
     .container {
       width: 100%;
-      border-bottom: 1px dashed var(--Default-Ash, #4c4c4c);
-      border-left: 1px dashed var(--Default-Ash, #4c4c4c);
       gap: 5px;
       display: flex;
       align-items: flex-start;
       flex-direction: column;
-      height: 382px;
-      overflow-y: auto;
-
-      scrollbar-width: thin;
-      scrollbar-color: $ash #1a1a1a;
-
-      &::-webkit-scrollbar {
-        width: 6px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: #1a1a1a;
-        border-radius: 10px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: $ash;
-        border-radius: 10px;
-        border: 1px solid #1a1a1a;
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        background: #777;
-      }
 
       .label {
         width: 100%;
@@ -178,7 +154,7 @@
 
         .left {
           display: flex;
-          width: 250px;
+          width: 150px;
           padding: 10px;
           flex-direction: column;
           justify-content: flex-start;
@@ -300,62 +276,15 @@
       }
     }
 
-    .contain {
+    .contain-wrap {
       width: 100%;
       display: flex;
-      justify-content: flex-end;
-      align-items: center;
+      justify-content: center;
+      // align-items: center;
       margin-top: 10px;
 
       button {
-        display: flex;
-        height: 50px;
-        padding: 0px 30px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background: var(--Brand-Gold, #dd9a38);
-        color: $defualt-black;
-        font-size: 14px;
-        font-weight: 700;
-        line-height: 100%;
-        cursor: pointer;
-
-        .containn {
-          height: 13px;
-          transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-          overflow: hidden;
-
-          &.wrapped-link {
-            position: relative;
-            height: 16px;
-            top: -3px;
-          }
-
-          span {
-            line-height: 100%;
-            display: flex;
-            align-items: center;
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-
-            &.wrap {
-              display: flex;
-              gap: 10px;
-            }
-          }
-        }
-
-        &:hover .containn {
-          transform: scale(1.01);
-        }
-
-        &:hover .containn span:first-child {
-          transform: translateY(-105%);
-        }
-
-        &:hover .containn .hover-text {
-          transform: translateY(-105%);
-        }
+        width: 100%;
       }
 
       .loading-container {
@@ -382,7 +311,16 @@
       width: 100%;
 
       img.logo {
-        margin-bottom: 71px;
+        margin-bottom: 40px;
+      }
+
+      .txt-status {
+        text-align: center;
+        font-family: "Commissioner", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 100%;
+        margin-bottom: 40px;
       }
 
       h1 {
@@ -404,17 +342,8 @@
       h3 {
         font-family: "Commissioner", sans-serif;
         font-size: 16px;
+        color: $brand-gold;
         font-weight: 600;
-      }
-
-      img.end {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        opacity: 0.4;
-        pointer-events: none;
-        user-select: none;
       }
     }
   }
@@ -422,26 +351,25 @@
   @media (max-width: 575px) {
     & {
       .join-waitlist-container {
-        top: 0;
-        width: 100%;
-        height: 100%;
-        padding: 60px 20px;
-        padding-top: 70px;
+        display: flex;
+        width: 90vw;
+        height: auto;
+        padding: 40px 20px;
         flex-direction: column;
         align-items: flex-start;
-        border-top: 1px dashed var(--Default-Ash, #4c4c4c);
-        border-left: 1px dashed var(--Default-Ash, #4c4c4c);
+        border: 1px dashed var(--Default-Ash, #4c4c4c);
         background: radial-gradient(
             82.36% 29.65% at 100% 0%,
             var(--Brand-Gold, rgba(221, 154, 56, 0.1)) 0%,
             rgba(221, 154, 56, 0) 100%
           ),
-          var(--Default-Black, #1b1b1b);
+          var(--Default-Black, #111);
+        position: relative;
 
         .close {
           position: absolute;
-          top: 40px;
-          right: 20px;
+          top: 25px;
+          right: 25px;
           cursor: pointer;
 
           &:hover {
@@ -450,17 +378,29 @@
         }
 
         h1 {
-          font-size: 16px;
+          text-align: center;
+          font-size: 20px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 24px;
+          margin-bottom: 20px;
         }
 
         p {
-          font-size: 12px;
-          line-height: 15px;
+          font-family: "Commissioner", sans-serif;
+          text-align: center;
+          font-size: 13px;
+          font-weight: 500;
+          line-height: 16px;
           margin-bottom: 30px;
         }
 
         .container {
-          height: 382px;
+          width: 100%;
+          gap: 5px;
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column;
 
           .label {
             width: 100%;
@@ -472,23 +412,61 @@
 
             .left {
               display: flex;
-              width: 120px;
+              width: 80px;
               padding: 10px;
+              flex-direction: column;
+              justify-content: flex-start;
+              align-items: flex-end;
+              gap: 10px;
+              border-right: 1px solid var(--Default-Ash, #4c4c4c);
 
               label {
-                font-size: 12px;
+                font-family: "Commissioner", sans-serif;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 100%;
+                direction: rtl;
               }
             }
 
             .right {
+              display: flex;
               padding: 10px;
+              flex-direction: column;
+              justify-content: center;
+              align-items: flex-start;
+              gap: 10px;
+              flex: 1 0 0;
+              align-self: stretch;
+              width: 100%;
 
               input {
-                font-size: 12px;
+                outline: none;
+                border: none;
+                width: 100%;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 100%;
+                color: var(--Brand-Gold, #dd9a38);
+
+                &::placeholder {
+                  color: var(--Default-Ash, #4c4c4c);
+                }
               }
 
               textarea {
-                font-size: 12px;
+                width: 100%;
+                resize: none;
+                border: none;
+                outline: none;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 100%;
+                color: var(--Brand-Gold, #dd9a38);
+
+                &::placeholder {
+                  color: var(--Default-Ash, #4c4c4c);
+                }
               }
 
               .checkbox-container {
@@ -500,45 +478,86 @@
               .box {
                 display: flex;
                 padding: 10px 15px;
-                font-size: 12px;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid var(--Default-Ash, #4c4c4c);
+                color: var(--Default-Ash, #4c4c4c);
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                cursor: pointer;
+                // height: 40px;
+
+                &.active {
+                  color: var(--Brand-Gold, #dd9a38);
+                }
 
                 .containn {
-                  height: 12px;
+                  height: 14.5px;
                   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
                   overflow: hidden;
+
+                  &.wrapped-link {
+                    position: relative;
+                    height: 16px;
+                    top: -3px;
+                  }
+
+                  span {
+                    line-height: 100%;
+                    display: flex;
+                    align-items: center;
+                    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+
+                    &.wrap {
+                      display: flex;
+                      gap: 10px;
+                    }
+                  }
+                }
+
+                &:hover .containn {
+                  transform: scale(1.01);
+                }
+
+                &:hover .containn span:first-child {
+                  transform: translateY(-105%);
+                }
+
+                &:hover .containn .hover-text {
+                  transform: translateY(-105%);
                 }
               }
             }
           }
         }
 
-        .contain {
+        .contain-wrap {
           width: 100%;
           display: flex;
-          justify-content: flex-end;
-          align-items: center;
+          justify-content: center;
+          // align-items: center;
           margin-top: 10px;
 
           button {
-            height: 40px;
-            padding: 0px 30px;
-            font-size: 12px;
-
-            .containn {
-              height: 12px;
-              transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-              overflow: hidden;
-            }
+            width: 100%;
           }
 
           .loading-container {
             display: inline-flex;
-            height: 40px;
+            height: 50px;
             padding: 0px 20px;
-            padding-right: 10px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            gap: 20px;
 
             .txt {
-              font-size: 12px;
+              font-family: "Commissioner", sans-serif;
+              font-size: 14px;
+              font-weight: 400;
             }
           }
         }
@@ -550,34 +569,39 @@
           width: 100%;
 
           img.logo {
-            margin-bottom: 71px;
+            margin-bottom: 40px;
+          }
+
+          .txt-status {
+            text-align: center;
+            font-family: "Commissioner", sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 100%;
+            margin-bottom: 40px;
           }
 
           h1 {
-            font-size: 18px;
-            line-height: 20px;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 27px;
+            text-align: center;
             margin-bottom: 20px;
           }
 
           p {
-            font-size: 12px;
-            line-height: 15px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+            text-align: center;
             margin-bottom: 60px;
           }
 
           h3 {
+            font-family: "Commissioner", sans-serif;
             font-size: 16px;
-          }
-
-          img.end {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0.4;
-            pointer-events: none;
-            user-select: none;
-            width: 319px;
+            color: $brand-gold;
+            font-weight: 600;
           }
         }
       }

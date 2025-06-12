@@ -1,13 +1,8 @@
 "use client";
 
-// import CapabilitySection from "@/components/Home/CapabilitySection";
 import Footer from "@/components/Home/Footer";
 import Header from "@/components/Home/Header";
-// import HeroSection from "@/components/Home/HeroSection";
 import JoinWaitlistModal from "@/components/Home/JoinWaitlistModal";
-// import JoinWaitlistSection from "@/components/Home/JoinWaitlistSection";
-// import WhatIfSection from "@/components/Home/WhatIfSection";
-// import YamLayersSection from "@/components/Home/YamLayersSection";
 // import { useNotification } from "@/hooks/useNotification";
 import { NotificationContainer } from "@/components/Notification";
 
@@ -16,53 +11,41 @@ import { useRef, useState } from "react";
 import NewHeroSection from "@/components/Home/NewHeroSection";
 import NewCapacitySection from "@/components/Home/NewCapacitySection";
 import SpeakStackSection from "@/components/Home/SpeakStackSection";
-// import WhatIsYamifySection from "@/components/Home/WhatIsYamifySection";
 import ReadyToBuild from "@/components/Home/ReadyToBuild";
 
 export default function Home() {
   const [joinWaitlistModal, setJoinWaitlistModal] = useState(false);
-  const [lightMode, setLightMode] = useState(false);
   // const { success, error, warning, info } = useNotification();
 
   const heroRef = useRef<HTMLDivElement | null>(null);
-  const workIfRef = useRef<HTMLDivElement | null>(null);
-  const capabilityRef = useRef<HTMLDivElement | null>(null);
-  const yamLayerRef = useRef<HTMLDivElement | null>(null);
-  const joinWaitlistRef = useRef<HTMLDivElement | null>(null);
   const contactRef = useRef<HTMLDivElement | null>(null);
+  const featuresRef = useRef<HTMLDivElement | null>(null);
 
   // const handleClick = () => {
   //   error("Opération failed !", "Error", 5000);
   // };
 
   return (
-    <div
-      className={`home ${joinWaitlistModal && "overflow"} ${
-        lightMode && "light-mode"
-      }`}
-    >
+    <div className={`home ${joinWaitlistModal && "overflow"} x`}>
       {joinWaitlistModal && (
         <JoinWaitlistModal
           joinWaitlistModal={joinWaitlistModal}
           setJoinWaitlistModal={setJoinWaitlistModal}
-          lightMode={lightMode}
         />
       )}
 
       <Header
         setJoinWaitlistModal={setJoinWaitlistModal}
         heroRef={heroRef}
-        workIfRef={workIfRef}
-        capabilityRef={capabilityRef}
-        yamLayerRef={yamLayerRef}
-        joinWaitlistRef={joinWaitlistRef}
-        contactRef={contactRef}
-        lightMode={lightMode}
-        setLightMode={setLightMode}
+        featuresRef={featuresRef}
+        // contactRef={contactRef}
       />
-      <NewHeroSection setJoinWaitlistModal={setJoinWaitlistModal} />
+      <NewHeroSection
+        heroRef={heroRef}
+        setJoinWaitlistModal={setJoinWaitlistModal}
+      />
       {/* <WhatIsYamifySection /> */}
-      <NewCapacitySection />
+      <NewCapacitySection featuresRef={featuresRef} />
       <SpeakStackSection />
       <ReadyToBuild setJoinWaitlistModal={setJoinWaitlistModal} />
 
@@ -83,17 +66,13 @@ export default function Home() {
         />
       </div> */}
       <Footer
+        featuresRef={featuresRef}
         contactRef={contactRef}
-        setJoinWaitlistModal={setJoinWaitlistModal}
         heroRef={heroRef}
-        workIfRef={workIfRef}
-        capabilityRef={capabilityRef}
-        yamLayerRef={yamLayerRef}
-        lightMode={lightMode}
-        joinWaitlistRef={joinWaitlistRef}
+        // capabilityRef={capabilityRef}
       />
 
-      <NotificationContainer lightMode={lightMode} />
+      <NotificationContainer />
     </div>
   );
 }

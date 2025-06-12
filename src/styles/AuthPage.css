@@ -7,7 +7,7 @@
   width: 100%;
   margin: 0 auto;
 }
-.auth-section section .header {
+.auth-section section .auth-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -15,32 +15,32 @@
   height: 60px;
   font-family: "Commissioner", sans-serif;
 }
-.auth-section section .header .logo {
+.auth-section section .auth-header .logo {
   display: flex;
   align-items: center;
   gap: 15px;
 }
-.auth-section section .header .logo h1 {
+.auth-section section .auth-header .logo h1 {
   font-size: 18px;
   font-weight: 600;
   line-height: 100%;
 }
-.auth-section section .header .wrap {
+.auth-section section .auth-header .wrap {
   display: flex;
   align-items: center;
   gap: 4px;
 }
-.auth-section section .header .wrap p {
+.auth-section section .auth-header .wrap p {
   font-size: 13px;
   font-weight: 500;
   line-height: 100%;
 }
-.auth-section section .header .wrap a {
+.auth-section section .auth-header .wrap a {
   font-size: 13px;
   font-weight: 600;
   line-height: 100%;
 }
-.auth-section section .header .wrap a:hover {
+.auth-section section .auth-header .wrap a:hover {
   text-decoration: underline;
 }
 .auth-section section .container {
@@ -72,7 +72,7 @@
   margin-bottom: 24px;
   font-family: "Commissioner", sans-serif;
 }
-.auth-section section .container .auth-btns .btn {
+.auth-section section .container .auth-btns .btn-auth {
   display: flex;
   height: 40px;
   padding: 15px;
@@ -86,10 +86,10 @@
   border: 1px solid var(--Default-Ash, #4c4c4c);
   cursor: pointer;
 }
-.auth-section section .container .auth-btns .btn:first-child:hover img {
+.auth-section section .container .auth-btns .btn-auth:first-child:hover img {
   filter: invert(1);
 }
-.auth-section section .container .auth-btns .btn:hover {
+.auth-section section .container .auth-btns .btn-auth:hover {
   border: 1px solid var(--Default-Light-grey, #e6e6e6);
   background: var(--Default-Light-grey, #e6e6e6);
   color: #232323;

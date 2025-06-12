@@ -7,7 +7,7 @@
     width: 100%;
     margin: 0 auto;
 
-    .header {
+    .auth-header {
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -81,7 +81,7 @@
         margin-bottom: 24px;
         font-family: "Commissioner", sans-serif;
 
-        .btn {
+        .btn-auth {
           display: flex;
           height: 40px;
           padding: 15px;

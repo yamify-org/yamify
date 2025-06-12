@@ -11,13 +11,6 @@ const SpeakStackSection = () => {
             Auto-detects your language & build method from GitHub. Just connect
             and deploy
           </p>
-          <p>
-            Yamify simplifies your journey from idea to deployment. In minutes,
-            you can create your own workspace, launch a virtual cluster,
-            organize your projects, and go live with powerful apps from the
-            marketplace — all with AI-assisted guidance and zero infrastructure
-            stress.
-          </p>
         </div>
 
         <div className="languages">
@@ -229,6 +222,16 @@ const SpeakStackSection = () => {
                   </div>
                 </div>
               </div>
+
+              <Image
+                className="first-img"
+                src="/svgs/createfirstgroup.svg"
+                alt=""
+                width={360}
+                height={360}
+              />
+
+              <div className="bg-blurred"></div>
             </div>
 
             <div className="right">
@@ -361,6 +364,16 @@ const SpeakStackSection = () => {
                     <span>Open, manage, or configure with ease</span>
                   </div>
                 </div>
+
+                <Image
+                  className="third-img"
+                  src="/svgs/oneclick.svg"
+                  alt=""
+                  width={466}
+                  height={291}
+                />
+
+                <div className="bg-blurred"></div>
               </div>
             </div>
 

@@ -4,31 +4,31 @@ import React from "react";
 import AuthHeader from "../../_components/AuthHeader";
 import "@/styles/AuthPage.css";
 import Image from "next/image";
-import { OAuthStrategy } from '@clerk/types'
-import { useSignIn } from '@clerk/nextjs'
+import { OAuthStrategy } from "@clerk/types";
+import { useSignIn } from "@clerk/nextjs";
 
 export default function SignIn() {
-  const { signIn } = useSignIn()
+  const { signIn } = useSignIn();
 
-  if (!signIn) return null
+  if (!signIn) return null;
 
   const signInWithSocial = (strategy: OAuthStrategy) => {
     return signIn
       .authenticateWithRedirect({
         strategy,
-        redirectUrl: '/auth/sign-in/sso-callback',
-        redirectUrlComplete: '/dashboard',
+        redirectUrl: "/auth/sign-in/sso-callback",
+        redirectUrlComplete: "/dashboard",
       })
       .then((res) => {
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => {
         // See https://clerk.com/docs/custom-flows/error-handling
         // for more info on error handling
-        console.log(err.errors)
-        console.error(err, null, 2)
-      })
-  }
+        console.log(err.errors);
+        console.error(err, null, 2);
+      });
+  };
 
   return (
     <div className="auth-section">
@@ -38,11 +38,17 @@ export default function SignIn() {
           <h1>Sign in</h1>
 
           <div className="auth-btns">
-            <div className="btn" onClick={() => signInWithSocial('oauth_github')}>
+            <div
+              className="btn-auth"
+              onClick={() => signInWithSocial("oauth_github")}
+            >
               <Image src="/svgs/mdi_github.svg" alt="" height={20} width={20} />
               Continue with GitHub
             </div>
-            <div className="btn" onClick={() => signInWithSocial('oauth_google')}>
+            <div
+              className="btn-auth"
+              onClick={() => signInWithSocial("oauth_google")}
+            >
               <Image src="/svgs/google.svg" alt="" height={20} width={20} />
               Continue with Google
             </div>

@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
 
-const LineRain = () => {
-  // const rows = 8;
-  const cols = 7;
-  const total = 53; // 7 full rows + 4 lines on the last row
+type Props = {
+  cols?: number;
+  total?: number;
+};
 
+const LineRain = ({ cols = 7, total = 53 }: Props) => {
   const lines = Array.from({ length: total });
 
   return (
