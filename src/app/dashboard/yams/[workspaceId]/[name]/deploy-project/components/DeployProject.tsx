@@ -9,8 +9,6 @@ import fetchYam from "@/libs/queries/fetch-yam";
 import { deployCodeServerProjectAction, deployWordpressProjectAction, deployN8nProjectAction } from "@/app/dashboard/_actions";
 import { useRouter } from "next/navigation";
 
-import Link from "next/link";
-
 import CreateAnimation from "@/components/Home/CreateAnimation";
 
 
@@ -149,14 +147,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       <div className="main-panel">
         <DashboardHeader />
 
-        {showAnimation ? (
-          <CreateAnimation
-            successBool={showAnimation}
-            loadingTxts={loadingTxts}
-            barColor="#BDFFFB"
-            title={animationTitle}
-          />
-        ) : (
+        {
         !loading && <div className="section-deploy">
           <div onClick={() => router.back()} className="back-btn">
             <div className="wrap">
@@ -179,7 +170,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
               <p>Go back to Yam</p>
             </div>
           </div>
-
+          
           <div className="deployment-container">
             <div className="desc">
               <h1>Start building something new.</h1>
@@ -196,58 +187,54 @@ const DeployProject = ({ expandRightPanel }: Props) => {
                 <p>Choose from a growing library of production-ready apps</p>
 
                 <div className="container">
-                  <div className="apps">
-                    <div
-                      className="app"
-                      onClick={handleDeployWordPress}
-                    >
-                      <Image
-                        src="/svgs/wordpress.svg"
-                        alt=""
-                        width={24}
-                        height={24}
+                  { showAnimation ?
+                    (
+                      <CreateAnimation
+                        successBool={showAnimation}
+                        loadingTxts={loadingTxts}
+                        barColor="#BDFFFB"
+                        title={animationTitle}
                       />
+                    ) : (
+                      <div className="apps">
+                        <div
+                          className="app"
+                          onClick={handleDeployWordPress}
+                        >
+                          <Image
+                            src="/svgs/wordpress.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                          />
 
-                      <div className="content">
-                        <h4>Wordpress</h4>
+                          <div className="content">
+                            <h4>Wordpress</h4>
 
-                        <div className="txt">Everything you need to build and grow any website—all in one place.</div>
+                            <div className="txt">Everything you need to build and grow any website—all in one place.</div>
+                          </div>
+                        </div>
+                        <div className="app" onClick={handleDeployN8n}>
+                          <Image src="/svgs/n8n.svg" alt="" width={24} height={24} />
+
+                          <div className="content">
+                            <h4>n8n</h4>
+
+                            <div className="txt">Flexible AI workflow automation for technical teams.</div>
+                          </div>
+                        </div>
+                        <div className="app" onClick={handleDeployCodeServer}>
+                          <Image src="/svgs/code-server.svg" alt="" width={24} height={24} />
+
+                          <div className="content">
+                            <h4>VS Code</h4>
+
+                            <div className="txt">Run VS Code and access it in the browser.</div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="app" onClick={handleDeployN8n}>
-                      <Image src="/svgs/n8n.svg" alt="" width={24} height={24} />
-
-                      <div className="content">
-                        <h4>n8n</h4>
-
-                        <div className="txt">Flexible AI workflow automation for technical teams.</div>
-                      </div>
-                    </div>
-                    <div className="app" onClick={handleDeployCodeServer}>
-                      <Image src="/svgs/code-server.svg" alt="" width={24} height={24} />
-
-                      <div className="content">
-                        <h4>VS Code</h4>
-
-                        <div className="txt">Run VS Code and access it in the browser.</div>
-                      </div>
-                    </div>
-                    
-                    <Link 
-                      className="app" 
-                      href="https://chat.yamify.co/" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <Image src="/svgs/chat-bot.svg" alt="" width={24} height={24} />
-
-                      <div className="content">
-                        <h4>Yamify Bot</h4>
-                        <div className="txt">Chat with your AI assistant in real-time.</div>
-                      </div>
-                    </Link>
-                  </div>
+                    )
+                  }
                 </div>
               </div>
 
@@ -279,7 +266,8 @@ const DeployProject = ({ expandRightPanel }: Props) => {
               </div> */}
             </div>
           </div>
-        </div>)}
+        </div>
+        }
       </div>
     </div>
   );
