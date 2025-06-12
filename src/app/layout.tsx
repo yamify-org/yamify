@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 // 1. Importez le composant DatadogRumInitializer
-import DatadogRumInitializer from './components/DatadogRumInitializer';
+import DatadogRumInitializer from '@/components/DatadogRumInitializer';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
