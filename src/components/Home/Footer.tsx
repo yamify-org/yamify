@@ -4,49 +4,26 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  setJoinWaitlistModal: (value: boolean) => void;
-  lightMode: boolean;
+  // setJoinWaitlistModal: (value: boolean) => void;
   heroRef: RefObject<HTMLDivElement | null>;
-  workIfRef: RefObject<HTMLDivElement | null>;
-  capabilityRef: RefObject<HTMLDivElement | null>;
-  yamLayerRef: RefObject<HTMLDivElement | null>;
-  joinWaitlistRef: RefObject<HTMLDivElement | null>;
+  featuresRef: RefObject<HTMLDivElement | null>;
   contactRef: RefObject<HTMLDivElement | null>;
 };
 
 const Footer = ({
-  setJoinWaitlistModal,
+  // setJoinWaitlistModal,
   heroRef,
-  workIfRef,
-  capabilityRef,
-  yamLayerRef,
-  joinWaitlistRef,
+  featuresRef,
   contactRef,
-  lightMode,
 }: Props) => {
   const handleScrollToWork = (e: React.MouseEvent) => {
     e.preventDefault();
     scrollToSection(heroRef);
   };
 
-  const handleScrollToWorkIf = (e: React.MouseEvent) => {
-    e.preventDefault();
-    scrollToSection(workIfRef);
-  };
-
   const handleScrollToCapability = (e: React.MouseEvent) => {
     e.preventDefault();
-    scrollToSection(capabilityRef);
-  };
-
-  const handleScrollToYamLayer = (e: React.MouseEvent) => {
-    e.preventDefault();
-    scrollToSection(yamLayerRef);
-  };
-
-  const handleScrollToJoinWaitlist = (e: React.MouseEvent) => {
-    e.preventDefault();
-    scrollToSection(joinWaitlistRef);
+    scrollToSection(featuresRef);
   };
 
   const scrollToSection = (ref: RefObject<HTMLElement | null>) => {
@@ -56,7 +33,7 @@ const Footer = ({
   };
 
   return (
-    <footer ref={contactRef} className={`${lightMode && "light-mode"}`}>
+    <footer ref={contactRef}>
       <section>
         <div className="container-footer">
           <div className="left">
@@ -88,28 +65,16 @@ const Footer = ({
                 <span>Home</span>
                 <span className="hover-text">Home</span>
               </div>
-              <div className="nav-link" onClick={handleScrollToWorkIf}>
-                <span>What if</span>
-                <span className="hover-text">What if</span>
-              </div>
               <div className="nav-link" onClick={handleScrollToCapability}>
-                <span>Capabilities</span>
-                <span className="hover-text">Capabilities</span>
-              </div>
-              <div className="nav-link" onClick={handleScrollToYamLayer}>
-                <span>Yamify Layers</span>
-                <span className="hover-text">Yamify Layers</span>
-              </div>
-              <div className="nav-link" onClick={handleScrollToJoinWaitlist}>
-                <span>For Developers</span>
-                <span className="hover-text">For Developers</span>
+                <span>Features</span>
+                <span className="hover-text">Features</span>
               </div>
               <div
                 className="nav-link"
-                onClick={() => setJoinWaitlistModal(true)}
+                // onClick={() => setJoinWaitlistModal(true)}
               >
-                <span>Join WaitList</span>
-                <span className="hover-text">Join WaitList</span>
+                <span>Contact</span>
+                <span className="hover-text">Contact</span>
               </div>
             </div>
           </div>

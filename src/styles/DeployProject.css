@@ -72,8 +72,8 @@
   justify-content: space-between;
   gap: 20px;
   border: 1px solid var(--Default-Dark-Ash, #202020);
-  /* height: 350px;
-  width: 350px; */
+  height: 350px;
+  width: 350px;
 }
 .right-panel-yams .main-panel .section-deploy .deployment-container .building .build h2 {
   text-align: center;

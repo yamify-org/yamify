@@ -1,10 +1,15 @@
 import "@/styles/NewCapacitySection.css";
 import Image from "next/image";
 import LineRain from "../Animations/LineRain";
+import { RefObject } from "react";
 
-const NewCapacitySection = () => {
+type Props = {
+  featuresRef: RefObject<HTMLDivElement | null>;
+};
+
+const NewCapacitySection = ({ featuresRef }: Props) => {
   return (
-    <div className="new-capacity-section">
+    <div className="new-capacity-section" ref={featuresRef}>
       <section>
         <h1>Features</h1>
 

@@ -31,6 +31,15 @@ const ReadyToBuild = ({ setJoinWaitlistModal }: Props) => {
               </p>
             </div>
 
+            <div className="blurred-drop"></div>
+
+            <Image
+              src="/svgs/nameofyam.svg"
+              alt=""
+              width={807.315}
+              height={499.526}
+            />
+
             <Button
               text="Join Waitlist"
               yellow={true}
@@ -40,13 +49,22 @@ const ReadyToBuild = ({ setJoinWaitlistModal }: Props) => {
           </div>
 
           <div className="right">
-            <div className="blurred-drop"></div>
             <Image
               src="/svgs/nameofyam.svg"
               alt=""
               width={807.315}
               height={499.526}
             />
+            <div className="btn-wrp">
+              <Button
+                text="Join Waitlist"
+                yellow={true}
+                linkBtn={false}
+                onClick={() => setJoinWaitlistModal(true)}
+              />
+            </div>
+
+            <div className="blurred-drop"></div>
           </div>
         </div>
       </section>

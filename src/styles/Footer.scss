@@ -299,14 +299,12 @@ footer {
 
           .left {
             display: flex;
-            width: 190px;
+            width: 100%;
             height: 200px;
             padding: 40px 35px;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             gap: 10px;
-            border: 0.5px dashed var(--Default-Ash, #4c4c4c);
-            background: var(--Default-Black, #1b1b1b);
             position: relative;
 
             img.pin {
@@ -329,26 +327,18 @@ footer {
             }
 
             h2 {
-              color: var(--Default-White, #f8f8f8);
-              font-family: "Commissioner", sans-serif;
               font-size: 14px;
-              font-weight: 600;
-              line-height: 100%;
+              text-align: center;
             }
 
             .links {
               display: flex;
               flex-direction: column;
-              align-items: flex-start;
+              align-items: center;
               gap: 7px;
 
               .nav-link {
-                color: var(--Default-Grey, #b8b8b8);
-                font-size: 10px;
-                font-weight: 400;
-                line-height: 100%;
-                cursor: pointer;
-                height: 10px;
+                text-align: center;
               }
             }
           }
@@ -356,16 +346,12 @@ footer {
           .right {
             flex: 1;
             display: flex;
-            height: 250px;
+            height: fit-content;
             padding: 50px;
-            padding-left: 30px;
-            padding-bottom: 40px;
             justify-content: space-between;
-            flex-direction: row-reverse;
             align-items: flex-end;
-            border: 0.5px dashed var(--Default-Ash, #4c4c4c);
-            background: var(--Default-Black, #1b1b1b);
             position: relative;
+            flex-direction: column;
 
             img.pin {
               position: absolute;
@@ -380,15 +366,38 @@ footer {
             .socials {
               display: flex;
               align-items: center;
+              justify-content: center;
               gap: 10px;
+              margin-top: 60px;
+              width: 100%;
+            }
+
+            .content {
+              height: 100%;
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              gap: 60px;
+              align-items: center;
+              justify-content: space-between;
+
+              p {
+                font-family: "Commissioner", sans-serif;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+                color: #e6e6e6;
+                width: 310px;
+                text-align: center;
+              }
             }
 
             .contact-info {
               display: flex;
-              align-items: flex-start;
+              align-items: center;
               flex-direction: column;
               gap: 12px;
-              width: 151px;
+              width: fit-content;
 
               h3 {
                 color: var(--Default-White, #f8f8f8);
@@ -411,12 +420,11 @@ footer {
 
         .bottom {
           display: flex;
-          height: 394px;
+          height: 200px;
           overflow: hidden;
           padding: 40px 50px;
           flex-direction: column;
           align-items: center;
-          border: 0.5px dashed var(--Default-Ash, #4c4c4c);
           position: relative;
 
           img.logo {

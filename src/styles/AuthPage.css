@@ -72,7 +72,7 @@
   margin-bottom: 24px;
   font-family: "Commissioner", sans-serif;
 }
-.auth-section section .container .auth-btns .btn {
+.auth-section section .container .auth-btns .btn-auth {
   display: flex;
   height: 40px;
   padding: 15px;
@@ -86,10 +86,10 @@
   border: 1px solid var(--Default-Ash, #4c4c4c);
   cursor: pointer;
 }
-.auth-section section .container .auth-btns .btn:first-child:hover img {
+.auth-section section .container .auth-btns .btn-auth:first-child:hover img {
   filter: invert(1);
 }
-.auth-section section .container .auth-btns .btn:hover {
+.auth-section section .container .auth-btns .btn-auth:hover {
   border: 1px solid var(--Default-Light-grey, #e6e6e6);
   background: var(--Default-Light-grey, #e6e6e6);
   color: #232323;
