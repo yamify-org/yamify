@@ -258,7 +258,7 @@ persistence:
       '--kubeconfig', kubeconfigPath,
       'rollout',
       'status',
-      'deployment/codeserver',
+      'deployment/codeserver-code-server',
       '--namespace', namespace,
       '--timeout=300s',
     ]);
