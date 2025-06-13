@@ -33,12 +33,8 @@ export default function RootLayout({
   
   // Messages à afficher pendant les transitions de page
   const loadingTxts = [
-    "Loading your content...",
-    "Preparing your interface...",
-    "Retrieving data...",
-    "Almost ready...",
-    "Finalizing..."
-  ];
+  "Loading your content...",
+   ];
 
   useEffect(() => {
     // Si c'est la première fois que le composant est monté, ne pas afficher l'animation
@@ -55,7 +51,7 @@ export default function RootLayout({
       const timer = setTimeout(() => {
         setIsPageTransitioning(false);
         setPrevPathname(pathname);
-      }, 2000); // 2 secondes d'animation
+      }, 5000); // 2 secondes d'animation
       
       return () => clearTimeout(timer);
     }
@@ -79,7 +75,7 @@ export default function RootLayout({
                 successBool={true}
                 barColor="#BDFFFB"
                 loadingTxts={loadingTxts}
-                title="Navigation in progress......"
+                title=""
               />
             </div>
           ) : children}

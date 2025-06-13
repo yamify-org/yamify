@@ -23,7 +23,10 @@ const DeployProject = ({ expandRightPanel }: Props) => {
   const [showAnimation, setShowAnimation] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
   const[lightMode]=useState(false)
+
+
   const router = useRouter();
   const { success, error: errorNotification } = useNotification();
 
@@ -49,7 +52,10 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       }
     }
     getWorkspaces();
+
   }, [slug, errorNotification]);
+
+  }, [errorNotification, slug]);
 
   console.log(error);
 
@@ -294,7 +300,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
         </div>
         }
       </div>
-      <NotificationContainer lightMode={lightMode} />
+      <NotificationContainer />
     </div>
   );
 };
