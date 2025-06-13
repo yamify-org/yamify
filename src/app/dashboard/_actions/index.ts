@@ -5,6 +5,7 @@ import { yamModule } from '@/server/module/yam.module';
 import { workspaceModule } from '@/server/module/workspace.module';
 import { kube } from '@/server/module/kube.module';
 import { projectModule } from '@/server/module/project.module';
+import prisma from '@/libs/prisma';
 
 interface CreateYamData {
   workspace: string;
@@ -108,6 +109,12 @@ export const deployCodeServerProjectAction = async ({name, namespace, yamId, wor
   if (!user || !userId) {
     return { error: 'No Logged In User' }
   }
+  
+  // Vérifier la limite pour code-server
+  const limitCheck = await checkAppLimit(yamId, 'code-server');
+  if (!limitCheck.canDeploy) {
+    return { error: limitCheck.error };
+  }
 
   try {
     const project = await projectModule.service.create({
@@ -131,12 +138,40 @@ export const deployCodeServerProjectAction = async ({name, namespace, yamId, wor
   }
 }
 
+// Vérifier si une application du même type existe déjà dans le YAM
+const 
+
+
+checkAppLimit = async (yamId: string, appType: string): Promise<{ canDeploy: boolean; error?: string }> => {
+  const existingApps = await prisma.project.count({
+    where: {
+      yamId,
+      type: appType,
+    },
+  });
+
+  // Limite à 1 application du même type par YAM
+  if (existingApps >= 1) {
+    return {
+      canDeploy: false,
+      error: `You have reached the maximum number of deployments for this application (${appType}). Limit: 1`
+    };
+  }
+  return { canDeploy: true };
+};
+
 export const deployWordpressProjectAction = async ({name, namespace, yamId, workspaceId}: DeployProject) => {
   const { userId } = await auth()
   const user = await currentUser()
 
   if (!user || !userId) {
     return { error: 'No Logged In User' }
+  }
+  
+  // Vérifier la limite pour WordPress
+  const limitCheck = await checkAppLimit(yamId, 'wordpress');
+  if (!limitCheck.canDeploy) {
+    return { error: limitCheck.error };
   }
 
   try {
@@ -167,6 +202,12 @@ export const deployN8nProjectAction = async ({name, namespace, yamId, workspaceI
 
   if (!user || !userId) {
     return { error: 'No Logged In User' }
+  }
+  
+  // Vérifier la limite pour n8n
+  const limitCheck = await checkAppLimit(yamId, 'n8n');
+  if (!limitCheck.canDeploy) {
+    return { error: limitCheck.error };
   }
 
   try {

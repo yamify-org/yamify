@@ -322,6 +322,18 @@ export const projectService = {
       }
     }
   },
+  // Check if an app of specific type already exists in a YAM
+  checkIfAppTypeExists: async (yamId: string, appType: string): Promise<boolean> => {
+    const existingApp = await prisma.project.findFirst({
+      where: {
+        yamId,
+        type: appType,
+      },
+      select: { id: true },
+    });
+    return !!existingApp;
+  },
+
   // Get app status by checking pods in vCluster
   getStatus: async (projectId: string) => {
     const project = await projectRepository.findById(projectId);
