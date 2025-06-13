@@ -71,9 +71,9 @@ export const createWorkspaceAction = async ({namespace, createYam}: CreateWorksp
     const response = await kube.createNamespaceIngress(namespace)
     console.log('Ingress created for workspace', response)
   } catch(e) {
-    console.log(e)
+    console.error(e)
     if(e instanceof Error){
-      console.log(e.message)
+      console.error(e.message)
     }
     return new Response('Error creating ingress', { status: 500 })
   }
@@ -86,9 +86,9 @@ export const createWorkspaceAction = async ({namespace, createYam}: CreateWorksp
       )
       console.log('Yam created for workspace', yam)
     } catch(e) {
-      console.log(e)
+      console.error(e)
       if(e instanceof Error){
-        console.log(e.message)
+        console.error(e.message)
       }
       return new Response('Error creating yam', { status: 500 })
     }
@@ -137,9 +137,6 @@ export const deployCodeServerProjectAction = async ({name, namespace, yamId, wor
     return { error: 'Error deploying Code Server' }
   }
 }
-
-// Vérifier si une application du même type existe déjà dans le YAM
-const 
 
 
 checkAppLimit = async (yamId: string, appType: string): Promise<{ canDeploy: boolean; error?: string }> => {

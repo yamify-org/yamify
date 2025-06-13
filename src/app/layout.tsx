@@ -33,12 +33,12 @@ export default function RootLayout({
   
   // Messages à afficher pendant les transitions de page
   const loadingTxts = [
-    "Loading your content...",
-    "Preparing your interface...",
-    "Retrieving data...",
-    "Almost ready...",
-    "Finalizing..."
-  ];
+  //   "Loading your content...",
+  //   "Preparing your interface...",
+  //   "Retrieving data...",
+  //   "Almost ready...",
+  //   "Finalizing..."
+   ];
 
   useEffect(() => {
     // Si c'est la première fois que le composant est monté, ne pas afficher l'animation
@@ -79,7 +79,7 @@ export default function RootLayout({
                 successBool={true}
                 barColor="#BDFFFB"
                 loadingTxts={loadingTxts}
-                title="Navigation in progress......"
+                title=""
               />
             </div>
           ) : children}
