@@ -76,6 +76,11 @@ const DeployProject = ({ expandRightPanel }: Props) => {
         setTimeout(() => {
           router.back()
         }, 5000);
+      } else if (result.error) {
+        // Gérer les erreurs spécifiques comme les limites de déploiement atteintes
+        setShowAnimation(false);
+        console.error("WordPress deployment error:", result.error);
+        errorNotification(result.error);
       }
     } catch (error) {
       setShowAnimation(false);
@@ -103,6 +108,11 @@ const DeployProject = ({ expandRightPanel }: Props) => {
         setTimeout(() => {
           router.back()
         }, 5000);
+      } else if (result.error) {
+        // Gérer les erreurs spécifiques comme les limites de déploiement atteintes
+        setShowAnimation(false);
+        console.error("CodeServer deployment error:", result.error);
+        errorNotification( result.error);
       }
     } catch (error) {
       setShowAnimation(false);
@@ -130,11 +140,15 @@ const DeployProject = ({ expandRightPanel }: Props) => {
         setTimeout(() => {
           router.back()
         }, 5000);
+      } else if (result.error) {
+        // Gérer les erreurs spécifiques comme les limites de déploiement atteintes
+        setShowAnimation(false);
+        console.error("n8n deployment error:", result.error);
+        errorNotification(result.error);
       }
     } catch (error) {
       setShowAnimation(false);
       console.error("Failed to deploy n8n:", error);
-
       errorNotification("Failed to deploy n8n. Please try again.");
     }
   };

@@ -79,7 +79,7 @@ const Notification: React.FC<NotificationProps> = ({ notification, onClose, ligh
                   {notification.title}
                 </div>
               )}
-              <div className="notification-message ml-8 flex items-center text-right">
+              <div className="notification-message ml-8 flex items-center text-left">
                 {notification.message}
              
             </div>
