@@ -30,5 +30,6 @@ const NotificationContainer: React.FC<NotificationContainerProps> = ({ lightMode
     </div>
   );
 };
-
+{/*   background: var(--Brand-Transparent-Gold, rgba(221, 154, 56, 0.1));
+ */}
 export default NotificationContainer;

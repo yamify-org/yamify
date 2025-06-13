@@ -49,7 +49,9 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
   const [yam, setYam] = useState<SelectYam>();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  // Add this state for deployment loading (add after existing useState declarations)
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  // State to track light/dark mode
+  const [lightMode, setLightMode] = useState(false);
 
   const params = useParams();
   const yamName = params.name as string;
@@ -72,7 +74,7 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
       }
     }
     getWorkspaces();
-  }, [slug]);
+  }, [slug, refreshTrigger]);
 
   console.log(error);
 
@@ -357,7 +359,12 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
             
                           <div className="projects">
                             {yam.projects.map(project => (
-                              <ProjectCard key={project.id} project={project} />
+                              <ProjectCard 
+                                key={project.id} 
+                                project={project} 
+                                onProjectDeleted={() => setRefreshTrigger(prev => prev + 1)} 
+                                lightMode={lightMode} 
+                              />
                             ))}
                           </div>
                         </div>

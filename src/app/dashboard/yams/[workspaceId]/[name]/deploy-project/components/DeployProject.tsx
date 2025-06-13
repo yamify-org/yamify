@@ -8,7 +8,8 @@ import { useParams } from "next/navigation";
 import fetchYam from "@/libs/queries/fetch-yam";
 import { deployCodeServerProjectAction, deployWordpressProjectAction, deployN8nProjectAction } from "@/app/dashboard/_actions";
 import { useRouter } from "next/navigation";
-
+import { useNotification } from "@/hooks/useNotification";
+import { NotificationContainer } from "@/components/Notification";
 import CreateAnimation from "@/components/Home/CreateAnimation";
 
 
@@ -22,7 +23,9 @@ const DeployProject = ({ expandRightPanel }: Props) => {
   const [showAnimation, setShowAnimation] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const[lightMode, setLightMode]=useState(false)
   const router = useRouter();
+  const { success, error: errorNotification } = useNotification();
 
   const params = useParams();
   const yamName = params.name as string;
@@ -41,6 +44,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       } catch (err) {
         console.error(err);
         setError('Could not load yam. Please try again later.');
+        errorNotification('Could not load yam. Please try again later.');
         setLoading(false)
       }
     }
@@ -67,14 +71,16 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       });
       
       if (result.success) {
-        alert("WordPress deployment created successfully!");
+        success("WordPress deployment created successfully!");
         setShowAnimation(false);
-        router.back()
+        setTimeout(() => {
+          router.back()
+        }, 5000);
       }
     } catch (error) {
       setShowAnimation(false);
       console.error("Failed to deploy WordPress:", error);
-      alert("Failed to deploy WordPress. Please try again.");
+      errorNotification("Failed to deploy WordPress. Please try again.");
     }
   };
 
@@ -92,14 +98,16 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       });
       
       if (result.success) {
-        alert("CodeServer deployment created successfully!");
+        success("CodeServer deployment created successfully!");
         setShowAnimation(false);
-        router.back()
+        setTimeout(() => {
+          router.back()
+        }, 5000);
       }
     } catch (error) {
       setShowAnimation(false);
       console.error("Failed to deploy CodeServer:", error);
-      alert("Failed to deploy CodeServer. Please try again.");
+      errorNotification("Failed to deploy CodeServer. Please try again.");
     }
   };
 
@@ -117,14 +125,17 @@ const DeployProject = ({ expandRightPanel }: Props) => {
       });
 
       if (result.success) {
-        alert("n8n deployment created successfully!");
+        success("n8n deployment created successfully!");
         setShowAnimation(false);
-        router.back();
+        setTimeout(() => {
+          router.back()
+        }, 5000);
       }
     } catch (error) {
       setShowAnimation(false);
       console.error("Failed to deploy n8n:", error);
-      alert("Failed to deploy n8n. Please try again.");
+
+      errorNotification("Failed to deploy n8n. Please try again.");
     }
   };
 
@@ -269,6 +280,7 @@ const DeployProject = ({ expandRightPanel }: Props) => {
         </div>
         }
       </div>
+      <NotificationContainer lightMode={lightMode} />
     </div>
   );
 };

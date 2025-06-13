@@ -191,3 +191,28 @@ export const deployN8nProjectAction = async ({name, namespace, yamId, workspaceI
   }
 }
 
+interface RemoveProjectParams {
+  id: string;
+}
+
+export const removeProjectAction = async ({ id }: RemoveProjectParams) => {
+  const { userId } = await auth();
+  const user = await currentUser();
+
+  if (!user || !userId) {
+    return { error: 'No Logged In User' };
+  }
+
+  try {
+    await projectModule.service.remove({ id });
+    console.log('Project deleted:', id);
+    return { success: true };
+  } catch (e) {
+    console.error('Error deleting project:', e);
+    if (e instanceof Error) {
+      return { error: e.message };
+    }
+    return { error: 'Failed to delete project' };
+  }
+};
+
