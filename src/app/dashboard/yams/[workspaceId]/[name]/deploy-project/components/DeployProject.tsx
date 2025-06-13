@@ -192,13 +192,13 @@ const DeployProject = ({ expandRightPanel }: Props) => {
                 />
               </svg>
 
-              <p>Go back to Yam</p>
+              <p>Go back to Yam </p>
             </div>
           </div>
           
           <div className="deployment-container">
             <div className="desc">
-              <h1>Start building something new.</h1>
+              <h1>Start building something new</h1>
               <p>
                 Deploy your apps installed from marketplace or create a new
                 pipeline.
