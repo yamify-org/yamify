@@ -50,8 +50,6 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  // State to track light/dark mode
-  const [lightMode, setLightMode] = useState(false);
 
   const params = useParams();
   const yamName = params.name as string;
@@ -363,7 +361,6 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
                                 key={project.id} 
                                 project={project} 
                                 onProjectDeleted={() => setRefreshTrigger(prev => prev + 1)} 
-                                lightMode={lightMode} 
                               />
                             ))}
                           </div>

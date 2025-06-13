@@ -139,7 +139,7 @@ export const deployCodeServerProjectAction = async ({name, namespace, yamId, wor
 }
 
 
-checkAppLimit = async (yamId: string, appType: string): Promise<{ canDeploy: boolean; error?: string }> => {
+const checkAppLimit = async (yamId: string, appType: string): Promise<{ canDeploy: boolean; error?: string }> => {
   const existingApps = await prisma.project.count({
     where: {
       yamId,
