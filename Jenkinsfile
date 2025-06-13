@@ -1,16 +1,17 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:20.10.16-dind'
-            args '--privileged --network host -v /var/run/docker.sock:/var/run/docker.sock'
-        }
+    agent any
+    
+    tools {
+        // Assurez-vous que Docker est installé sur vos nœuds Jenkins
+        // ou utilisez un nœud avec Docker préinstallé
+        // Vous pouvez aussi ajouter 'docker' ici si vous avez configuré Docker dans les outils globaux de Jenkins
     }
     
     environment {
         // Ces variables devront être configurées dans Jenkins
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
         AWS_CREDENTIALS = credentials('aws-credentials')
-        DOCKER_IMAGE = 'votredockerhub/yamify'
+        DOCKER_IMAGE = 'deploy/yamify'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
         // Variables d'environnement pour la base de données et autres services
         DATABASE_URL = credentials('database-url')
@@ -33,20 +34,10 @@ pipeline {
                 script {
                     // Construire l'image Docker
                     sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .'
-                }
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                script {
+                    
                     // Exécuter les tests
-                    sh 'npm install --legacy-peer-deps'
-                    sh 'npm run test'
-                }
-            }
-            post {
-                always {
+                    sh 'docker run --rm ${DOCKER_IMAGE}:${DOCKER_TAG} npm test'
+                    
                     // Nettoyer après les tests
                     sh 'docker system prune -f'
                 }
@@ -76,10 +67,16 @@ pipeline {
                     // Déployer sur AWS ECS ou EC2
                     // Cette étape dépend de votre configuration AWS
                     // Voici un exemple pour déployer sur un serveur EC2 via SSH
-                    sshagent(['aws-ssh-credentials']) {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'aws-ssh-credentials', 
+                                                   keyFileVariable: 'SSH_KEY',
+                                                   usernameVariable: 'SSH_USER')]) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no ec2-user@votre-instance-aws \
-                            'docker-compose pull && docker-compose down && docker-compose up -d'
+                            chmod 600 ${SSH_KEY}
+                            ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ${SSH_USER}@votre-instance-aws '
+                                docker-compose pull && 
+                                docker-compose down && 
+                                docker-compose up -d
+                            '
                         """
                     }
                 }
