@@ -279,20 +279,61 @@ export const projectService = {
         releaseName = 'wordpress';
       } else if (project.type === 'code-server') {
         releaseName = 'codeserver';
+      } else if (project.type === 'n8n') {
+        releaseName = 'n8n'; // Le nom de la release est toujours 'n8n' pour n8n
       }
 
-      // Uninstall the Helm release from the vCluster
-      await execa('helm', [
-        'uninstall',
-        releaseName,
-        '--namespace', project.namespace,
-        '--kubeconfig', kubeconfigPath
-      ]);
+      try {
+        // Vérifier d'abord si la release existe
+        await execa('helm', [
+          'status',
+          releaseName,
+          '--namespace', project.namespace,
+          '--kubeconfig', kubeconfigPath
+        ]);
 
+        // Si on arrive ici, la release existe, on peut la supprimer
+        await execa('helm', [
+          'uninstall',
+          releaseName,
+          '--namespace', project.namespace,
+          '--kubeconfig', kubeconfigPath
+        ]);
+        console.log(`Successfully uninstalled Helm release: ${releaseName}`);
+      } catch (error) {
+        // Si la release n'existe pas, on continue sans erreur
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        if (!errorMessage.includes('not found')) {
+          console.error(`Error uninstalling Helm release ${releaseName}:`, error);
+          // Ne pas propager l'erreur, on continue avec la suppression en base de données
+        } else {
+          console.log(`Helm release ${releaseName} not found, skipping uninstall`);
+        }
+      }
+    } catch (error) {
+      console.error('Error during app cleanup:', error);
+      // Ne pas propager l'erreur, on continue avec la suppression en base de données
     } finally {
-      await fs.unlink(kubeconfigPath).catch(() => {});
+      // Nettoyer le fichier kubeconfig dans tous les cas
+      try {
+        await fs.unlink(kubeconfigPath);
+      } catch (unlinkError) {
+        console.error('Error removing kubeconfig file:', unlinkError);
+      }
     }
   },
+  // Check if an app of specific type already exists in a YAM
+  checkIfAppTypeExists: async (yamId: string, appType: string): Promise<boolean> => {
+    const existingApp = await prisma.project.findFirst({
+      where: {
+        yamId,
+        type: appType,
+      },
+      select: { id: true },
+    });
+    return !!existingApp;
+  },
+
   // Get app status by checking pods in vCluster
   getStatus: async (projectId: string) => {
     const project = await projectRepository.findById(projectId);
