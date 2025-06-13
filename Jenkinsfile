@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:20.10.16-dind'
+            args '--privileged --network host -v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     
     environment {
         // Ces variables devront être configurées dans Jenkins
