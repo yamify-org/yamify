@@ -3,23 +3,26 @@ import "@/styles/AiChatModal.css";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
 import { useUser } from "@clerk/nextjs";
-import hljs from 'highlight.js';
-import 'highlight.js/styles/github-dark.css'; // Importer un thème de coloration
-import ReactMarkdown from 'react-markdown';
+import hljs from "highlight.js";
+import "highlight.js/styles/github-dark.css"; // Importer un thème de coloration
+import ReactMarkdown from "react-markdown";
 
 // Fonction pour appliquer la coloration syntaxique avec highlight.js
 const applySyntaxHighlighting = (code: string, language: string) => {
   if (!code) return "";
-  
+
   try {
     // Si un langage est spécifié et supporté par highlight.js
-    if (language && language !== 'plaintext') {
+    if (language && language !== "plaintext") {
       // Essayer d'utiliser le langage spécifié
       try {
         return hljs.highlight(code, { language }).value;
       } catch (e) {
         // Si le langage n'est pas supporté, utiliser la détection automatique
-        console.log(`Language '${language}' not supported by highlight.js, using auto-detection`);
+        console.log(
+          `Language '${language}' not supported by highlight.js, using auto-detection`
+        );
+        console.log(e);
         return hljs.highlightAuto(code).value;
       }
     } else {
@@ -28,7 +31,7 @@ const applySyntaxHighlighting = (code: string, language: string) => {
     }
   } catch (error) {
     console.error("Error applying syntax highlighting:", error);
-    
+
     // En cas d'erreur, retourner le code avec échappement HTML basique
     return code
       .replace(/&/g, "&amp;")
@@ -41,15 +44,15 @@ const applySyntaxHighlighting = (code: string, language: string) => {
 const AiMessageContent = ({ text }: { text: string }) => {
   // Personnaliser le rendu des blocs de code dans ReactMarkdown
   const components = {
-    code({ node, inline, className, children, ...props }: any) {
-      const match = /language-(\w+)/.exec(className || '');
-      const language = match ? match[1] : '';
-      
+    code({ inline, className, children, ...props }: any) {
+      const match = /language-(\w+)/.exec(className || "");
+      const language = match ? match[1] : "";
+
       if (!inline && language) {
         // Pour les blocs de code avec langage spécifié
-        const code = String(children).replace(/\n$/, '');
+        const code = String(children).replace(/\n$/, "");
         const highlightedCode = applySyntaxHighlighting(code, language);
-        
+
         return (
           <div className="code-block">
             <div className="code-header">
@@ -61,7 +64,13 @@ const AiMessageContent = ({ text }: { text: string }) => {
                   // Vous pourriez ajouter une notification de copie ici
                 }}
               >
-                <Image src="/svgs/copy.svg" alt="Copy" width={15} height={15} style={{ marginRight: '5px' }} />
+                <Image
+                  src="/svgs/copy.svg"
+                  alt="Copy"
+                  width={15}
+                  height={15}
+                  style={{ marginRight: "5px" }}
+                />
                 <span>Copier</span>
               </button>
             </div>
@@ -71,17 +80,19 @@ const AiMessageContent = ({ text }: { text: string }) => {
           </div>
         );
       }
-      
+
       // Pour le code inline
-      return <code className={className} {...props}>{children}</code>;
-    }
+      return (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      );
+    },
   };
-  
+
   return (
     <div className="markdown-content">
-      <ReactMarkdown components={components}>
-        {text}
-      </ReactMarkdown>
+      <ReactMarkdown components={components}>{text}</ReactMarkdown>
     </div>
   );
 };
@@ -121,6 +132,13 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, isTyping]);
 
   useEffect(() => {
     const saved = localStorage.getItem("ai-chat-history");
@@ -168,7 +186,7 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
 
     try {
       console.log("Sending message to webhook:", text);
-      
+
       // Envoyer le message au webhook
       const response = await fetch(
         "https://n8n.srv791038.hstgr.cloud/webhook/5a4d3259-9051-4bc0-8271-be9b3bede317",
@@ -184,7 +202,7 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
             metadata: {
               userId: user?.id || "anonymous",
               timestamp: new Date().toISOString(),
-            }
+            },
           }),
           signal, // Passer le signal pour permettre l'annulation
         }
@@ -196,17 +214,19 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
 
       const data = await response.json();
       console.log("Received response from webhook:", data);
-      
+
       // Extraire la réponse selon le format spécifié [{ "output": "..." }]
       let responseText = `Je n'ai pas pu générer une réponse pour: "${text}"`;
-      
+
       if (Array.isArray(data) && data.length > 0) {
         if (data[0].output) {
           responseText = data[0].output;
         } else {
-          console.log("Response format incorrect, expected [{ output: '...' }]");
+          console.log(
+            "Response format incorrect, expected [{ output: '...' }]"
+          );
         }
-      } else if (typeof data === 'object' && data !== null) {
+      } else if (typeof data === "object" && data !== null) {
         // Essayer de trouver une propriété qui pourrait contenir la réponse
         if (data.output) {
           responseText = data.output;
@@ -218,14 +238,14 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
           console.log("Response format not recognized:", data);
         }
       }
-      
+
       console.log("Final response text:", responseText);
-      
+
       const aiMsg = {
         sender: "ai",
         text: responseText,
       };
-      
+
       const finalMessages = [...updatedMessages, aiMsg];
       setMessages(finalMessages);
       saveToHistory(finalMessages);
@@ -235,15 +255,15 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
         console.log("Request was aborted");
         return;
       }
-      
+
       console.error("Error sending message to webhook:", error);
-      
+
       // Message d'erreur en cas d'échec
       const aiMsg = {
         sender: "ai",
         text: "Désolé, je n'ai pas pu traiter votre demande. Veuillez réessayer plus tard.",
       };
-      
+
       const finalMessages = [...updatedMessages, aiMsg];
       setMessages(finalMessages);
       saveToHistory(finalMessages);
@@ -260,12 +280,12 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
     if (typingTimeout.current) {
       clearTimeout(typingTimeout.current);
     }
-    
+
     // Annuler la requête fetch si en cours
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
-    
+
     setIsTyping(false);
     setProcessing(false);
   };
@@ -407,13 +427,15 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
             {isTyping && (
               <div className="typing-indicator">Yamify AI is typing...</div>
             )}
+
+            <div ref={messagesEndRef} />
           </div>
 
           {messages.length === 0 && (
             <>
               <div className="intro-msg">
                 <Image src="/svgs/yamifyai.svg" alt="" width={32} height={32} />
-                <h2>Hi {user.firstName}!</h2>
+                <h2>Hi {user?.firstName}!</h2>
                 <p>How may I help you?</p>
               </div>
               <div className="suggestions">
