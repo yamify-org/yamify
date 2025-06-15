@@ -413,7 +413,7 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
             <>
               <div className="intro-msg">
                 <Image src="/svgs/yamifyai.svg" alt="" width={32} height={32} />
-                <h2>Hi Marcus</h2>
+                <h2>Hi {user.firstName}!</h2>
                 <p>How may I help you?</p>
               </div>
               <div className="suggestions">
