@@ -3,6 +3,88 @@ import "@/styles/AiChatModal.css";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
 import { useUser } from "@clerk/nextjs";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github-dark.css'; // Importer un thème de coloration
+import ReactMarkdown from 'react-markdown';
+
+// Fonction pour appliquer la coloration syntaxique avec highlight.js
+const applySyntaxHighlighting = (code: string, language: string) => {
+  if (!code) return "";
+  
+  try {
+    // Si un langage est spécifié et supporté par highlight.js
+    if (language && language !== 'plaintext') {
+      // Essayer d'utiliser le langage spécifié
+      try {
+        return hljs.highlight(code, { language }).value;
+      } catch (e) {
+        // Si le langage n'est pas supporté, utiliser la détection automatique
+        console.log(`Language '${language}' not supported by highlight.js, using auto-detection`);
+        return hljs.highlightAuto(code).value;
+      }
+    } else {
+      // Utiliser la détection automatique si aucun langage n'est spécifié
+      return hljs.highlightAuto(code).value;
+    }
+  } catch (error) {
+    console.error("Error applying syntax highlighting:", error);
+    
+    // En cas d'erreur, retourner le code avec échappement HTML basique
+    return code
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+};
+
+// Composant pour afficher le message de l'IA avec Markdown et blocs de code
+const AiMessageContent = ({ text }: { text: string }) => {
+  // Personnaliser le rendu des blocs de code dans ReactMarkdown
+  const components = {
+    code({ node, inline, className, children, ...props }: any) {
+      const match = /language-(\w+)/.exec(className || '');
+      const language = match ? match[1] : '';
+      
+      if (!inline && language) {
+        // Pour les blocs de code avec langage spécifié
+        const code = String(children).replace(/\n$/, '');
+        const highlightedCode = applySyntaxHighlighting(code, language);
+        
+        return (
+          <div className="code-block">
+            <div className="code-header">
+              {language && <span className="language">{language}</span>}
+              <button
+                className="copy-button"
+                onClick={() => {
+                  navigator.clipboard.writeText(code);
+                  // Vous pourriez ajouter une notification de copie ici
+                }}
+              >
+                <Image src="/svgs/copy.svg" alt="Copy" width={15} height={15} style={{ marginRight: '5px' }} />
+                <span>Copier</span>
+              </button>
+            </div>
+            <pre>
+              <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+            </pre>
+          </div>
+        );
+      }
+      
+      // Pour le code inline
+      return <code className={className} {...props}>{children}</code>;
+    }
+  };
+  
+  return (
+    <div className="markdown-content">
+      <ReactMarkdown components={components}>
+        {text}
+      </ReactMarkdown>
+    </div>
+  );
+};
 
 const suggestions = [
   "What is Yam?",
@@ -313,7 +395,13 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
                     height={20}
                   />
                 )}
-                {msg.text}
+                {msg.sender === "ai" ? (
+                  // Utiliser ReactMarkdown pour le formatage du texte de l'IA
+                  <AiMessageContent text={msg.text} />
+                ) : (
+                  // Afficher le texte de l'utilisateur normalement
+                  msg.text
+                )}
               </div>
             ))}
             {isTyping && (

@@ -168,6 +168,80 @@
       font-size: 13px;
       padding-left: 5px;
     }
+
+    // Styles pour les blocs de code
+    .code-block {
+      width: 100%;
+      margin: 20px 0;  // Plus d'espace avant et après le bloc de code
+      border-radius: 8px;
+      overflow: hidden;
+      background: #0d1117;  // Couleur de fond plus sombre et différente du chat
+      border: 1px solid #30363d;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);  // Ajouter une ombre pour mieux distinguer
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        background: #161b22;  // En-tête plus foncée
+        border-bottom: 1px solid #30363d;
+
+        .language {
+          font-size: 12px;
+          color: #58a6ff;  // Couleur bleue pour le langage
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+
+        .copy-button {
+          background: #21262d;
+          border: 1px solid #30363d;
+          color: #c9d1d9;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          padding: 5px 10px;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+          font-size: 12px;
+          
+          &:hover {
+            background: #30363d;
+          }
+
+          .copied {
+            font-size: 12px;
+            color: #7ee787;  // Vert plus vif pour la confirmation
+            font-weight: 600;
+          }
+        }
+      }
+
+      pre {
+        margin: 0;
+        padding: 16px;
+        overflow-x: auto;
+        
+        code {
+          font-family: inherit;
+          font-size: 13px;
+          line-height: 1.6;
+          color: #e6e6e6;
+          white-space: pre;
+          
+          // Coloration syntaxique basique
+          .keyword { color: #ff7b72; }  // mots-clés comme import, function, return
+          .string { color: #a5d6ff; }   // chaînes de caractères
+          .comment { color: #8b949e; }  // commentaires
+          .number { color: #d2a8ff; }   // nombres
+          .function { color: #d2a8ff; } // noms de fonctions
+          .operator { color: #ff7b72; } // opérateurs
+          .variable { color: #ffa657; } // variables
+        }
+      }
+    }
   }
 
   .intro-msg {
