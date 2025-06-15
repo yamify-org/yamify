@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "@/styles/AiChatModal.css";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
+import { useUser } from "@clerk/nextjs";
 
 const suggestions = [
   "What is Yam?",
@@ -29,6 +30,7 @@ type Props = {
 };
 
 const AiChatModal = ({ setShowAiModal }: Props) => {
+  const { user } = useUser();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -36,6 +38,7 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
   const [history, setHistory] = useState<ChatSession[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("ai-chat-history");
@@ -67,7 +70,7 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
     }
   };
 
-  const handleSend = (text: string) => {
+  const handleSend = async (text: string) => {
     if (!text.trim()) return;
 
     const userMsg = { sender: "user", text };
@@ -77,25 +80,112 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
     setIsTyping(true);
     setProcessing(true);
 
-    typingTimeout.current = setTimeout(() => {
+    // Créer un nouvel AbortController pour cette requête
+    abortControllerRef.current = new AbortController();
+    const signal = abortControllerRef.current.signal;
+
+    try {
+      console.log("Sending message to webhook:", text);
+      
+      // Envoyer le message au webhook n8n
+      const response = await fetch(
+        "https://n8n.srv791038.hstgr.cloud/webhook/5a4d3259-9051-4bc0-8271-be9b3bede317",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            // Format simplifié qui pourrait être plus compatible avec le webhook
+            message: text,
+            // Conserver ces informations pour le débogage
+            metadata: {
+              userId: user?.id || "anonymous",
+              timestamp: new Date().toISOString(),
+            }
+          }),
+          signal, // Passer le signal pour permettre l'annulation
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Received response from webhook:", data);
+      
+      // Extraire la réponse selon le format spécifié [{ "output": "..." }]
+      let responseText = `Je n'ai pas pu générer une réponse pour: "${text}"`;
+      
+      if (Array.isArray(data) && data.length > 0) {
+        if (data[0].output) {
+          responseText = data[0].output;
+        } else {
+          console.log("Response format incorrect, expected [{ output: '...' }]");
+        }
+      } else if (typeof data === 'object' && data !== null) {
+        // Essayer de trouver une propriété qui pourrait contenir la réponse
+        if (data.output) {
+          responseText = data.output;
+        } else if (data.response) {
+          responseText = data.response;
+        } else if (data.message) {
+          responseText = data.message;
+        } else {
+          console.log("Response format not recognized:", data);
+        }
+      }
+      
+      console.log("Final response text:", responseText);
+      
       const aiMsg = {
         sender: "ai",
-        text: `Here's a generated response to: "${text}"`,
+        text: responseText,
       };
+      
       const finalMessages = [...updatedMessages, aiMsg];
       setMessages(finalMessages);
-      setIsTyping(false);
-      setProcessing(false);
       saveToHistory(finalMessages);
-    }, 2000);
+    } catch (error) {
+      // Ne pas afficher d'erreur si la requête a été annulée intentionnellement
+      if (signal.aborted) {
+        console.log("Request was aborted");
+        return;
+      }
+      
+      console.error("Error sending message to webhook:", error);
+      
+      // Message d'erreur en cas d'échec
+      const aiMsg = {
+        sender: "ai",
+        text: "Désolé, je n'ai pas pu traiter votre demande. Veuillez réessayer plus tard.",
+      };
+      
+      const finalMessages = [...updatedMessages, aiMsg];
+      setMessages(finalMessages);
+      saveToHistory(finalMessages);
+    } finally {
+      if (!signal.aborted) {
+        setIsTyping(false);
+        setProcessing(false);
+      }
+    }
   };
 
   const handleStop = () => {
+    // Annuler le timeout si présent
     if (typingTimeout.current) {
       clearTimeout(typingTimeout.current);
-      setIsTyping(false);
-      setProcessing(false);
     }
+    
+    // Annuler la requête fetch si en cours
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    
+    setIsTyping(false);
+    setProcessing(false);
   };
 
   const loadChatFromHistory = (id: string) => {
