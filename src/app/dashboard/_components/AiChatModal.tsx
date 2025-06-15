@@ -169,7 +169,7 @@ const AiChatModal = ({ setShowAiModal }: Props) => {
     try {
       console.log("Sending message to webhook:", text);
       
-      // Envoyer le message au webhook n8n
+      // Envoyer le message au webhook
       const response = await fetch(
         "https://n8n.srv791038.hstgr.cloud/webhook/5a4d3259-9051-4bc0-8271-be9b3bede317",
         {
