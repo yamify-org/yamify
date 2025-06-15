@@ -1,4 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  ComponentPropsWithoutRef,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import "@/styles/AiChatModal.css";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
@@ -44,7 +49,12 @@ const applySyntaxHighlighting = (code: string, language: string) => {
 const AiMessageContent = ({ text }: { text: string }) => {
   // Personnaliser le rendu des blocs de code dans ReactMarkdown
   const components = {
-    code({ inline, className, children, ...props }: any) {
+    code({
+      inline,
+      className,
+      children,
+      ...props
+    }: ComponentPropsWithoutRef<"code"> & { inline?: boolean }) {
       const match = /language-(\w+)/.exec(className || "");
       const language = match ? match[1] : "";
 
