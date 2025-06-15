@@ -1,0 +1,272 @@
+import React, { useEffect, useRef, useState } from "react";
+import "@/styles/AiChatModal.css";
+import Image from "next/image";
+import Button from "@/components/Button/Button";
+
+const suggestions = [
+  "What is Yam?",
+  "What can I do in a workspace?",
+  "When was Yamify found?",
+  "Can I edit my profile?",
+  "How long does it take to deploy a project?",
+  "Can I only deploy Wordpress project?",
+  "What environment will my project be deployed?",
+];
+
+interface Message {
+  sender: string;
+  text: string;
+}
+
+interface ChatSession {
+  id: string;
+  title: string;
+  messages: Message[];
+}
+
+type Props = {
+  setShowAiModal: (Callback: boolean) => void;
+};
+
+const AiChatModal = ({ setShowAiModal }: Props) => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [history, setHistory] = useState<ChatSession[]>([]);
+  const [currentChatId, setCurrentChatId] = useState<string | null>(null);
+  const typingTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("ai-chat-history");
+    if (saved) {
+      setHistory(JSON.parse(saved));
+    }
+  }, []);
+
+  const saveToHistory = (newMessages: Message[]) => {
+    if (!currentChatId) {
+      const id = crypto.randomUUID();
+      const title =
+        newMessages.find((m) => m.sender === "user")?.text || "Untitled";
+      const newSession: ChatSession = {
+        id,
+        title: title.length > 30 ? title.slice(0, 30) + "..." : title,
+        messages: newMessages,
+      };
+      const updatedHistory = [newSession, ...history];
+      setHistory(updatedHistory);
+      setCurrentChatId(id);
+      localStorage.setItem("ai-chat-history", JSON.stringify(updatedHistory));
+    } else {
+      const updatedHistory = history.map((chat) =>
+        chat.id === currentChatId ? { ...chat, messages: newMessages } : chat
+      );
+      setHistory(updatedHistory);
+      localStorage.setItem("ai-chat-history", JSON.stringify(updatedHistory));
+    }
+  };
+
+  const handleSend = (text: string) => {
+    if (!text.trim()) return;
+
+    const userMsg = { sender: "user", text };
+    const updatedMessages = [...messages, userMsg];
+    setMessages(updatedMessages);
+    setInput("");
+    setIsTyping(true);
+    setProcessing(true);
+
+    typingTimeout.current = setTimeout(() => {
+      const aiMsg = {
+        sender: "ai",
+        text: `Here's a generated response to: "${text}"`,
+      };
+      const finalMessages = [...updatedMessages, aiMsg];
+      setMessages(finalMessages);
+      setIsTyping(false);
+      setProcessing(false);
+      saveToHistory(finalMessages);
+    }, 2000);
+  };
+
+  const handleStop = () => {
+    if (typingTimeout.current) {
+      clearTimeout(typingTimeout.current);
+      setIsTyping(false);
+      setProcessing(false);
+    }
+  };
+
+  const loadChatFromHistory = (id: string) => {
+    const chat = history.find((h) => h.id === id);
+    if (chat) {
+      setMessages(chat.messages);
+      setCurrentChatId(chat.id);
+      setInput("");
+      setIsTyping(false);
+      setProcessing(false);
+    }
+  };
+
+  const handleNewChat = () => {
+    setMessages([]);
+    setCurrentChatId(null);
+    setInput("");
+    setIsTyping(false);
+    setProcessing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !processing) {
+      handleSend(input);
+    }
+  };
+
+  return (
+    <div className="ai-chat-modal">
+      <div className="ai-chat-system">
+        <div className="history">
+          <div className="head">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+            >
+              <path
+                d="M13.4375 1.25H1.5625C0.70125 1.25 0 1.95063 0 2.8125V13.75H15V2.8125C15 1.95063 14.2987 1.25 13.4375 1.25ZM0.625 2.8125C0.625 2.29562 1.04562 1.875 1.5625 1.875H9.375V13.125H0.625V2.8125ZM14.375 13.125H10V1.875H13.4375C13.9544 1.875 14.375 2.29562 14.375 2.8125V13.125ZM11.25 6.25H13.125V6.875H11.25V6.25ZM11.25 8.75H13.125V9.375H11.25V8.75ZM11.25 3.75H13.125V4.375H11.25V3.75Z"
+                fill="#F8F8F8"
+              />
+            </svg>
+          </div>
+          <div className="content">
+            <h3>History</h3>
+
+            <Button
+              text={"New Chat"}
+              yellow={false}
+              linkBtn={false}
+              onClick={handleNewChat}
+            />
+
+            <ul>
+              {history.map((chat) => (
+                <li key={chat.id} onClick={() => loadChatFromHistory(chat.id)}>
+                  {chat.title}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="chat-box">
+          <div className="chat-header">
+            <div className="logo">
+              <Image
+                src={"/svgs/yamify_logo_sm.svg"}
+                alt="Yamify Logo"
+                className="logo-img"
+                width={12}
+                height={15.2}
+              />
+              <h2>Yamify AI</h2>
+            </div>
+
+            <div className="actions">
+              {/* <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+              >
+                <path
+                  d="M2.5 8.75H6.25M6.25 8.75V12.5M6.25 8.75L1.875 13.125M12.5 6.25H8.75M8.75 6.25V2.5M8.75 6.25L13.125 1.875"
+                  stroke="#E6E6E6"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg> */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+                onClick={() => setShowAiModal(false)}
+              >
+                <path
+                  d="M11.25 3.75L3.75 11.25M3.75 3.75L11.25 11.25"
+                  stroke="#E6E6E6"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div className="messages">
+            {messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`message ${msg.sender === "user" ? "user" : "ai"}`}
+              >
+                {msg.sender === "ai" && (
+                  <Image
+                    src="/svgs/yamifyai.svg"
+                    alt=""
+                    width={20}
+                    height={20}
+                  />
+                )}
+                {msg.text}
+              </div>
+            ))}
+            {isTyping && (
+              <div className="typing-indicator">Yamify AI is typing...</div>
+            )}
+          </div>
+
+          {messages.length === 0 && (
+            <>
+              <div className="intro-msg">
+                <Image src="/svgs/yamifyai.svg" alt="" width={32} height={32} />
+                <h2>Hi Marcus</h2>
+                <p>How may I help you?</p>
+              </div>
+              <div className="suggestions">
+                {suggestions.map((s, i) => (
+                  <button key={i} onClick={() => handleSend(s)}>
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+
+          <div className="input-box">
+            <input
+              type="text"
+              value={input}
+              placeholder="Ask anything"
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <Button
+              text={processing ? "Stop" : "Send"}
+              yellow={true}
+              linkBtn={false}
+              onClick={processing ? handleStop : () => handleSend(input)}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AiChatModal;

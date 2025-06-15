@@ -15,6 +15,7 @@ import ProjectCard from "./ProjectCard";
 
 type Props = {
   expandRightPanel: boolean;
+  setShowAiModal: (Callback: boolean) => void;
 };
 
 // const yamData = [
@@ -45,7 +46,7 @@ type Props = {
 //   workspace: string;
 // }
 
-const RightPanelYam = ({ expandRightPanel }: Props) => {
+const RightPanelYam = ({ expandRightPanel, setShowAiModal }: Props) => {
   const [yam, setYam] = useState<SelectYam>();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -60,17 +61,17 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
 
   useEffect(() => {
     async function getWorkspaces() {
-      setLoading(true)
+      setLoading(true);
       try {
         const data = await fetchYam({
-          name: slug
+          name: slug,
         });
         setYam(data);
-        setLoading(false)
+        setLoading(false);
       } catch (err) {
         console.error(err);
-        setError('Could not load yam. Please try again later.');
-        setLoading(false)
+        setError("Could not load yam. Please try again later.");
+        setLoading(false);
       }
     }
     getWorkspaces();
@@ -78,7 +79,7 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
 
   console.log(error);
 
-  if(!yam) {
+  if (!yam) {
     return null;
   }
 
@@ -107,9 +108,9 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
     >
       <div className="dummy-panel"></div>
       <div className="main-panel">
-        <DashboardHeader />
+        <DashboardHeader setShowAiModal={setShowAiModal} />
 
-        {!loading && 
+        {!loading && (
           <div className="section-yam">
             <nav>
               <div className="wrap">
@@ -190,7 +191,11 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
                       </div>
                     </div>
                     <div className="contain">
-                      <div className="txt-content" style={{cursor: "pointer"}} onClick={handleDownloadKubeconfig}>
+                      <div
+                        className="txt-content"
+                        style={{ cursor: "pointer" }}
+                        onClick={handleDownloadKubeconfig}
+                      >
                         <h4>Kubeconfig</h4>
                         <p style={{ color: "#DD9A38" }}>Click to download</p>
                       </div>
@@ -306,72 +311,80 @@ const RightPanelYam = ({ expandRightPanel }: Props) => {
             </div> */}
 
             {yam.projects.length === 0 ? (
-                      <div className="section-projects">
-                        <nav>
-                          <div className="wrap">
-                            {tag.icon({
-                              color: groups[0].color,
-                              width: 18,
-                              height: 18,
-                            })}
-                            <h1>{groups[0].text}</h1>
-                          </div>
-                        </nav>
-            
-                        <div className="deploy-container">
-                          <h2>No deployed project</h2>
-                          <p>
-                            Deploy your first application to get started with your
-                            Kubernetes environment. Once you deploy a project, you can
-                            access it here.
-                          </p>
-            
-                          <Button
-                            href={routes.dashboard.yams.deployProject(yam.name, yam.workspaceId)}
-                            linkBtn={true}
-                            yellow={true}
-                            text="Deploy a project"
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="section-projects">
-                        <nav>
-                          <div className="wrap">
-                            {tag.icon({
-                              color: groups[0].color,
-                              width: 18,
-                              height: 18,
-                            })}
-                            <h1>{groups[0].text}</h1>
-                          </div>
-            
-                          <Button
-                            href={routes.dashboard.yams.deployProject(yam.name, yam.workspaceId)}
-                            linkBtn={true}
-                            yellow={true}
-                            text="Deploy a project"
-                          />
-                        </nav>
-            
-                        <div className="deployed-application">
-                          <h2>Deployed Applications</h2>
-            
-                          <div className="projects">
-                            {yam.projects.map(project => (
-                              <ProjectCard 
-                                key={project.id} 
-                                project={project} 
-                                onProjectDeleted={() => setRefreshTrigger(prev => prev + 1)} 
-                                lightMode={lightMode} 
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+              <div className="section-projects">
+                <nav>
+                  <div className="wrap">
+                    {tag.icon({
+                      color: groups[0].color,
+                      width: 18,
+                      height: 18,
+                    })}
+                    <h1>{groups[0].text}</h1>
+                  </div>
+                </nav>
+
+                <div className="deploy-container">
+                  <h2>No deployed project</h2>
+                  <p>
+                    Deploy your first application to get started with your
+                    Kubernetes environment. Once you deploy a project, you can
+                    access it here.
+                  </p>
+
+                  <Button
+                    href={routes.dashboard.yams.deployProject(
+                      yam.name,
+                      yam.workspaceId
                     )}
-            </div>
-        }
+                    linkBtn={true}
+                    yellow={true}
+                    text="Deploy a project"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="section-projects">
+                <nav>
+                  <div className="wrap">
+                    {tag.icon({
+                      color: groups[0].color,
+                      width: 18,
+                      height: 18,
+                    })}
+                    <h1>{groups[0].text}</h1>
+                  </div>
+
+                  <Button
+                    href={routes.dashboard.yams.deployProject(
+                      yam.name,
+                      yam.workspaceId
+                    )}
+                    linkBtn={true}
+                    yellow={true}
+                    text="Deploy a project"
+                  />
+                </nav>
+
+                <div className="deployed-application">
+                  <h2>Deployed Applications</h2>
+
+                  <div className="projects">
+                    {yam.projects.map((project) => (
+                      <ProjectCard
+                        key={project.id}
+                        project={project}
+                        onProjectDeleted={() =>
+                          setRefreshTrigger((prev) => prev + 1)
+                        }
+                        lightMode={lightMode}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
